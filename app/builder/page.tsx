@@ -10,6 +10,7 @@ import { HeaderForm } from "@/components/builder/forms/HeaderForm";
 import { OverviewForm } from "@/components/builder/forms/OverviewForm";
 import { SectionManager } from "@/components/builder/forms/SectionManager";
 import { CVPreview } from "@/components/builder/preview/CVPreview";
+import { AlertModal } from "@/components/ui/AlertModal";
 import type { User } from "@supabase/supabase-js";
 
 function BuilderContent() {
@@ -30,6 +31,7 @@ function BuilderContent() {
   const [activeTab, setActiveTab] = useState<"form" | "preview">("form");
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+  const [pdfError, setPdfError] = useState<string | null>(null);
 
   // Initialize auth user & load document or hydrate from local storage
   useEffect(() => {
@@ -41,7 +43,6 @@ function BuilderContent() {
     const isConfigured = isSupabaseConfigured();
 
     if (documentId && isConfigured) {
-      // Load specific document from Supabase
       supabase
         .from("cv_documents")
         .select("*")
@@ -53,10 +54,8 @@ function BuilderContent() {
           }
         });
     } else if (isNew) {
-      // Explicit new CV
       resetToDefault("id");
     } else {
-      // Guest or returning user: hydrate from localStorage
       hydrateFromLocalStorage();
     }
   }, [documentId, isNew, hydrateFromLocalStorage, loadDocument, resetToDefault]);
@@ -68,14 +67,16 @@ function BuilderContent() {
       await exportCVToPdf(data, language, title);
     } catch (e) {
       console.error("Download PDF error:", e);
-      alert("Gagal membuat PDF. Silakan coba kembali.");
+      setPdfError(
+        "Terjadi kendala saat merender dokumen ke format PDF. Pastikan browser Anda tidak memblokir popup unduhan file, lalu coba kembali."
+      );
     } finally {
       setIsDownloadingPdf(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F4F0] flex flex-col">
+    <div className="min-h-screen bg-[#F8F8F6] flex flex-col">
       {/* Builder Top Bar */}
       <BuilderHeader
         user={user}
@@ -85,71 +86,66 @@ function BuilderContent() {
       />
 
       {/* Mobile Tab Switcher */}
-      <div className="md:hidden flex border-b-2 border-[#0A0A0A] bg-[#EAE8E3] sticky top-16 z-20">
+      <div className="md:hidden flex border-b border-[#E2E2DC] bg-white sticky top-16 z-20">
         <button
           type="button"
           onClick={() => setActiveTab("form")}
-          className={`flex-1 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-center transition-colors ${
+          className={`flex-1 py-3 text-xs font-semibold text-center transition-colors border-b-2 ${
             activeTab === "form"
-              ? "bg-[#0A0A0A] text-white"
-              : "bg-transparent text-[#0A0A0A]"
+              ? "border-[#111111] text-[#111111]"
+              : "border-transparent text-[#666660]"
           }`}
         >
-          [ FORM INPUT ]
+          Form Input
         </button>
         <button
           type="button"
           onClick={() => setActiveTab("preview")}
-          className={`flex-1 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-center transition-colors ${
+          className={`flex-1 py-3 text-xs font-semibold text-center transition-colors border-b-2 ${
             activeTab === "preview"
-              ? "bg-[#0A0A0A] text-white"
-              : "bg-transparent text-[#0A0A0A]"
+              ? "border-[#111111] text-[#111111]"
+              : "border-transparent text-[#666660]"
           }`}
         >
-          [ LIVE PREVIEW ]
+          Pratinjau CV
         </button>
       </div>
 
-      {/* Main Split Layout */}
-      <main className="flex-1 flex flex-col md:flex-row max-w-[1700px] w-full mx-auto">
-        {/* Left Column: Form Editor (~45%) */}
+      {/* Main Workspace */}
+      <main className="flex-1 max-w-[1700px] w-full mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left Column: Input Forms */}
         <section
-          className={`w-full md:w-[46%] lg:w-[44%] p-4 sm:p-6 lg:p-8 space-y-8 md:border-r-2 md:border-[#0A0A0A] overflow-y-auto ${
-            activeTab === "form" ? "block" : "hidden md:block"
+          className={`lg:col-span-6 xl:col-span-5 space-y-6 pb-20 ${
+            activeTab === "preview" ? "hidden lg:block" : "block"
           }`}
         >
-          {/* Header Card */}
-          <div className="swiss-card p-5 space-y-4">
-            <div className="border-b border-[#0A0A0A] pb-2 flex items-center justify-between">
-              <span className="font-mono text-xs font-bold uppercase text-[#0A0A0A]">
-                [ 00 // INFORMASI KONTAK & IDENTITAS ]
-              </span>
-            </div>
-            <HeaderForm />
-          </div>
+          {/* Header & Personal Info */}
+          <HeaderForm />
 
-          {/* Overview Card */}
-          <div className="swiss-card p-5">
-            <OverviewForm />
-          </div>
+          {/* Professional Overview */}
+          <OverviewForm />
 
-          {/* Dynamic Sortable Sections */}
-          <div className="pt-2">
-            <SectionManager />
-          </div>
+          {/* Section Manager (Drag & Drop + CRUD) */}
+          <SectionManager />
         </section>
 
-        {/* Right Column: Live ATS Preview (~55%) */}
+        {/* Right Column: Live ATS Preview */}
         <section
-          className={`w-full md:w-[54%] lg:w-[56%] bg-[#EAE8E3] p-4 sm:p-6 lg:p-8 overflow-y-auto md:sticky md:top-16 md:h-[calc(100vh-4rem)] flex justify-center ${
-            activeTab === "preview" ? "block" : "hidden md:flex"
+          className={`lg:col-span-6 xl:col-span-7 lg:sticky lg:top-20 lg:h-[calc(100vh-6.5rem)] lg:flex lg:flex-col ${
+            activeTab === "form" ? "hidden lg:flex" : "flex flex-col"
           }`}
         >
-          <div className="w-full max-w-[850px]">
-            <div className="mb-3 hidden sm:flex items-center justify-between font-mono text-[11px] text-[#5C5A54] border-b border-[#0A0A0A]/20 pb-1.5">
-              <span>FORMAT CV ATS STANDARD // KERTAS A4</span>
-              <span>1 KOLOM • TEKS ASLI • TANPA TABEL</span>
-            </div>
+          <div className="w-full mb-2.5 flex items-center justify-between text-[11px] text-[#666660] px-1 flex-shrink-0">
+            <span className="font-medium flex items-center gap-1.5">
+              <span>Format ATS-Friendly (Kertas A4)</span>
+              <span className="text-[10px] bg-[#EAE8E3] text-[#555550] px-1.5 py-0.5 rounded">
+                Pratinjau Real-Time
+              </span>
+            </span>
+            <span>1 Kolom</span>
+          </div>
+
+          <div className="flex-1 w-full bg-[#F5F5F2] border border-[#E2E2DC] rounded-2xl p-3 sm:p-6 overflow-y-auto flex flex-col items-center justify-start shadow-xs">
             <CVPreview data={data} language={language} />
           </div>
         </section>
@@ -161,6 +157,16 @@ function BuilderContent() {
         onClose={() => setIsSaveModalOpen(false)}
         user={user}
       />
+
+      {/* Alert Modal */}
+      <AlertModal
+        isOpen={!!pdfError}
+        onClose={() => setPdfError(null)}
+        title="Gagal Mengunduh PDF"
+        message={pdfError || ""}
+        variant="error"
+        buttonText="Tutup"
+      />
     </div>
   );
 }
@@ -169,8 +175,8 @@ export default function BuilderPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#F4F4F0] flex items-center justify-center font-mono text-xs uppercase text-[#5C5A54]">
-          MEMUAT CV BUILDER...
+        <div className="min-h-screen bg-[#F8F8F6] flex items-center justify-center text-xs text-[#666660]">
+          Memuat CV Builder...
         </div>
       }
     >

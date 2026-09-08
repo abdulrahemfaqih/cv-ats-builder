@@ -80,6 +80,8 @@ export interface ProjectEntry {
   link?: string;
   year: string;
   bullets: string[];
+  descriptionType?: "bullets" | "paragraph";
+  description?: string;
 }
 
 export interface SkillGroupEntry {

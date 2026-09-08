@@ -50,7 +50,6 @@ import { AchievementForm } from "./AchievementForm";
 
 interface SortableSectionCardProps {
   section: CVSection;
-  index: number;
   language: "id" | "en";
   isExpanded: boolean;
   onToggleExpand: () => void;
@@ -58,7 +57,6 @@ interface SortableSectionCardProps {
 
 function SortableSectionCard({
   section,
-  index,
   language,
   isExpanded,
   onToggleExpand,
@@ -80,8 +78,7 @@ function SortableSectionCard({
   };
 
   const titles = SECTION_TITLES[language] || SECTION_TITLES.id;
-  const sectionTitle = titles[section.type] || section.type.toUpperCase();
-  const formattedIndex = String(index + 1).padStart(2, "0");
+  const sectionTitle = titles[section.type] || section.type;
 
   const renderFormByType = () => {
     switch (section.type) {
@@ -150,28 +147,28 @@ function SortableSectionCard({
     <div
       ref={setNodeRef}
       style={style}
-      className="border-2 border-[#0A0A0A] bg-[#EAE8E3] overflow-hidden"
+      className="border border-[#E2E2DC] rounded-xl bg-white shadow-sm overflow-hidden transition-shadow"
     >
-      {/* Technical Accordion Bar */}
-      <div className="flex items-center justify-between p-3 bg-[#EAE8E3] border-b border-[#0A0A0A] select-none">
-        <div className="flex items-center gap-2">
+      {/* Accordion Bar */}
+      <div className="flex items-center justify-between p-4 bg-white border-b border-[#E2E2DC]/70 select-none">
+        <div className="flex items-center gap-2.5">
           <button
             type="button"
             {...attributes}
             {...listeners}
-            className="cursor-grab active:cursor-grabbing text-[#5C5A54] hover:text-[#0A0A0A] p-1"
-            title="Tahan & geser untuk mengubah urutan section ini"
+            className="cursor-grab active:cursor-grabbing text-[#9E9E96] hover:text-[#111111] p-1"
+            title="Tahan & geser untuk mengubah urutan"
           >
             <GripVertical className="w-4 h-4" />
           </button>
           <button
             type="button"
             onClick={onToggleExpand}
-            className="text-left font-mono text-xs font-bold tracking-wider text-[#0A0A0A] hover:text-[#5C5A54] flex items-center gap-2"
+            className="text-left font-bold text-sm text-[#111111] hover:text-[#666660] flex items-center gap-2"
           >
-            <span>{`[ ${formattedIndex} // ${sectionTitle} ]`}</span>
-            <span className="text-[10px] text-[#5C5A54] font-normal">
-              ({section.entries?.length || 0} entri)
+            <span>{sectionTitle}</span>
+            <span className="text-xs text-[#9E9E96] font-normal">
+              ({section.entries?.length || 0})
             </span>
           </button>
         </div>
@@ -180,15 +177,15 @@ function SortableSectionCard({
           <button
             type="button"
             onClick={() => removeSection(section.id)}
-            className="text-[#5C5A54] hover:text-[#E61919] p-1.5 transition-colors"
-            title="Hapus section ini dari CV"
+            className="text-[#9E9E96] hover:text-[#E61919] p-1.5 rounded-md hover:bg-[#FDF2F2] transition-colors"
+            title="Hapus section ini"
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>
           <button
             type="button"
             onClick={onToggleExpand}
-            className="text-[#0A0A0A] p-1.5 hover:bg-[#F4F4F0] transition-colors"
+            className="text-[#666660] p-1.5 rounded-md hover:bg-[#F4F4F0] transition-colors"
             title={isExpanded ? "Tutup panel" : "Buka panel"}
           >
             {isExpanded ? (
@@ -201,7 +198,7 @@ function SortableSectionCard({
       </div>
 
       {/* Expanded Form Content */}
-      {isExpanded && <div className="p-4 bg-[#F4F4F0]">{renderFormByType()}</div>}
+      {isExpanded && <div className="p-5 bg-[#FAFAF8] border-t border-[#E2E2DC]/40">{renderFormByType()}</div>}
     </div>
   );
 }
@@ -209,7 +206,6 @@ function SortableSectionCard({
 export function SectionManager() {
   const { data, language, reorderSections, addSection } = useCVStore();
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    // Keep first 2 sections open by default
     [data.sections[0]?.id || ""]: true,
     [data.sections[1]?.id || ""]: true,
   });
@@ -240,7 +236,6 @@ export function SectionManager() {
     }));
   };
 
-  // Find sections not yet in the CV
   const activeTypes = new Set(data.sections.map((s) => s.type));
   const availableToAdd = AVAILABLE_SECTIONS.filter(
     (sec) => !activeTypes.has(sec.type)
@@ -248,17 +243,18 @@ export function SectionManager() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between border-b border-[#0A0A0A] pb-2">
-        <span className="font-mono text-xs uppercase font-bold text-[#0A0A0A]">
-          STRUKTUR & URUTAN SECTION CV
-        </span>
-        <span className="font-mono text-[10px] text-[#5C5A54]">
-          {data.sections.length} AKTIF
+      <div className="flex items-center justify-between pb-1">
+        <h3 className="text-sm font-bold text-[#111111]">
+          Bagian Section CV
+        </h3>
+        <span className="text-xs text-[#666660]">
+          {data.sections.length} Bagian
         </span>
       </div>
 
       {/* Draggable Sections List */}
       <DndContext
+        id="dnd-section-manager"
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
@@ -267,12 +263,11 @@ export function SectionManager() {
           items={data.sections.map((s) => s.id)}
           strategy={verticalListSortingStrategy}
         >
-          <div className="space-y-3">
-            {data.sections.map((section, index) => (
+          <div className="space-y-3.5">
+            {data.sections.map((section) => (
               <SortableSectionCard
                 key={section.id}
                 section={section}
-                index={index}
                 language={language}
                 isExpanded={Boolean(expandedSections[section.id])}
                 onToggleExpand={() => toggleExpand(section.id)}
@@ -290,23 +285,23 @@ export function SectionManager() {
               <button
                 type="button"
                 onClick={() => setShowAddMenu(true)}
-                className="w-full flex items-center justify-center gap-2 bg-[#EAE8E3] border-2 border-dashed border-[#0A0A0A] p-3 font-mono text-xs font-bold uppercase text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white transition-colors"
+                className="w-full flex items-center justify-center gap-2 bg-white border border-dashed border-[#D2D2CC] rounded-xl p-3 text-xs font-semibold text-[#111111] hover:bg-[#F5F5F3] hover:border-[#111111] transition-colors"
               >
-                <Plus className="w-4 h-4" />
-                + TAMBAH SECTION LAIN
+                <Plus className="w-4 h-4 text-[#666660]" />
+                Tambah Section Lain
               </button>
             ) : (
-              <div className="border-2 border-[#0A0A0A] bg-white p-4">
-                <div className="flex items-center justify-between border-b border-[#0A0A0A] pb-2 mb-3">
-                  <span className="font-mono text-xs font-bold uppercase text-[#0A0A0A]">
-                    PILIH SECTION YANG INGIN DITAMBAHKAN:
+              <div className="border border-[#E2E2DC] rounded-xl bg-white p-4 shadow-sm">
+                <div className="flex items-center justify-between pb-2.5 mb-3 border-b border-[#E2E2DC]">
+                  <span className="text-xs font-bold text-[#111111]">
+                    Pilih section yang ingin ditambahkan:
                   </span>
                   <button
                     type="button"
                     onClick={() => setShowAddMenu(false)}
-                    className="font-mono text-[11px] text-[#5C5A54] hover:text-[#0A0A0A] underline"
+                    className="text-xs text-[#666660] hover:text-[#111111]"
                   >
-                    TUTUP
+                    Batal
                   </button>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -318,7 +313,7 @@ export function SectionManager() {
                         addSection(sec.type);
                         setShowAddMenu(false);
                       }}
-                      className="text-left p-2.5 bg-[#F4F4F0] border border-[#0A0A0A] font-mono text-xs font-semibold text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white transition-colors flex items-center justify-between"
+                      className="text-left p-2.5 bg-[#F8F8F6] border border-[#E2E2DC] rounded-lg text-xs font-medium text-[#111111] hover:bg-[#111111] hover:text-white transition-colors flex items-center justify-between"
                     >
                       <span>
                         + {language === "en" ? sec.labelEn : sec.labelId}
@@ -330,7 +325,7 @@ export function SectionManager() {
             )}
           </div>
         ) : (
-          <p className="font-mono text-[11px] text-center text-[#5C5A54]">
+          <p className="text-xs text-center text-[#666660]">
             Semua tipe section telah ditambahkan ke CV.
           </p>
         )}

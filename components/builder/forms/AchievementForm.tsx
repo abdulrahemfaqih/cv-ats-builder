@@ -59,28 +59,28 @@ function SortableAchItem({
     <div
       ref={setNodeRef}
       style={style}
-      className="border border-[#0A0A0A] bg-white p-4 space-y-3"
+      className="border border-[#E2E2DC] bg-white rounded-xl p-4.5 space-y-3.5 shadow-xs transition-shadow hover:shadow-sm"
     >
       {/* Header bar */}
-      <div className="flex items-center justify-between border-b border-[#EAE8E3] pb-2">
+      <div className="flex items-center justify-between border-b border-[#F0EFEA] pb-2.5">
         <div className="flex items-center gap-2">
           <button
             type="button"
             {...attributes}
             {...listeners}
-            className="cursor-grab active:cursor-grabbing text-[#5C5A54] hover:text-[#0A0A0A] p-0.5"
+            className="cursor-grab active:cursor-grabbing text-[#8E8C85] hover:text-[#111111] p-1 rounded transition-colors"
             title="Tahan & geser untuk mengubah urutan"
           >
             <GripVertical className="w-4 h-4" />
           </button>
-          <span className="font-mono text-xs font-bold text-[#0A0A0A]">
-            [ PRESTASI #{index + 1} ] {entry.name || "Nama Pencapaian"}
+          <span className="text-xs font-semibold text-[#111111]">
+            Prestasi #{index + 1}: {entry.name || "Nama Pencapaian"}
           </span>
         </div>
         <button
           type="button"
           onClick={() => removeEntry(sectionId, entry.id)}
-          className="text-[#5C5A54] hover:text-[#E61919] p-1 transition-colors"
+          className="text-[#8E8C85] hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
           title="Hapus entri ini"
         >
           <Trash2 className="w-4 h-4" />
@@ -90,27 +90,27 @@ function SortableAchItem({
       {/* Name & Context */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            NAMA PENCAPAIAN / PENGHARGAAN *
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
+            Nama Pencapaian / Penghargaan *
           </label>
           <input
             type="text"
             value={entry.name}
             onChange={(e) => handleFieldChange("name", e.target.value)}
             placeholder="mis. Juara 2 Hackathon Gemastik XVI"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            PENYELENGGARA / KONTEKS
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
+            Penyelenggara / Konteks
           </label>
           <input
             type="text"
             value={entry.context || ""}
             onChange={(e) => handleFieldChange("context", e.target.value)}
             placeholder="mis. Puspresnas Kemdikbudristek"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
       </div>
@@ -118,27 +118,27 @@ function SortableAchItem({
       {/* Date & Description */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            BULAN/TAHUN *
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
+            Bulan/Tahun *
           </label>
           <input
             type="text"
             value={entry.date}
             onChange={(e) => handleFieldChange("date", e.target.value)}
             placeholder="mis. Okt 2024"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
         <div className="sm:col-span-2">
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            KETERANGAN / DESKRIPSI
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
+            Keterangan / Deskripsi Singkat
           </label>
           <input
             type="text"
             value={entry.description || ""}
             onChange={(e) => handleFieldChange("description", e.target.value)}
             placeholder="mis. Mengembangkan solusi deteksi anomali real-time dari 300+ tim nasional"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
       </div>
@@ -173,6 +173,7 @@ export function AchievementForm({
   return (
     <div className="space-y-4">
       <DndContext
+        id={`dnd-achievement-${sectionId}`}
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
@@ -197,10 +198,10 @@ export function AchievementForm({
       <button
         type="button"
         onClick={() => addEntry(sectionId)}
-        className="w-full flex items-center justify-center gap-2 border border-dashed border-[#0A0A0A] p-2.5 bg-[#F4F4F0] font-mono text-xs font-bold text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white transition-colors"
+        className="w-full flex items-center justify-center gap-2 border border-dashed border-[#D2D2CC] p-3 rounded-xl bg-white/60 text-xs font-semibold text-[#111111] hover:bg-white hover:border-[#111111] transition-all"
       >
-        <Plus className="w-3.5 h-3.5" />
-        TAMBAH PENCAPAIAN
+        <Plus className="w-4 h-4" />
+        Tambah Pencapaian
       </button>
     </div>
   );

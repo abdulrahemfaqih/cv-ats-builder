@@ -84,54 +84,69 @@ function RegisterForm() {
       });
 
       if (error) {
-        setErrorMsg(error.message);
+        if (
+          error.message?.toLowerCase().includes("provider is not enabled") ||
+          error.message?.toLowerCase().includes("unsupported provider")
+        ) {
+          setErrorMsg(
+            "Google Login belum diaktifkan di dashboard Supabase Anda. Anda dapat mendaftar menggunakan email & password di bawah ini, atau aktifkan 'Google' di menu Authentication > Providers di dashboard Supabase Anda."
+          );
+        } else {
+          setErrorMsg(error.message);
+        }
         setLoading(false);
       }
     } catch (err: unknown) {
-      setErrorMsg(
-        err instanceof Error ? err.message : "Gagal menghubungkan ke Google."
-      );
+      const msg = err instanceof Error ? err.message : "Gagal menghubungkan ke Google.";
+      if (
+        msg.toLowerCase().includes("provider is not enabled") ||
+        msg.toLowerCase().includes("unsupported provider")
+      ) {
+        setErrorMsg(
+          "Google Login belum diaktifkan di dashboard Supabase Anda. Anda dapat mendaftar menggunakan email & password di bawah ini, atau aktifkan 'Google' di menu Authentication > Providers di dashboard Supabase Anda."
+        );
+      } else {
+        setErrorMsg(msg);
+      }
       setLoading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 sm:p-8 bg-[#EAE8E3] border-2 border-[#0A0A0A]">
-      {/* Header Label */}
-      <div className="border-b border-[#0A0A0A] pb-4 mb-6 flex items-center justify-between">
-        <span className="font-mono text-xs uppercase tracking-wider text-[#5C5A54]">
-          [ AUTH // 02 ]
-        </span>
-        <span className="font-mono text-xs uppercase tracking-wider text-[#0A0A0A] font-bold">
-          BUAT AKUN BARU
-        </span>
+    <div className="w-full max-w-md mx-auto p-6 sm:p-8 bg-white border border-[#E2E2DC] rounded-2xl shadow-sm">
+      {/* Header */}
+      <div className="border-b border-[#F0EFEA] pb-4 mb-6">
+        <h2 className="text-xl font-bold text-[#111111] tracking-tight">
+          Buat Akun Baru
+        </h2>
+        <p className="text-xs text-[#666660] mt-1">
+          Simpan CV  dan akses dari mana saja
+        </p>
       </div>
 
       {!supabaseConfigured && (
-        <div className="mb-6 p-4 bg-[#F4F4F0] border-l-4 border-[#E61919] text-xs font-mono text-[#0A0A0A]">
-          <p className="font-bold text-[#E61919] uppercase mb-1">
-            [ PERHATIAN: SUPABASE BELUM DIKONFIGURASI ]
+        <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800">
+          <p className="font-semibold mb-1">
+            Supabase Belum Dikonfigurasi
           </p>
-          <p className="text-[#5C5A54]">
-            Pastikan variabel <code className="text-[#0A0A0A]">NEXT_PUBLIC_SUPABASE_URL</code> dan{" "}
-            <code className="text-[#0A0A0A]">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> sudah diisi di file{" "}
-            <code className="text-[#0A0A0A]">.env.local</code>.
+          <p className="text-amber-700">
+            Pastikan variabel <code className="text-[#111111] font-mono">NEXT_PUBLIC_SUPABASE_URL</code> dan{" "}
+            <code className="text-[#111111] font-mono">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> sudah diisi di file{" "}
+            <code className="text-[#111111] font-mono">.env.local</code>.
           </p>
         </div>
       )}
 
       {errorMsg && (
-        <div className="mb-6 p-4 bg-[#F4F4F0] border border-[#E61919] text-xs font-mono text-[#E61919]">
-          <p className="font-bold uppercase">[ ERROR ]</p>
+        <div className="mb-6 p-3.5 bg-red-50 border border-red-200 rounded-xl text-xs text-red-600 leading-relaxed">
+          <p className="font-semibold mb-0.5">Pemberitahuan</p>
           <p>{errorMsg}</p>
         </div>
       )}
 
       {successMsg && (
-        <div className="mb-6 p-4 bg-[#F4F4F0] border border-[#0A0A0A] text-xs font-mono text-[#0A0A0A]">
-          <p className="font-bold uppercase text-[#0A0A0A] mb-1">
-            [ KONFIRMASI EMAIL ]
-          </p>
+        <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-800">
+          <p className="font-semibold mb-1">Pendaftaran Berhasil</p>
           <p>{successMsg}</p>
         </div>
       )}
@@ -141,23 +156,23 @@ function RegisterForm() {
         type="button"
         onClick={handleGoogleLogin}
         disabled={loading}
-        className="w-full flex items-center justify-center gap-3 bg-white text-[#0A0A0A] border border-[#0A0A0A] py-3 px-4 font-mono text-xs font-bold uppercase tracking-wider hover:bg-[#0A0A0A] hover:text-white transition-colors mb-6 disabled:opacity-50"
+        className="w-full flex items-center justify-center gap-3 bg-white text-[#111111] border border-[#E2E2DC] py-3 px-4 rounded-xl text-xs font-semibold hover:bg-[#F8F8F6] hover:border-[#CCCCCC] transition-all mb-6 disabled:opacity-50 shadow-xs"
       >
         <svg className="w-4 h-4" viewBox="0 0 24 24">
           <path
-            fill="currentColor"
+            fill="#4285F4"
             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
           />
           <path
-            fill="currentColor"
+            fill="#34A853"
             d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
           />
           <path
-            fill="currentColor"
+            fill="#FBBC05"
             d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
           />
           <path
-            fill="currentColor"
+            fill="#EA4335"
             d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
           />
         </svg>
@@ -167,17 +182,17 @@ function RegisterForm() {
       {/* Divider */}
       <div className="relative mb-6 flex items-center justify-center">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-[#0A0A0A]"></div>
+          <div className="w-full border-t border-[#F0EFEA]"></div>
         </div>
-        <span className="relative bg-[#EAE8E3] px-3 font-mono text-xs uppercase text-[#5C5A54]">
-          ATAU DAFTAR DENGAN EMAIL
+        <span className="relative bg-white px-3 text-xs text-[#8E8C85]">
+          atau daftar dengan email
         </span>
       </div>
 
       {/* Register Form */}
       <form onSubmit={handleRegister} className="space-y-4">
         <div>
-          <label className="block font-mono text-xs uppercase text-[#0A0A0A] font-bold mb-1.5">
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
             Nama Lengkap
           </label>
           <input
@@ -185,13 +200,13 @@ function RegisterForm() {
             required
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            placeholder="mis. Abdul Rahem Faqih"
-            className="w-full bg-white border border-[#0A0A0A] p-3 font-sans text-sm outline-none focus:border-2 focus:border-[#0A0A0A]"
+            placeholder="mis. Alex Pratama"
+            className="app-input text-xs"
           />
         </div>
 
         <div>
-          <label className="block font-mono text-xs uppercase text-[#0A0A0A] font-bold mb-1.5">
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
             Email
           </label>
           <input
@@ -200,12 +215,12 @@ function RegisterForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="nama@email.com"
-            className="w-full bg-white border border-[#0A0A0A] p-3 font-sans text-sm outline-none focus:border-2 focus:border-[#0A0A0A]"
+            className="app-input text-xs"
           />
         </div>
 
         <div>
-          <label className="block font-mono text-xs uppercase text-[#0A0A0A] font-bold mb-1.5">
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
             Password
           </label>
           <input
@@ -215,27 +230,27 @@ function RegisterForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Minimal 6 karakter"
-            className="w-full bg-white border border-[#0A0A0A] p-3 font-sans text-sm outline-none focus:border-2 focus:border-[#0A0A0A]"
+            className="app-input text-xs"
           />
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-[#0A0A0A] text-[#F4F4F0] border border-[#0A0A0A] py-3.5 font-mono text-xs font-bold uppercase tracking-wider hover:bg-white hover:text-[#0A0A0A] transition-colors disabled:opacity-50 mt-2"
+          className="app-btn w-full text-xs py-3 mt-2 disabled:opacity-50"
         >
-          {loading ? "MEMPROSES..." : "DAFTAR SEKARANG"}
+          {loading ? "Memproses..." : "Daftar Sekarang"}
         </button>
       </form>
 
       {/* Footer link */}
-      <div className="mt-8 pt-4 border-t border-[#0A0A0A] text-center font-mono text-xs text-[#5C5A54]">
+      <div className="mt-8 pt-4 border-t border-[#F0EFEA] text-center text-xs text-[#666660]">
         Sudah punya akun?{" "}
         <Link
           href={`/login${returnUrl ? `?returnUrl=${encodeURIComponent(returnUrl)}` : ""}`}
-          className="text-[#0A0A0A] font-bold underline hover:text-[#E61919]"
+          className="text-[#111111] font-semibold hover:underline"
         >
-          MASUK DISINI →
+          Masuk disini
         </Link>
       </div>
     </div>
@@ -244,13 +259,13 @@ function RegisterForm() {
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen bg-[#F4F4F0] flex flex-col">
+    <div className="min-h-screen bg-[#F8F8F6] flex flex-col">
       <Navbar currentSection="auth" />
       <main className="flex-1 flex items-center justify-center p-4 py-12">
         <Suspense
           fallback={
-            <div className="font-mono text-xs uppercase text-[#5C5A54]">
-              MEMUAT FORM...
+            <div className="text-xs text-[#8E8C85]">
+              Memuat form...
             </div>
           }
         >

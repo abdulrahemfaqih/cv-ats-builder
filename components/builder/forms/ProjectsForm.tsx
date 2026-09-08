@@ -75,28 +75,28 @@ function SortableProjectItem({
     <div
       ref={setNodeRef}
       style={style}
-      className="border border-[#0A0A0A] bg-white p-4 space-y-3"
+      className="border border-[#E2E2DC] bg-white rounded-xl p-4.5 space-y-3.5 shadow-xs transition-shadow hover:shadow-sm"
     >
       {/* Header bar */}
-      <div className="flex items-center justify-between border-b border-[#EAE8E3] pb-2">
+      <div className="flex items-center justify-between border-b border-[#F0EFEA] pb-2.5">
         <div className="flex items-center gap-2">
           <button
             type="button"
             {...attributes}
             {...listeners}
-            className="cursor-grab active:cursor-grabbing text-[#5C5A54] hover:text-[#0A0A0A] p-0.5"
+            className="cursor-grab active:cursor-grabbing text-[#8E8C85] hover:text-[#111111] p-1 rounded transition-colors"
             title="Tahan & geser untuk mengubah urutan"
           >
             <GripVertical className="w-4 h-4" />
           </button>
-          <span className="font-mono text-xs font-bold text-[#0A0A0A]">
-            [ PROYEK #{index + 1} ] {entry.name || "Nama Proyek"}
+          <span className="text-xs font-semibold text-[#111111]">
+            Proyek #{index + 1}: {entry.name || "Nama Proyek"}
           </span>
         </div>
         <button
           type="button"
           onClick={() => removeEntry(sectionId, entry.id)}
-          className="text-[#5C5A54] hover:text-[#E61919] p-1 transition-colors"
+          className="text-[#8E8C85] hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
           title="Hapus entri ini"
         >
           <Trash2 className="w-4 h-4" />
@@ -106,83 +106,131 @@ function SortableProjectItem({
       {/* Project Name & Year */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div className="sm:col-span-2">
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            NAMA PROYEK *
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
+            Nama Proyek *
           </label>
           <input
             type="text"
             value={entry.name}
             onChange={(e) => handleFieldChange("name", e.target.value)}
             placeholder="mis. Cevio — ATS-Friendly CV Generator"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            TAHUN *
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
+            Tahun *
           </label>
           <input
             type="text"
             value={entry.year}
             onChange={(e) => handleFieldChange("year", e.target.value)}
             placeholder="mis. 2025"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
       </div>
 
       {/* Project Link */}
       <div>
-        <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-          LINK PROYEK (OPSIONAL)
+        <label className="block text-xs font-medium text-[#111111] mb-1.5">
+          Link Proyek (Opsional)
         </label>
         <input
           type="text"
           value={entry.link || ""}
           onChange={(e) => handleFieldChange("link", e.target.value)}
           placeholder="https://github.com/username/project atau link demo"
-          className="swiss-input text-xs"
+          className="app-input text-xs"
         />
       </div>
 
-      {/* Bullet Points */}
+      {/* Description Format & Inputs */}
       <div>
-        <div className="flex items-center justify-between mb-1.5">
-          <label className="font-mono text-[11px] uppercase font-bold text-[#0A0A0A]">
-            DESKRIPSI PROYEK (BULLETS) *
+        <div className="flex items-center justify-between mb-2">
+          <label className="text-xs font-medium text-[#111111]">
+            Deskripsi Proyek *
           </label>
-          <button
-            type="button"
-            onClick={addBullet}
-            className="font-mono text-[10px] font-bold text-[#0A0A0A] hover:underline flex items-center gap-1"
-          >
-            <PlusCircle className="w-3 h-3" />
-            TAMBAH BULLET
-          </button>
+          {/* Format Toggle */}
+          <div className="inline-flex rounded-lg border border-[#E2E2DC] p-0.5 bg-[#F8F8F6] text-xs">
+            <button
+              type="button"
+              onClick={() => handleFieldChange("descriptionType", "bullets")}
+              className={`px-2.5 py-1 rounded-md text-[11px] transition-all ${
+                (entry.descriptionType || "bullets") === "bullets"
+                  ? "bg-white text-[#111111] shadow-2xs font-semibold"
+                  : "text-[#666660] hover:text-[#111111] font-medium"
+              }`}
+            >
+              Poin (Bullets)
+            </button>
+            <button
+              type="button"
+              onClick={() => handleFieldChange("descriptionType", "paragraph")}
+              className={`px-2.5 py-1 rounded-md text-[11px] transition-all ${
+                entry.descriptionType === "paragraph"
+                  ? "bg-white text-[#111111] shadow-2xs font-semibold"
+                  : "text-[#666660] hover:text-[#111111] font-medium"
+              }`}
+            >
+              1 Paragraf
+            </button>
+          </div>
         </div>
 
-        <div className="space-y-2">
-          {(entry.bullets || []).map((bullet, bIdx) => (
-            <div key={bIdx} className="flex items-start gap-2">
-              <span className="font-mono text-xs text-[#5C5A54] pt-2">•</span>
-              <textarea
-                rows={2}
-                value={bullet}
-                onChange={(e) => handleBulletChange(bIdx, e.target.value)}
-                placeholder="Rincian fitur, arsitektur, atau dampak proyek..."
-                className="swiss-input text-xs resize-y flex-1"
-              />
+        {entry.descriptionType === "paragraph" ? (
+          <div>
+            <textarea
+              rows={3}
+              value={entry.description || ""}
+              onChange={(e) => handleFieldChange("description", e.target.value)}
+              placeholder="Tuliskan ringkasan proyek, teknologi yang digunakan, serta dampak atau hasil akhir dalam satu paragraf..."
+              className="app-input text-xs resize-y w-full"
+            />
+            <span className="text-[10px] text-[#8E8C85] block mt-1">
+              Ditampilkan sebagai satu blok teks deskriptif rapi di bawah nama proyek.
+            </span>
+          </div>
+        ) : (
+          <div>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[11px] text-[#666660]">
+                Rincian fitur dan teknologi dalam bentuk poin
+              </span>
               <button
                 type="button"
-                onClick={() => removeBullet(bIdx)}
-                className="text-[#5C5A54] hover:text-[#E61919] p-1 pt-2 transition-colors"
-                title="Hapus baris bullet"
+                onClick={addBullet}
+                className="text-xs font-medium text-[#111111] hover:underline flex items-center gap-1.5"
               >
-                <Trash2 className="w-3.5 h-3.5" />
+                <PlusCircle className="w-3.5 h-3.5" />
+                Tambah Poin
               </button>
             </div>
-          ))}
-        </div>
+
+            <div className="space-y-2">
+              {(entry.bullets || []).map((bullet, bIdx) => (
+                <div key={bIdx} className="flex items-start gap-2">
+                  <span className="text-xs text-[#8E8C85] pt-2.5">•</span>
+                  <textarea
+                    rows={2}
+                    value={bullet}
+                    onChange={(e) => handleBulletChange(bIdx, e.target.value)}
+                    placeholder="Rincian fitur, arsitektur, teknologi, atau dampak proyek..."
+                    className="app-input text-xs resize-y flex-1"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeBullet(bIdx)}
+                    className="text-[#8E8C85] hover:text-red-600 p-1.5 pt-2.5 rounded hover:bg-red-50 transition-colors"
+                    title="Hapus baris bullet"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -212,6 +260,7 @@ export function ProjectsForm({ sectionId, entries }: ProjectsFormProps) {
   return (
     <div className="space-y-4">
       <DndContext
+        id={`dnd-projects-${sectionId}`}
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
@@ -236,10 +285,10 @@ export function ProjectsForm({ sectionId, entries }: ProjectsFormProps) {
       <button
         type="button"
         onClick={() => addEntry(sectionId)}
-        className="w-full flex items-center justify-center gap-2 border border-dashed border-[#0A0A0A] p-2.5 bg-[#F4F4F0] font-mono text-xs font-bold text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white transition-colors"
+        className="w-full flex items-center justify-center gap-2 border border-dashed border-[#D2D2CC] p-3 rounded-xl bg-white/60 text-xs font-semibold text-[#111111] hover:bg-white hover:border-[#111111] transition-all"
       >
-        <Plus className="w-3.5 h-3.5" />
-        TAMBAH PROYEK
+        <Plus className="w-4 h-4" />
+        Tambah Proyek
       </button>
     </div>
   );

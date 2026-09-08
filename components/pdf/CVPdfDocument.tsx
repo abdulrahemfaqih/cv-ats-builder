@@ -61,20 +61,14 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
     textTransform: "uppercase",
     textAlign: "center",
-    marginBottom: 4,
+    marginBottom: 8,
+    lineHeight: 1.15,
   },
   contactLine: {
     fontSize: 9.5,
     textAlign: "center",
     color: "#000000",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  contactSeparator: {
-    marginHorizontal: 4,
-    color: "#000000",
+    lineHeight: 1.35,
   },
   link: {
     color: "#0563C1",
@@ -400,7 +394,14 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                     ) : null}
                   </View>
 
-                  {proj.bullets &&
+                  {proj.descriptionType === "paragraph" ? (
+                    proj.description ? (
+                      <Text style={styles.entryDescription}>
+                        {proj.description}
+                      </Text>
+                    ) : null
+                  ) : (
+                    proj.bullets &&
                     proj.bullets.length > 0 &&
                     proj.bullets
                       .filter((b) => b && b.trim() !== "")
@@ -409,7 +410,8 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                           <Text style={styles.bulletPoint}>•</Text>
                           <Text style={styles.bulletText}>{bullet}</Text>
                         </View>
-                      ))}
+                      ))
+                  )}
                 </View>
               );
             })}
@@ -547,22 +549,20 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
 
               {/* Single-line contact */}
               {contactElements.length > 0 && (
-                <View style={styles.contactLine}>
+                <Text style={styles.contactLine}>
                   {contactElements.map((el, i) => (
                     <React.Fragment key={i}>
-                      {i > 0 && (
-                        <Text style={styles.contactSeparator}> | </Text>
-                      )}
+                      {i > 0 && " | "}
                       {el.type === "link" && el.url ? (
                         <Link src={el.url} style={styles.link}>
                           {el.text}
                         </Link>
                       ) : (
-                        <Text>{el.text}</Text>
+                        el.text
                       )}
                     </React.Fragment>
                   ))}
-                </View>
+                </Text>
               )}
             </View>
           </View>

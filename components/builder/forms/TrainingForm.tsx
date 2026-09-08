@@ -59,28 +59,28 @@ function SortableTrainingItem({
     <div
       ref={setNodeRef}
       style={style}
-      className="border border-[#0A0A0A] bg-white p-4 space-y-3"
+      className="border border-[#E2E2DC] bg-white rounded-xl p-4.5 space-y-3.5 shadow-xs transition-shadow hover:shadow-sm"
     >
       {/* Header bar */}
-      <div className="flex items-center justify-between border-b border-[#EAE8E3] pb-2">
+      <div className="flex items-center justify-between border-b border-[#F0EFEA] pb-2.5">
         <div className="flex items-center gap-2">
           <button
             type="button"
             {...attributes}
             {...listeners}
-            className="cursor-grab active:cursor-grabbing text-[#5C5A54] hover:text-[#0A0A0A] p-0.5"
+            className="cursor-grab active:cursor-grabbing text-[#8E8C85] hover:text-[#111111] p-1 rounded transition-colors"
             title="Tahan & geser untuk mengubah urutan"
           >
             <GripVertical className="w-4 h-4" />
           </button>
-          <span className="font-mono text-xs font-bold text-[#0A0A0A]">
-            [ PELATIHAN #{index + 1} ] {entry.name || "Nama Pelatihan"}
+          <span className="text-xs font-semibold text-[#111111]">
+            Pelatihan #{index + 1}: {entry.name || "Nama Pelatihan"}
           </span>
         </div>
         <button
           type="button"
           onClick={() => removeEntry(sectionId, entry.id)}
-          className="text-[#5C5A54] hover:text-[#E61919] p-1 transition-colors"
+          className="text-[#8E8C85] hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
           title="Hapus entri ini"
         >
           <Trash2 className="w-4 h-4" />
@@ -90,42 +90,42 @@ function SortableTrainingItem({
       {/* Name & Organizer */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            NAMA PELATIHAN / BOOTCAMP *
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
+            Nama Pelatihan / Bootcamp *
           </label>
           <input
             type="text"
             value={entry.name}
             onChange={(e) => handleFieldChange("name", e.target.value)}
             placeholder="mis. Fullstack React & Node.js Intensive"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            LEMBAGA PENYELENGGARA *
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
+            Lembaga Penyelenggara *
           </label>
           <input
             type="text"
             value={entry.organizer}
             onChange={(e) => handleFieldChange("organizer", e.target.value)}
             placeholder="mis. Binar Academy"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
       </div>
 
       {/* Date */}
       <div>
-        <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-          BULAN/TAHUN PELAKSANAAN *
+        <label className="block text-xs font-medium text-[#111111] mb-1.5">
+          Bulan/Tahun Pelaksanaan *
         </label>
         <input
           type="text"
           value={entry.date}
           onChange={(e) => handleFieldChange("date", e.target.value)}
           placeholder="mis. Mar 2024 - Jun 2024"
-          className="swiss-input text-xs"
+          className="app-input text-xs"
         />
       </div>
     </div>
@@ -156,6 +156,7 @@ export function TrainingForm({ sectionId, entries }: TrainingFormProps) {
   return (
     <div className="space-y-4">
       <DndContext
+        id={`dnd-training-${sectionId}`}
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
@@ -180,10 +181,10 @@ export function TrainingForm({ sectionId, entries }: TrainingFormProps) {
       <button
         type="button"
         onClick={() => addEntry(sectionId)}
-        className="w-full flex items-center justify-center gap-2 border border-dashed border-[#0A0A0A] p-2.5 bg-[#F4F4F0] font-mono text-xs font-bold text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white transition-colors"
+        className="w-full flex items-center justify-center gap-2 border border-dashed border-[#D2D2CC] p-3 rounded-xl bg-white/60 text-xs font-semibold text-[#111111] hover:bg-white hover:border-[#111111] transition-all"
       >
-        <Plus className="w-3.5 h-3.5" />
-        TAMBAH PELATIHAN
+        <Plus className="w-4 h-4" />
+        Tambah Pelatihan
       </button>
     </div>
   );

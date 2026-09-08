@@ -1,0 +1,34 @@
+name: Supabase Keep-Alive (Prevent Free Tier Pause)
+
+on:
+  schedule:
+    # Berjalan setiap 3 hari pada pukul 06:00 UTC
+    - cron: '0 6 */3 * *'
+  # Memungkinkan trigger manual langsung dari tab Actions di GitHub
+  workflow_dispatch:
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Database & Reset Inactivity Timer
+        env:
+          SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://uwmkjksnqoqmyozakxxw.supabase.co' }}
+          SUPABASE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+        run: |
+          echo "Pinging Supabase PostgREST API..."
+          HTTP_STATUS=$(curl -s -o response.txt -w "%{http_code}" \
+            -X GET "${SUPABASE_URL}/rest/v1/cv_documents?select=id&limit=1" \
+            -H "apikey: ${SUPABASE_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_KEY}")
+          
+          echo "HTTP Response Status: $HTTP_STATUS"
+          cat response.txt
+          
+          if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 206 ]; then
+            echo "Success: Supabase database is active and timer has been reset!"
+            exit 0
+          else
+            echo "Warning: Response code $HTTP_STATUS received. Database pinged."
+            exit 0
+          fi

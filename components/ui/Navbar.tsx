@@ -43,12 +43,12 @@ export function Navbar({ currentSection }: NavbarProps) {
   };
 
   return (
-    <header className="w-full bg-[#F4F4F0] border-b border-[#0A0A0A] z-40 sticky top-0">
+    <header className="w-full bg-[#F8F8F6]/90 backdrop-blur-md border-b border-[#E2E2DC] z-40 sticky top-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand / Logo */}
         <Link
           href="/"
-          className="flex items-center gap-3 group focus:outline-none"
+          className="flex items-center gap-2.5 group focus:outline-none"
         >
           <div className="relative w-8 h-8 flex-shrink-0">
             <Image
@@ -59,25 +59,22 @@ export function Navbar({ currentSection }: NavbarProps) {
               priority
             />
           </div>
-          <span className="font-sans text-2xl font-bold tracking-tight text-[#0A0A0A] lowercase first-letter:uppercase">
+          <span className="font-sans text-xl font-bold tracking-tight text-[#111111]">
             Cevio
-          </span>
-          <span className="hidden sm:inline-block font-mono text-[10px] uppercase tracking-wider text-[#5C5A54] border border-[#0A0A0A] px-1.5 py-0.5 bg-[#EAE8E3]">
-            ATS Engine
           </span>
         </Link>
 
         {/* Navigation Actions */}
-        <nav className="flex items-center gap-2 sm:gap-4">
+        <nav className="flex items-center gap-3">
           <Link
             href="/builder"
-            className={`font-mono text-xs font-semibold tracking-wider uppercase px-3 py-2 border border-[#0A0A0A] transition-colors ${
+            className={`text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors ${
               currentSection === "builder"
-                ? "bg-[#0A0A0A] text-[#F4F4F0]"
-                : "bg-transparent text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-[#F4F4F0]"
+                ? "bg-[#111111] text-white"
+                : "bg-white border border-[#E2E2DC] text-[#111111] hover:bg-[#F2F2EE]"
             }`}
           >
-            [ BUAT CV ]
+            Buat CV
           </Link>
 
           {!loading && (
@@ -86,31 +83,31 @@ export function Navbar({ currentSection }: NavbarProps) {
                 <>
                   <Link
                     href="/dashboard"
-                    className={`font-mono text-xs font-semibold tracking-wider uppercase px-3 py-2 border border-[#0A0A0A] transition-colors ${
+                    className={`text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors ${
                       currentSection === "dashboard"
-                        ? "bg-[#0A0A0A] text-[#F4F4F0]"
-                        : "bg-transparent text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-[#F4F4F0]"
+                        ? "bg-[#111111] text-white"
+                        : "text-[#666660] hover:text-[#111111]"
                     }`}
                   >
-                    DASHBOARD
+                    Dashboard
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="font-mono text-xs font-semibold tracking-wider uppercase px-3 py-2 border border-[#0A0A0A] text-[#5C5A54] hover:text-[#E61919] hover:border-[#E61919] transition-colors"
+                    className="text-xs font-medium px-3 py-2 text-[#666660] hover:text-[#E61919] transition-colors"
                   >
-                    KELUAR
+                    Keluar
                   </button>
                 </>
               ) : (
                 <Link
                   href="/login"
-                  className={`font-mono text-xs font-semibold tracking-wider uppercase px-3 py-2 border border-[#0A0A0A] transition-colors ${
+                  className={`text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors ${
                     currentSection === "auth"
-                      ? "bg-[#0A0A0A] text-[#F4F4F0]"
-                      : "bg-[#EAE8E3] text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-[#F4F4F0]"
+                      ? "bg-[#111111] text-white"
+                      : "text-[#111111] hover:text-[#666660]"
                   }`}
                 >
-                  LOGIN
+                  Masuk
                 </Link>
               )}
             </>

@@ -53,20 +53,20 @@ export const SECTION_TITLES: Record<
 
 export const INITIAL_CV_DATA_ID: CVData = {
   header: {
-    name: "Abdul Rahem Faqih",
+    name: "Alex Pratama",
     useProfilePhoto: false,
     address: {
-      kecamatan: "Kamal",
-      kabupaten: "Bangkalan",
-      provinsi: "Jawa Timur",
+      kecamatan: "Kebayoran Baru",
+      kabupaten: "Jakarta Selatan",
+      provinsi: "DKI Jakarta",
     },
-    email: "faqih3935@gmail.com",
-    phone: "089531419612",
-    linkedin: "https://linkedin.com/in/rhmfaqih",
-    portfolio: "https://abdulrahemfaqih.vercel.app",
+    email: "alex.pratama@email.com",
+    phone: "081234567890",
+    linkedin: "https://linkedin.com/in/alexpratama",
+    portfolio: "https://alexpratama.dev",
   },
   overview:
-    "Lulusan S1 Teknik Informatika yang berfokus pada pengembangan web fullstack modern dan rekayasa perangkat lunak. Memiliki pengalaman dalam merancang arsitektur aplikasi berbasis TypeScript, Next.js, dan cloud backend yang scalable dengan performa optimal.",
+    "Software Engineer dengan pengalaman dalam membangun aplikasi web modern yang scalable, berkinerja tinggi, dan berorientasi pengguna. Memiliki keahlian mendalam pada ekosistem TypeScript, Next.js, Node.js, dan arsitektur cloud database.",
   sections: [
     {
       id: "sec_edu",
@@ -76,24 +76,24 @@ export const INITIAL_CV_DATA_ID: CVData = {
         {
           id: "entry_edu_1",
           level: "S1",
-          institution: "Universitas Trunojoyo Madura",
+          institution: "Universitas Indonesia",
           location: {
-            kabupaten: "Bangkalan",
-            provinsi: "Jawa Timur",
-            country: "",
+            kabupaten: "Depok",
+            provinsi: "Jawa Barat",
+            country: "Indonesia",
           },
-          major: "Teknik Informatika",
-          gpa: "3.87",
-          startYear: "2022",
-          endYear: "2026",
+          major: "Ilmu Komputer",
+          gpa: "3.75",
+          startYear: "2020",
+          endYear: "2024",
           relevantCourses: [
-            "Algoritma & Pemrograman",
-            "Struktur Data",
-            "Basis Data Terdistribusi",
+            "Algoritma & Struktur Data",
+            "Sistem Basis Data",
             "Rekayasa Perangkat Lunak",
+            "Jaringan Komputer",
           ],
           description:
-            "Aktif dalam laboratorium rekayasa perangkat lunak dan riset web modern.",
+            "Aktif dalam organisasi kemahasiswaan dan riset laboratorium rekayasa perangkat lunak.",
         },
       ],
     },
@@ -104,21 +104,21 @@ export const INITIAL_CV_DATA_ID: CVData = {
       entries: [
         {
           id: "entry_work_1",
-          company: "Tech Kreasi Nusantara",
+          company: "PT Teknologi Maju Nusantara",
           location: {
-            kabupaten: "Surabaya",
-            provinsi: "Jawa Timur",
-            country: "",
+            kabupaten: "Jakarta Selatan",
+            provinsi: "DKI Jakarta",
+            country: "Indonesia",
           },
           position: "Fullstack Web Developer",
-          employmentType: "Intern",
+          employmentType: "Full-time",
           startDate: "Agu 2024",
-          endDate: "Jan 2025",
-          isCurrent: false,
+          endDate: "Sekarang",
+          isCurrent: true,
           bullets: [
-            "Mengembangkan microservice manajemen inventori internal menggunakan Next.js dan Supabase dengan query latency di bawah 120ms.",
-            "Mengintegrasikan automasi CI/CD workflow dengan GitHub Actions untuk deployment preview otomatis.",
-            "Mengoptimalkan performa halaman dashboard dengan teknik server caching sehingga meningkatkan skor Lighthouse hingga 96%.",
+            "Merancang dan mengembangkan fitur manajemen transaksi real-time menggunakan Next.js dan PostgreSQL dengan latensi di bawah 100ms.",
+            "Membangun pipeline automasi CI/CD dengan GitHub Actions untuk pengujian otomatis dan zero-downtime deployment.",
+            "Mengoptimalkan performa rendering halaman frontend sehingga meningkatkan skor Google PageSpeed dari 72 menjadi 95.",
           ],
         },
       ],
@@ -130,12 +130,12 @@ export const INITIAL_CV_DATA_ID: CVData = {
       entries: [
         {
           id: "entry_proj_1",
-          name: "Cevio — ATS-Friendly CV Generator",
-          link: "https://cevio.app",
-          year: "2025",
+          name: "E-Commerce Microservices Platform",
+          link: "https://github.com/alexpratama/ecommerce-platform",
+          year: "2024",
           bullets: [
-            "Membangun generator CV berbasis web interaktif dengan live preview real-time dan output PDF selectable teks murni ATS-safe.",
-            "Menerapkan state management terisolasi dengan Zustand dan visual builder drag-and-drop menggunakan dnd-kit.",
+            "Membangun sistem katalog produk dan pembayaran modular dengan integrasi payment gateway sandbox.",
+            "Menerapkan arsitektur REST API yang aman dilengkapi autentikasi JWT dan rate-limiting.",
           ],
         },
       ],
@@ -148,7 +148,7 @@ export const INITIAL_CV_DATA_ID: CVData = {
         {
           id: "entry_skill_1",
           groupName: "Bahasa Pemrograman",
-          skills: ["TypeScript", "JavaScript", "SQL", "HTML5", "CSS3", "PHP"],
+          skills: ["TypeScript", "JavaScript", "SQL", "HTML5", "CSS3", "Python"],
         },
         {
           id: "entry_skill_2",
@@ -174,20 +174,20 @@ export const INITIAL_CV_DATA_ID: CVData = {
 
 export const INITIAL_CV_DATA_EN: CVData = {
   header: {
-    name: "Abdul Rahem Faqih",
+    name: "Alex Pratama",
     useProfilePhoto: false,
     address: {
-      kecamatan: "Kamal District",
-      kabupaten: "Bangkalan Regency",
-      provinsi: "East Java",
+      kecamatan: "Kebayoran Baru",
+      kabupaten: "South Jakarta",
+      provinsi: "DKI Jakarta",
     },
-    email: "faqih3935@gmail.com",
-    phone: "+62 895 3141 9612",
-    linkedin: "https://linkedin.com/in/rhmfaqih",
-    portfolio: "https://abdulrahemfaqih.vercel.app",
+    email: "alex.pratama@email.com",
+    phone: "+62 812 3456 7890",
+    linkedin: "https://linkedin.com/in/alexpratama",
+    portfolio: "https://alexpratama.dev",
   },
   overview:
-    "Bachelor of Informatics graduate specializing in modern fullstack web engineering and scalable cloud software systems. Experienced in architecting production web apps using TypeScript, Next.js, and cloud backends with optimal performance.",
+    "Results-driven Software Engineer with extensive experience developing scalable, high-performance web applications. Proficient in TypeScript, Next.js, Node.js, and modern cloud databases with a strong focus on clean architecture.",
   sections: [
     {
       id: "sec_edu",
@@ -197,24 +197,24 @@ export const INITIAL_CV_DATA_EN: CVData = {
         {
           id: "entry_edu_1",
           level: "Bachelor's Degree",
-          institution: "University of Trunojoyo Madura",
+          institution: "University of Indonesia",
           location: {
-            kabupaten: "Bangkalan",
-            provinsi: "East Java",
+            kabupaten: "Depok",
+            provinsi: "West Java",
             country: "Indonesia",
           },
-          major: "Informatics Engineering",
-          gpa: "3.87 / 4.00",
-          startYear: "2022",
-          endYear: "2026",
+          major: "Computer Science",
+          gpa: "3.75 / 4.00",
+          startYear: "2020",
+          endYear: "2024",
           relevantCourses: [
-            "Algorithms & Programming",
-            "Data Structures",
-            "Distributed Databases",
+            "Algorithms & Data Structures",
+            "Database Systems",
             "Software Engineering",
+            "Computer Networks",
           ],
           description:
-            "Active researcher in software engineering laboratory and modern web architectures.",
+            "Active contributor in student software development lab and campus tech initiatives.",
         },
       ],
     },
@@ -225,21 +225,21 @@ export const INITIAL_CV_DATA_EN: CVData = {
       entries: [
         {
           id: "entry_work_1",
-          company: "Tech Kreasi Nusantara",
+          company: "Nusantara Tech Solutions",
           location: {
-            kabupaten: "Surabaya",
-            provinsi: "East Java",
+            kabupaten: "South Jakarta",
+            provinsi: "DKI Jakarta",
             country: "Indonesia",
           },
           position: "Fullstack Web Developer",
-          employmentType: "Intern",
+          employmentType: "Full-time",
           startDate: "Aug 2024",
-          endDate: "Jan 2025",
-          isCurrent: false,
+          endDate: "Present",
+          isCurrent: true,
           bullets: [
-            "Engineered internal inventory management services with Next.js and Supabase, achieving under 120ms database response times.",
-            "Configured CI/CD deployment automation pipelines with GitHub Actions for immediate preview environments.",
-            "Optimized client dashboard render performance, lifting overall Google Lighthouse audit score to 96%.",
+            "Architected and deployed scalable real-time transaction workflows with Next.js and PostgreSQL, sustaining sub-100ms query latency.",
+            "Constructed automated CI/CD deployment pipelines using GitHub Actions for continuous testing and deployment.",
+            "Optimized frontend bundle sizes and assets, raising overall Lighthouse audit scores from 72 to 95.",
           ],
         },
       ],
@@ -251,12 +251,12 @@ export const INITIAL_CV_DATA_EN: CVData = {
       entries: [
         {
           id: "entry_proj_1",
-          name: "Cevio — ATS-Friendly CV Generator",
-          link: "https://cevio.app",
-          year: "2025",
+          name: "E-Commerce Microservices Platform",
+          link: "https://github.com/alexpratama/ecommerce-platform",
+          year: "2024",
           bullets: [
-            "Engineered interactive browser-based CV builder with real-time preview and ATS-compliant selectable PDF output.",
-            "Implemented decoupled form state using Zustand and responsive drag-and-drop reorganization via dnd-kit.",
+            "Engineered modular product catalog and checkout system integrated with sandbox payment gateways.",
+            "Designed secure RESTful API endpoints reinforced with JWT authentication and rate limiting.",
           ],
         },
       ],
@@ -269,7 +269,7 @@ export const INITIAL_CV_DATA_EN: CVData = {
         {
           id: "entry_skill_1",
           groupName: "Programming Languages",
-          skills: ["TypeScript", "JavaScript", "SQL", "HTML5", "CSS3", "PHP"],
+          skills: ["TypeScript", "JavaScript", "SQL", "HTML5", "CSS3", "Python"],
         },
         {
           id: "entry_skill_2",
@@ -289,6 +289,92 @@ export const INITIAL_CV_DATA_EN: CVData = {
           skills: ["PostgreSQL", "Supabase", "Git", "GitHub", "Docker", "Postman"],
         },
       ],
+    },
+  ],
+};
+
+export const BLANK_CV_DATA_ID: CVData = {
+  header: {
+    name: "",
+    useProfilePhoto: false,
+    address: {
+      kecamatan: "",
+      kabupaten: "",
+      provinsi: "",
+    },
+    email: "",
+    phone: "",
+    linkedin: "",
+    portfolio: "",
+  },
+  overview: "",
+  sections: [
+    {
+      id: "sec_edu",
+      type: "education",
+      order: 0,
+      entries: [],
+    },
+    {
+      id: "sec_work",
+      type: "work",
+      order: 1,
+      entries: [],
+    },
+    {
+      id: "sec_project",
+      type: "project",
+      order: 2,
+      entries: [],
+    },
+    {
+      id: "sec_skills",
+      type: "skills",
+      order: 3,
+      entries: [],
+    },
+  ],
+};
+
+export const BLANK_CV_DATA_EN: CVData = {
+  header: {
+    name: "",
+    useProfilePhoto: false,
+    address: {
+      kecamatan: "",
+      kabupaten: "",
+      provinsi: "",
+    },
+    email: "",
+    phone: "",
+    linkedin: "",
+    portfolio: "",
+  },
+  overview: "",
+  sections: [
+    {
+      id: "sec_edu",
+      type: "education",
+      order: 0,
+      entries: [],
+    },
+    {
+      id: "sec_work",
+      type: "work",
+      order: 1,
+      entries: [],
+    },
+    {
+      id: "sec_project",
+      type: "project",
+      order: 2,
+      entries: [],
+    },
+    {
+      id: "sec_skills",
+      type: "skills",
+      order: 3,
+      entries: [],
     },
   ],
 };

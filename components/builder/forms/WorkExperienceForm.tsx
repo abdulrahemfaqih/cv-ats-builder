@@ -84,58 +84,58 @@ function SortableWorkItem({
     <div
       ref={setNodeRef}
       style={style}
-      className="border border-[#0A0A0A] bg-white p-4 space-y-3"
+      className="border border-[#E2E2DC] rounded-lg bg-white p-4 space-y-3 shadow-xs"
     >
       {/* Header bar */}
-      <div className="flex items-center justify-between border-b border-[#EAE8E3] pb-2">
+      <div className="flex items-center justify-between border-b border-[#E2E2DC] pb-2">
         <div className="flex items-center gap-2">
           <button
             type="button"
             {...attributes}
             {...listeners}
-            className="cursor-grab active:cursor-grabbing text-[#5C5A54] hover:text-[#0A0A0A] p-0.5"
+            className="cursor-grab active:cursor-grabbing text-[#9E9E96] hover:text-[#111111] p-0.5"
             title="Tahan & geser untuk mengubah urutan"
           >
             <GripVertical className="w-4 h-4" />
           </button>
-          <span className="font-mono text-xs font-bold text-[#0A0A0A]">
-            [ PEKERJAAN #{index + 1} ] {entry.company || "Nama Perusahaan"}
+          <span className="text-xs font-semibold text-[#111111]">
+            Pekerjaan #{index + 1} {entry.company ? `— ${entry.company}` : ""}
           </span>
         </div>
         <button
           type="button"
           onClick={() => removeEntry(sectionId, entry.id)}
-          className="text-[#5C5A54] hover:text-[#E61919] p-1 transition-colors"
+          className="text-[#9E9E96] hover:text-[#E61919] p-1 rounded-md transition-colors"
           title="Hapus entri ini"
         >
-          <Trash2 className="w-4 h-4" />
+          <Trash2 className="w-3.5 h-3.5" />
         </button>
       </div>
 
       {/* Company & Position */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            NAMA PERUSAHAAN *
+          <label className="block text-[11px] font-semibold text-[#111111] mb-1">
+            Nama Perusahaan *
           </label>
           <input
             type="text"
             value={entry.company}
             onChange={(e) => handleFieldChange("company", e.target.value)}
             placeholder="mis. PT Solusi Digital"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            POSISI / JABATAN *
+          <label className="block text-[11px] font-semibold text-[#111111] mb-1">
+            Posisi / Jabatan *
           </label>
           <input
             type="text"
             value={entry.position}
             onChange={(e) => handleFieldChange("position", e.target.value)}
             placeholder="mis. Fullstack Web Developer"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
       </div>
@@ -143,40 +143,40 @@ function SortableWorkItem({
       {/* Employment Type & Status */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            TIPE KERJA (OPSIONAL)
+          <label className="block text-[11px] font-semibold text-[#111111] mb-1">
+            Tipe Kerja (Opsional)
           </label>
           <input
             type="text"
             value={entry.employmentType || ""}
             onChange={(e) => handleFieldChange("employmentType", e.target.value)}
-            placeholder="mis. Intern / Full-time / Paruh Waktu"
-            className="swiss-input text-xs"
+            placeholder="mis. Intern / Full-time"
+            className="app-input text-xs"
           />
         </div>
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            BULAN/TAHUN MULAI *
+          <label className="block text-[11px] font-semibold text-[#111111] mb-1">
+            Bulan/Tahun Mulai *
           </label>
           <input
             type="text"
             value={entry.startDate}
             onChange={(e) => handleFieldChange("startDate", e.target.value)}
             placeholder="mis. Agu 2024"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
         <div>
           <div className="flex items-center justify-between mb-1">
-            <label className="font-mono text-[11px] uppercase font-bold text-[#0A0A0A]">
-              SELESAI *
+            <label className="text-[11px] font-semibold text-[#111111]">
+              Selesai *
             </label>
-            <label className="font-mono text-[10px] text-[#5C5A54] flex items-center gap-1 cursor-pointer">
+            <label className="text-[10px] text-[#666660] flex items-center gap-1 cursor-pointer">
               <input
                 type="checkbox"
                 checked={Boolean(entry.isCurrent)}
                 onChange={(e) => handleFieldChange("isCurrent", e.target.checked)}
-                className="w-3 h-3 accent-[#0A0A0A]"
+                className="w-3 h-3 accent-[#111111] rounded"
               />
               Sekarang
             </label>
@@ -187,7 +187,7 @@ function SortableWorkItem({
             value={entry.isCurrent ? "Sekarang" : entry.endDate}
             onChange={(e) => handleFieldChange("endDate", e.target.value)}
             placeholder="mis. Jan 2025"
-            className="swiss-input text-xs disabled:bg-[#EAE8E3] disabled:text-[#5C5A54]"
+            className="app-input text-xs disabled:bg-[#F2F2EE] disabled:text-[#666660]"
           />
         </div>
       </div>
@@ -195,39 +195,39 @@ function SortableWorkItem({
       {/* Location */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            KABUPATEN / KOTA *
+          <label className="block text-[11px] font-semibold text-[#111111] mb-1">
+            Kabupaten / Kota *
           </label>
           <input
             type="text"
             value={entry.location?.kabupaten || ""}
             onChange={(e) => handleLocationChange("kabupaten", e.target.value)}
             placeholder="mis. Surabaya"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            PROVINSI *
+          <label className="block text-[11px] font-semibold text-[#111111] mb-1">
+            Provinsi *
           </label>
           <input
             type="text"
             value={entry.location?.provinsi || ""}
             onChange={(e) => handleLocationChange("provinsi", e.target.value)}
             placeholder="mis. Jawa Timur"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            NEGARA (OPSIONAL)
+          <label className="block text-[11px] font-semibold text-[#111111] mb-1">
+            Negara (Opsional)
           </label>
           <input
             type="text"
             value={entry.location?.country || ""}
             onChange={(e) => handleLocationChange("country", e.target.value)}
             placeholder="mis. Indonesia"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
       </div>
@@ -235,35 +235,35 @@ function SortableWorkItem({
       {/* Bullet Points */}
       <div>
         <div className="flex items-center justify-between mb-1.5">
-          <label className="font-mono text-[11px] uppercase font-bold text-[#0A0A0A]">
-            POIN PENCAPAIAN & TANGGUNG JAWAB (BULLETS) *
+          <label className="text-[11px] font-semibold text-[#111111]">
+            Poin Pencapaian & Tanggung Jawab (Bullet Points) *
           </label>
           <button
             type="button"
             onClick={addBullet}
-            className="font-mono text-[10px] font-bold text-[#0A0A0A] hover:underline flex items-center gap-1"
+            className="text-[11px] font-semibold text-[#111111] hover:underline flex items-center gap-1"
           >
-            <PlusCircle className="w-3 h-3" />
-            TAMBAH BULLET
+            <PlusCircle className="w-3 h-3 text-[#666660]" />
+            Tambah Bullet
           </button>
         </div>
 
         <div className="space-y-2">
           {(entry.bullets || []).map((bullet, bIdx) => (
             <div key={bIdx} className="flex items-start gap-2">
-              <span className="font-mono text-xs text-[#5C5A54] pt-2">•</span>
+              <span className="text-xs text-[#9E9E96] pt-2">•</span>
               <textarea
                 rows={2}
                 value={bullet}
                 onChange={(e) => handleBulletChange(bIdx, e.target.value)}
-                placeholder="Tuliskan tindakan konkret, teknologi yang digunakan, serta hasil yang terukur..."
-                className="swiss-input text-xs resize-y flex-1"
+                placeholder="Tuliskan tindakan nyata, teknologi yang digunakan, serta dampak terukur..."
+                className="app-input text-xs resize-y flex-1"
               />
               <button
                 type="button"
                 onClick={() => removeBullet(bIdx)}
-                className="text-[#5C5A54] hover:text-[#E61919] p-1 pt-2 transition-colors"
-                title="Hapus baris bullet"
+                className="text-[#9E9E96] hover:text-[#E61919] p-1.5 pt-2 transition-colors"
+                title="Hapus bullet ini"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>
@@ -302,6 +302,7 @@ export function WorkExperienceForm({
   return (
     <div className="space-y-4">
       <DndContext
+        id={`dnd-work-${sectionId}`}
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
@@ -326,10 +327,10 @@ export function WorkExperienceForm({
       <button
         type="button"
         onClick={() => addEntry(sectionId)}
-        className="w-full flex items-center justify-center gap-2 border border-dashed border-[#0A0A0A] p-2.5 bg-[#F4F4F0] font-mono text-xs font-bold text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white transition-colors"
+        className="w-full flex items-center justify-center gap-1.5 border border-dashed border-[#D2D2CC] rounded-lg p-2.5 bg-[#F8F8F6] text-xs font-semibold text-[#111111] hover:bg-[#111111] hover:text-white transition-colors"
       >
         <Plus className="w-3.5 h-3.5" />
-        TAMBAH PENGALAMAN KERJA
+        Tambah Pengalaman Kerja
       </button>
     </div>
   );

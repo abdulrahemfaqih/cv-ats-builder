@@ -5,7 +5,7 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#F4F4F0] flex flex-col selection:bg-[#0A0A0A] selection:text-[#F4F4F0]">
+    <div className="min-h-screen bg-[#F8F8F6] flex flex-col selection:bg-[#111111] selection:text-white">
       {/* Top Navigation */}
       <Navbar currentSection="landing" />
 
@@ -13,109 +13,99 @@ export default function HomePage() {
         {/* ========================================================================= */}
         {/* HERO SECTION */}
         {/* ========================================================================= */}
-        <section className="w-full border-b-2 border-[#0A0A0A] pt-12 pb-16 lg:py-24 px-4 sm:px-6 lg:px-8">
+        <section className="w-full border-b border-[#E2E2DC] pt-14 pb-16 lg:py-24 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Hero Content (7 cols) */}
+            {/* Left Hero Content */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-[#EAE8E3] border border-[#0A0A0A] font-mono text-[11px] font-bold uppercase tracking-wider text-[#0A0A0A]">
-                <span className="w-2 h-2 bg-[#E61919] inline-block"></span>
-                [ CEVIO // ATS RESUME ARCHITECTURE ]
-              </div>
-
-              <h1 className="text-4xl sm:text-6xl xl:text-7xl font-extrabold uppercase tracking-tight text-[#0A0A0A] leading-[1.05]">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#111111] tracking-tight leading-[1.15]">
                 CV yang beneran lolos ATS.
               </h1>
 
-              <p className="text-lg sm:text-xl text-[#5C5A54] leading-relaxed max-w-2xl font-normal">
+              <p className="text-lg sm:text-xl text-[#666660] leading-relaxed max-w-2xl font-normal">
                 Isi form di kiri, hasilnya langsung keliatan di kanan. Kalau udah
                 pas, download PDF-nya dan kirim.
               </p>
 
               <div className="pt-2 space-y-3">
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                   <Link
                     href="/builder"
-                    className="inline-flex items-center justify-center gap-3 bg-[#0A0A0A] text-[#F4F4F0] border-2 border-[#0A0A0A] px-8 py-4 font-mono text-sm font-bold uppercase tracking-wider hover:bg-[#F4F4F0] hover:text-[#0A0A0A] transition-colors"
+                    className="inline-flex items-center justify-center gap-2.5 bg-[#111111] text-white px-7 py-3.5 rounded-lg text-sm font-semibold hover:bg-[#2A2A2A] transition-colors shadow-sm"
                   >
                     <span>Buat CV Sekarang</span>
                     <ArrowRight className="w-4 h-4" />
                   </Link>
 
                   <Link
-                    href="/login"
-                    className="inline-flex items-center justify-center gap-2 bg-transparent text-[#0A0A0A] border-2 border-[#0A0A0A] px-6 py-4 font-mono text-sm font-bold uppercase tracking-wider hover:bg-[#EAE8E3] transition-colors"
+                    href="/dashboard"
+                    className="inline-flex items-center justify-center gap-2 bg-white text-[#111111] border border-[#E2E2DC] px-6 py-3.5 rounded-lg text-sm font-semibold hover:bg-[#F2F2EE] transition-colors"
                   >
                     Buka Dashboard
                   </Link>
                 </div>
 
-                <p className="font-mono text-xs text-[#5C5A54] flex items-center gap-1.5 pt-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#0A0A0A]" />
+                <p className="text-xs text-[#666660] flex items-center gap-1.5 pt-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#111111]" />
                   Coba dulu tanpa daftar. Login cuma kalau mau simpan draft-nya.
                 </p>
               </div>
             </div>
 
-            {/* Right Hero Visual (5 cols): Authentic ATS Document Mockup */}
+            {/* Right Hero Visual: Authentic ATS Document Preview */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="w-full max-w-[420px] bg-white border-2 border-[#0A0A0A] p-6 shadow-[10px_10px_0px_#0A0A0A] relative rotate-1 hover:rotate-0 transition-transform duration-300">
-                {/* Physical Document Tag */}
-                <div className="absolute -top-3.5 right-4 bg-[#0A0A0A] text-[#F4F4F0] font-mono text-[9px] uppercase px-2 py-0.5 tracking-widest font-bold">
-                  CONTOH OUTPUT PDF ATS
-                </div>
-
-                {/* Simulated Real ATS Content */}
+              <div className="w-full max-w-[420px] bg-white border border-[#E2E2DC] rounded-xl p-6 shadow-sm relative">
+                {/* Minimalist Document Preview */}
                 <div className="font-[Calibri,Arial,sans-serif] text-black space-y-2.5 select-none pointer-events-none text-left">
                   <div className="text-center pb-1">
                     <div className="font-bold text-sm tracking-wide uppercase">
-                      ABDUL RAHEM FAQIH
+                      Alex Pratama
                     </div>
-                    <div className="text-[7.5pt] text-neutral-800 mt-0.5">
-                      Kec. Kamal, Kab. Bangkalan |{" "}
+                    <div className="text-[7.5pt] text-neutral-600 mt-0.5">
+                      Jakarta Selatan, DKI Jakarta |{" "}
                       <span className="text-[#0563C1] underline">
-                        linkedin.com/in/rhmfaqih
+                        linkedin.com/in/alexpratama
                       </span>{" "}
                       |{" "}
                       <span className="text-[#0563C1] underline">
-                        faqih3935@gmail.com
+                        alex.pratama@email.com
                       </span>{" "}
-                      | 089531419612
+                      | 081234567890
                     </div>
                     <div className="w-full border-t border-black mt-1.5" />
                   </div>
 
                   <div className="text-[7pt] text-neutral-700 leading-snug">
-                    Lulusan S1 Teknik Informatika yang berfokus pada pengembangan
+                    Lulusan S1 Ilmu Komputer yang berfokus pada pengembangan
                     web fullstack modern dan rekayasa perangkat lunak scalable.
                   </div>
 
                   <div>
                     <div className="font-bold text-[8pt] uppercase tracking-wide">
-                      PENDIDIKAN
+                      Pendidikan
                     </div>
                     <div className="w-full border-t border-black mt-0.5 mb-1" />
                     <div className="flex justify-between text-[7pt] font-bold">
-                      <span>S1 - Universitas Trunojoyo Madura</span>
-                      <span>2022 - 2026</span>
+                      <span>S1 - Universitas Indonesia</span>
+                      <span>2020 - 2024</span>
                     </div>
-                    <div className="italic text-[6.5pt]">
-                      Teknik Informatika - IPK 3.87
+                    <div className="italic text-[6.5pt] text-neutral-800">
+                      Ilmu Komputer - IPK 3.75
                     </div>
                   </div>
 
                   <div>
                     <div className="font-bold text-[8pt] uppercase tracking-wide">
-                      PENGALAMAN KERJA
+                      Pengalaman Kerja
                     </div>
                     <div className="w-full border-t border-black mt-0.5 mb-1" />
                     <div className="flex justify-between text-[7pt] font-bold">
-                      <span>Tech Kreasi Nusantara - Surabaya</span>
-                      <span>Agu 2024 - Jan 2025</span>
+                      <span>PT Teknologi Maju Nusantara - Jakarta</span>
+                      <span>Agu 2024 - Sekarang</span>
                     </div>
-                    <div className="italic text-[6.5pt]">
-                      Fullstack Web Developer - Intern
+                    <div className="italic text-[6.5pt] text-neutral-800">
+                      Fullstack Web Developer
                     </div>
-                    <div className="text-[6.5pt] pl-3 text-neutral-800 space-y-0.5 mt-0.5">
+                    <div className="text-[6.5pt] pl-3 text-neutral-700 space-y-0.5 mt-0.5">
                       <div>• Mengembangkan microservice Next.js & Supabase.</div>
                       <div>• Integrasi CI/CD workflow GitHub Actions.</div>
                     </div>
@@ -123,7 +113,7 @@ export default function HomePage() {
 
                   <div>
                     <div className="font-bold text-[8pt] uppercase tracking-wide">
-                      KETERAMPILAN
+                      Keterampilan
                     </div>
                     <div className="w-full border-t border-black mt-0.5 mb-1" />
                     <div className="text-[6.5pt]">
@@ -144,46 +134,39 @@ export default function HomePage() {
         {/* ========================================================================= */}
         {/* FITUR SECTION */}
         {/* ========================================================================= */}
-        <section className="w-full py-16 lg:py-24 px-4 sm:px-6 lg:px-8 border-b-2 border-[#0A0A0A] bg-[#EAE8E3]">
-          <div className="max-w-7xl mx-auto space-y-12">
-            <div className="border-b-2 border-[#0A0A0A] pb-4 flex flex-col md:flex-row md:items-end justify-between gap-2">
+        <section className="w-full py-16 lg:py-20 px-4 sm:px-6 lg:px-8 border-b border-[#E2E2DC] bg-[#F2F2EE]">
+          <div className="max-w-7xl mx-auto space-y-10">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-2 border-b border-[#E2E2DC] pb-4">
               <div>
-                <span className="font-mono text-xs uppercase tracking-wider text-[#5C5A54] block mb-1">
-                  [ FITUR // FITUR UTAMA ]
-                </span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-[#0A0A0A]">
+                <h2 className="text-2xl sm:text-3xl font-bold text-[#111111] tracking-tight">
                   Didesain untuk Lolos Screening ATS
                 </h2>
+                <p className="text-sm text-[#666660] mt-1">
+                  Format bersih, teks dapat diseleksi, dan tanpa layout yang membingungkan parser.
+                </p>
               </div>
-              <span className="font-mono text-xs text-[#5C5A54]">
-                5 PRINSIP INTI CEVIO
-              </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {/* Card 1 */}
-              <div className="bg-[#F4F4F0] border-2 border-[#0A0A0A] p-6 sm:p-8 space-y-3">
-                <span className="font-mono text-xs font-bold text-[#E61919]">
-                  {"// 01"}
-                </span>
-                <h3 className="text-xl font-bold uppercase tracking-tight text-[#0A0A0A]">
+              <div className="bg-white border border-[#E2E2DC] rounded-xl p-6 space-y-2.5 shadow-sm">
+                <span className="text-xs font-semibold text-[#666660]">01</span>
+                <h3 className="text-lg font-bold text-[#111111]">
                   Live preview
                 </h3>
-                <p className="text-sm text-[#5C5A54] leading-relaxed">
+                <p className="text-sm text-[#666660] leading-relaxed">
                   Ketik di form, hasilnya langsung berubah di panel sebelah.
                   Nggak perlu export bolak-balik cuma buat lihat hasilnya.
                 </p>
               </div>
 
               {/* Card 2 */}
-              <div className="bg-[#F4F4F0] border-2 border-[#0A0A0A] p-6 sm:p-8 space-y-3">
-                <span className="font-mono text-xs font-bold text-[#E61919]">
-                  {"// 02"}
-                </span>
-                <h3 className="text-xl font-bold uppercase tracking-tight text-[#0A0A0A]">
+              <div className="bg-white border border-[#E2E2DC] rounded-xl p-6 space-y-2.5 shadow-sm">
+                <span className="text-xs font-semibold text-[#666660]">02</span>
+                <h3 className="text-lg font-bold text-[#111111]">
                   Beberapa CV, satu akun
                 </h3>
-                <p className="text-sm text-[#5C5A54] leading-relaxed">
+                <p className="text-sm text-[#666660] leading-relaxed">
                   Simpan versi berbeda untuk tiap posisi yang kamu lamar —
                   fullstack, frontend, mobile — tanpa bikin dari nol tiap kali
                   ganti tujuan.
@@ -191,14 +174,12 @@ export default function HomePage() {
               </div>
 
               {/* Card 3 */}
-              <div className="bg-[#F4F4F0] border-2 border-[#0A0A0A] p-6 sm:p-8 space-y-3">
-                <span className="font-mono text-xs font-bold text-[#E61919]">
-                  {"// 03"}
-                </span>
-                <h3 className="text-xl font-bold uppercase tracking-tight text-[#0A0A0A]">
+              <div className="bg-white border border-[#E2E2DC] rounded-xl p-6 space-y-2.5 shadow-sm">
+                <span className="text-xs font-semibold text-[#666660]">03</span>
+                <h3 className="text-lg font-bold text-[#111111]">
                   PDF-nya teks asli, bukan gambar
                 </h3>
-                <p className="text-sm text-[#5C5A54] leading-relaxed">
+                <p className="text-sm text-[#666660] leading-relaxed">
                   Hasil download bisa di-select dan di-copy teksnya. Bukan
                   screenshot yang disamarkan jadi PDF — makanya ATS beneran bisa
                   baca isinya.
@@ -206,49 +187,42 @@ export default function HomePage() {
               </div>
 
               {/* Card 4 */}
-              <div className="bg-[#F4F4F0] border-2 border-[#0A0A0A] p-6 sm:p-8 space-y-3">
-                <span className="font-mono text-xs font-bold text-[#E61919]">
-                  {"// 04"}
-                </span>
-                <h3 className="text-xl font-bold uppercase tracking-tight text-[#0A0A0A]">
+              <div className="bg-white border border-[#E2E2DC] rounded-xl p-6 space-y-2.5 shadow-sm">
+                <span className="text-xs font-semibold text-[#666660]">04</span>
+                <h3 className="text-lg font-bold text-[#111111]">
                   Susun section sesuka kamu
                 </h3>
-                <p className="text-sm text-[#5C5A54] leading-relaxed">
+                <p className="text-sm text-[#666660] leading-relaxed">
                   Pendidikan duluan atau pengalaman kerja duluan, kamu yang atur
                   urutannya, tinggal drag.
                 </p>
               </div>
 
               {/* Card 5 */}
-              <div className="bg-[#F4F4F0] border-2 border-[#0A0A0A] p-6 sm:p-8 space-y-3">
-                <span className="font-mono text-xs font-bold text-[#E61919]">
-                  {"// 05"}
-                </span>
-                <h3 className="text-xl font-bold uppercase tracking-tight text-[#0A0A0A]">
+              <div className="bg-white border border-[#E2E2DC] rounded-xl p-6 space-y-2.5 shadow-sm">
+                <span className="text-xs font-semibold text-[#666660]">05</span>
+                <h3 className="text-lg font-bold text-[#111111]">
                   Dua bahasa
                 </h3>
-                <p className="text-sm text-[#5C5A54] leading-relaxed">
+                <p className="text-sm text-[#666660] leading-relaxed">
                   Bikin versi Bahasa Indonesia atau English, tinggal pilih
                   sesuai lowongan yang kamu apply.
                 </p>
               </div>
 
-              {/* Card 6 (Action) */}
-              <div className="bg-[#0A0A0A] text-[#F4F4F0] border-2 border-[#0A0A0A] p-6 sm:p-8 flex flex-col justify-between space-y-4">
+              {/* Card 6 */}
+              <div className="bg-[#111111] text-white rounded-xl p-6 flex flex-col justify-between space-y-4 shadow-sm">
                 <div>
-                  <span className="font-mono text-xs font-bold text-[#E61919]">
-                    {"// SIAP MULAI?"}
-                  </span>
-                  <h3 className="text-xl font-bold uppercase tracking-tight text-white mt-2">
+                  <h3 className="text-lg font-bold text-white">
                     Gratis Tanpa Registrasi Awal
                   </h3>
-                  <p className="text-sm text-[#EAE8E3]/80 mt-2">
-                    Langsung uji coba builder interaktif sekarang.
+                  <p className="text-sm text-[#E2E2DC]/80 mt-1.5 leading-relaxed">
+                    Langsung uji coba builder interaktif dan unduh PDF Anda sekarang.
                   </p>
                 </div>
                 <Link
                   href="/builder"
-                  className="inline-flex items-center justify-center gap-2 bg-[#F4F4F0] text-[#0A0A0A] py-3 px-4 font-mono text-xs font-bold uppercase tracking-wider hover:bg-[#EAE8E3] transition-colors"
+                  className="inline-flex items-center justify-center gap-2 bg-white text-[#111111] py-2.5 px-4 rounded-lg text-xs font-semibold hover:bg-[#F2F2EE] transition-colors"
                 >
                   Buka Builder Sekarang →
                 </Link>
@@ -258,26 +232,145 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
+        {/* FAQ SECTION (SEO & USER GUIDANCE) */}
+        {/* ========================================================================= */}
+        <section className="w-full py-16 lg:py-20 px-4 sm:px-6 lg:px-8 border-b border-[#E2E2DC] bg-[#FFFFFF]">
+          <div className="max-w-4xl mx-auto space-y-10">
+            <div className="text-center space-y-3">
+              <span className="text-xs font-semibold text-[#666660] uppercase tracking-wider">
+                Pertanyaan Umum
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#111111] tracking-tight">
+                FAQ Seputar CV ATS Friendly
+              </h2>
+              <p className="text-sm sm:text-base text-[#666660] max-w-xl mx-auto">
+                Semua yang perlu kamu ketahui tentang standar lolos seleksi ATS dan fitur Cevio.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+              <div className="border border-[#E2E2DC] rounded-xl p-6 bg-[#F8F8F6]/60 space-y-2.5">
+                <h3 className="text-base font-bold text-[#111111]">
+                  Apa itu CV ATS Friendly?
+                </h3>
+                <p className="text-xs sm:text-sm text-[#666660] leading-relaxed">
+                  CV ATS Friendly adalah format resume yang terstruktur khusus agar dapat diurai (parse) secara akurat oleh Applicant Tracking System perusahaan tanpa risiko data hilang atau tertukar.
+                </p>
+              </div>
+
+              <div className="border border-[#E2E2DC] rounded-xl p-6 bg-[#F8F8F6]/60 space-y-2.5">
+                <h3 className="text-base font-bold text-[#111111]">
+                  Kenapa Cevio menggunakan format 1 kolom?
+                </h3>
+                <p className="text-xs sm:text-sm text-[#666660] leading-relaxed">
+                  Format 1 kolom adalah standar baku internasional yang paling aman untuk algoritma ATS (seperti Taleo, Workday, dan Greenhouse) karena urutan pembacaan data selalu linier dan tidak terpotong.
+                </p>
+              </div>
+
+              <div className="border border-[#E2E2DC] rounded-xl p-6 bg-[#F8F8F6]/60 space-y-2.5">
+                <h3 className="text-base font-bold text-[#111111]">
+                  Apakah ekspor PDF menghasilkan teks asli?
+                </h3>
+                <p className="text-xs sm:text-sm text-[#666660] leading-relaxed">
+                  Ya, 100%. Cevio membuat dokumen PDF murni berbasis teks vektor, bukan hasil tangkapan layar gambar (rasterized). Teks dapat diseleksi, dicari, dan dibaca sempurna oleh scanner ATS.
+                </p>
+              </div>
+
+              <div className="border border-[#E2E2DC] rounded-xl p-6 bg-[#F8F8F6]/60 space-y-2.5">
+                <h3 className="text-base font-bold text-[#111111]">
+                  Apakah harus mendaftar akun untuk membuat CV?
+                </h3>
+                <p className="text-xs sm:text-sm text-[#666660] leading-relaxed">
+                  Tidak. Kamu bisa langsung mengisi dan mengunduh PDF secara gratis tanpa mendaftar. Pendaftaran akun hanya diperlukan bila kamu ingin menyimpan draft CV ke cloud dashboard.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Structured Data (JSON-LD) for Search Engines */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "WebApplication",
+                  "@id": "https://cevio.id/#app",
+                  name: "Cevio",
+                  url: "https://cevio.id",
+                  applicationCategory: "BusinessApplication",
+                  operatingSystem: "All",
+                  browserRequirements: "Requires JavaScript. Requires HTML5.",
+                  description:
+                    "Generator CV ATS-friendly interaktif dengan format 1 kolom standar korporat, live preview real-time, dan export PDF teks asli.",
+                  offers: {
+                    "@type": "Offer",
+                    price: "0",
+                    priceCurrency: "IDR",
+                  },
+                },
+                {
+                  "@type": "FAQPage",
+                  "@id": "https://cevio.id/#faq",
+                  mainEntity: [
+                    {
+                      "@type": "Question",
+                      name: "Apa itu CV ATS Friendly?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "CV ATS Friendly adalah format resume yang dirancang khusus agar mudah dibaca, diurai (parse), dan dinilai oleh Applicant Tracking System (ATS) perusahaan tanpa risiko teks hilang atau berantakan.",
+                      },
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Kenapa CV Cevio menggunakan format 1 kolom?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Format 1 kolom adalah standar baku yang paling disukai oleh algoritma parsing sistem ATS dan recruiter internasional karena alur membaca data selalu linier dan tidak terpotong kolom ganda.",
+                      },
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Apakah ekspor PDF menghasilkan teks asli yang bisa di-copy?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Ya. Cevio menghasilkan PDF berbasis teks asli yang dapat diseleksi dan diurai 100% oleh sistem ATS, bukan gambar rasterized.",
+                      },
+                    },
+                    {
+                      "@type": "Question",
+                      name: "Apakah harus registrasi akun untuk membuat dan download CV?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text: "Tidak. Anda dapat langsung menggunakan Cevio Builder secara gratis tanpa mendaftar akun. Pendaftaran akun hanya diperlukan jika Anda ingin menyimpan draft CV ke cloud dashboard.",
+                      },
+                    },
+                  ],
+                },
+              ],
+            }),
+          }}
+        />
+
+        {/* ========================================================================= */}
         {/* SECOND CTA SECTION */}
         {/* ========================================================================= */}
-        <section className="w-full py-16 lg:py-24 px-4 sm:px-6 lg:px-8 border-b-2 border-[#0A0A0A]">
-          <div className="max-w-4xl mx-auto text-center space-y-6">
-            <span className="font-mono text-xs uppercase tracking-wider text-[#5C5A54] block">
-              [ MULAI CEPAT // TANPA HAMBATAN ]
-            </span>
-
-            <h2 className="text-3xl sm:text-5xl font-extrabold uppercase tracking-tight text-[#0A0A0A]">
+        <section className="w-full py-16 lg:py-20 px-4 sm:px-6 lg:px-8 border-b border-[#E2E2DC]">
+          <div className="max-w-3xl mx-auto text-center space-y-5">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#111111] tracking-tight">
               Nggak perlu akun buat mulai.
             </h2>
 
-            <p className="text-base sm:text-lg text-[#5C5A54] max-w-xl mx-auto">
+            <p className="text-base sm:text-lg text-[#666660] max-w-xl mx-auto">
               Isi CV-nya sekarang. Baru daftar kalau udah mau simpan.
             </p>
 
-            <div className="pt-4 flex justify-center">
+            <div className="pt-2 flex justify-center">
               <Link
                 href="/builder"
-                className="inline-flex items-center justify-center gap-3 bg-[#0A0A0A] text-[#F4F4F0] border-2 border-[#0A0A0A] px-10 py-4 font-mono text-sm font-bold uppercase tracking-wider hover:bg-[#F4F4F0] hover:text-[#0A0A0A] transition-colors"
+                className="inline-flex items-center justify-center gap-2.5 bg-[#111111] text-white px-8 py-3.5 rounded-lg text-sm font-semibold hover:bg-[#2A2A2A] transition-colors shadow-sm"
               >
                 <span>Mulai Sekarang</span>
                 <ArrowRight className="w-4 h-4" />
@@ -290,10 +383,10 @@ export default function HomePage() {
       {/* ========================================================================= */}
       {/* FOOTER */}
       {/* ========================================================================= */}
-      <footer className="w-full bg-[#EAE8E3] border-t-2 border-[#0A0A0A] py-10 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-[#5C5A54]">
-          <div className="flex items-center gap-3">
-            <div className="relative w-6 h-6">
+      <footer className="w-full bg-[#F2F2EE] border-t border-[#E2E2DC] py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#666660]">
+          <div className="flex items-center gap-2.5">
+            <div className="relative w-5 h-5">
               <Image
                 src="/cevio-logo.png"
                 alt="Cevio"
@@ -301,25 +394,25 @@ export default function HomePage() {
                 className="object-contain"
               />
             </div>
-            <span className="font-bold text-[#0A0A0A] text-sm lowercase first-letter:uppercase">
+            <span className="font-bold text-[#111111] text-sm">
               Cevio
             </span>
             <span>— ATS Resume Generator</span>
           </div>
 
-          <div className="flex items-center gap-6">
-            <Link href="/builder" className="hover:text-[#0A0A0A]">
+          <div className="flex items-center gap-5">
+            <Link href="/builder" className="hover:text-[#111111] transition-colors">
               Builder
             </Link>
-            <Link href="/dashboard" className="hover:text-[#0A0A0A]">
+            <Link href="/dashboard" className="hover:text-[#111111] transition-colors">
               Dashboard
             </Link>
-            <Link href="/login" className="hover:text-[#0A0A0A]">
-              Login
+            <Link href="/login" className="hover:text-[#111111] transition-colors">
+              Masuk
             </Link>
           </div>
 
-          <div>© {new Date().getFullYear()} CEVIO. SWISS INDUSTRIAL PRINT SYSTEM.</div>
+          <div>© {new Date().getFullYear()} Cevio. All rights reserved.</div>
         </div>
       </footer>
     </div>

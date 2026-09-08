@@ -59,28 +59,28 @@ function SortableCertItem({
     <div
       ref={setNodeRef}
       style={style}
-      className="border border-[#0A0A0A] bg-white p-4 space-y-3"
+      className="border border-[#E2E2DC] bg-white rounded-xl p-4.5 space-y-3.5 shadow-xs transition-shadow hover:shadow-sm"
     >
       {/* Header bar */}
-      <div className="flex items-center justify-between border-b border-[#EAE8E3] pb-2">
+      <div className="flex items-center justify-between border-b border-[#F0EFEA] pb-2.5">
         <div className="flex items-center gap-2">
           <button
             type="button"
             {...attributes}
             {...listeners}
-            className="cursor-grab active:cursor-grabbing text-[#5C5A54] hover:text-[#0A0A0A] p-0.5"
+            className="cursor-grab active:cursor-grabbing text-[#8E8C85] hover:text-[#111111] p-1 rounded transition-colors"
             title="Tahan & geser untuk mengubah urutan"
           >
             <GripVertical className="w-4 h-4" />
           </button>
-          <span className="font-mono text-xs font-bold text-[#0A0A0A]">
-            [ SERTIFIKAT #{index + 1} ] {entry.name || "Nama Sertifikasi"}
+          <span className="text-xs font-semibold text-[#111111]">
+            Sertifikasi #{index + 1}: {entry.name || "Nama Sertifikasi"}
           </span>
         </div>
         <button
           type="button"
           onClick={() => removeEntry(sectionId, entry.id)}
-          className="text-[#5C5A54] hover:text-[#E61919] p-1 transition-colors"
+          className="text-[#8E8C85] hover:text-red-600 p-1.5 rounded-lg hover:bg-red-50 transition-colors"
           title="Hapus entri ini"
         >
           <Trash2 className="w-4 h-4" />
@@ -90,27 +90,27 @@ function SortableCertItem({
       {/* Name & Issuer */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            NAMA SERTIFIKASI *
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
+            Nama Sertifikasi *
           </label>
           <input
             type="text"
             value={entry.name}
             onChange={(e) => handleFieldChange("name", e.target.value)}
             placeholder="mis. AWS Certified Solutions Architect"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            LEMBAGA PENERBIT *
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
+            Lembaga Penerbit *
           </label>
           <input
             type="text"
             value={entry.issuer}
             onChange={(e) => handleFieldChange("issuer", e.target.value)}
             placeholder="mis. Amazon Web Services"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
       </div>
@@ -118,28 +118,28 @@ function SortableCertItem({
       {/* Dates */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="block font-mono text-[11px] uppercase font-bold text-[#0A0A0A] mb-1">
-            BULAN/TAHUN TERBIT *
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
+            Bulan/Tahun Terbit *
           </label>
           <input
             type="text"
             value={entry.issueDate}
             onChange={(e) => handleFieldChange("issueDate", e.target.value)}
             placeholder="mis. Nov 2024"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
         <div>
-          <div className="flex items-center justify-between mb-1">
-            <label className="font-mono text-[11px] uppercase font-bold text-[#0A0A0A]">
-              KEDALUWARSA
+          <div className="flex items-center justify-between mb-1.5">
+            <label className="text-xs font-medium text-[#111111]">
+              Kedaluwarsa
             </label>
-            <label className="font-mono text-[10px] text-[#5C5A54] flex items-center gap-1 cursor-pointer">
+            <label className="text-xs text-[#666660] flex items-center gap-1.5 cursor-pointer">
               <input
                 type="checkbox"
                 checked={Boolean(entry.isLifetime)}
                 onChange={(e) => handleFieldChange("isLifetime", e.target.checked)}
-                className="w-3 h-3 accent-[#0A0A0A]"
+                className="w-3.5 h-3.5 accent-[#111111] rounded"
               />
               Seumur Hidup
             </label>
@@ -150,7 +150,7 @@ function SortableCertItem({
             value={entry.isLifetime ? "Seumur Hidup / Tidak Ada" : entry.expiryDate || ""}
             onChange={(e) => handleFieldChange("expiryDate", e.target.value)}
             placeholder="mis. Nov 2027"
-            className="swiss-input text-xs disabled:bg-[#EAE8E3] disabled:text-[#5C5A54]"
+            className="app-input text-xs disabled:bg-[#F0EFEA] disabled:text-[#8E8C85]"
           />
         </div>
       </div>
@@ -185,6 +185,7 @@ export function CertificationForm({
   return (
     <div className="space-y-4">
       <DndContext
+        id={`dnd-certification-${sectionId}`}
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
@@ -209,10 +210,10 @@ export function CertificationForm({
       <button
         type="button"
         onClick={() => addEntry(sectionId)}
-        className="w-full flex items-center justify-center gap-2 border border-dashed border-[#0A0A0A] p-2.5 bg-[#F4F4F0] font-mono text-xs font-bold text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white transition-colors"
+        className="w-full flex items-center justify-center gap-2 border border-dashed border-[#D2D2CC] p-3 rounded-xl bg-white/60 text-xs font-semibold text-[#111111] hover:bg-white hover:border-[#111111] transition-all"
       >
-        <Plus className="w-3.5 h-3.5" />
-        TAMBAH SERTIFIKASI
+        <Plus className="w-4 h-4" />
+        Tambah Sertifikasi
       </button>
     </div>
   );

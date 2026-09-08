@@ -18,6 +18,8 @@ import {
 import {
   INITIAL_CV_DATA_ID,
   INITIAL_CV_DATA_EN,
+  BLANK_CV_DATA_ID,
+  BLANK_CV_DATA_EN,
 } from "@/lib/constants/defaultCV";
 
 const LOCAL_STORAGE_KEY = "cevio_guest_cv_draft";
@@ -48,6 +50,7 @@ interface CVStoreState {
   removeEntry: (sectionId: string, entryId: string) => void;
   reorderEntries: (sectionId: string, activeId: string, overId: string) => void;
   resetToDefault: (lang?: "id" | "en") => void;
+  resetToBlank: (lang?: "id" | "en") => void;
   loadDocument: (doc: CVDocument) => void;
   markSaved: (id?: string) => void;
   setSaving: (saving: boolean) => void;
@@ -420,6 +423,20 @@ export const useCVStore = create<CVStoreState>((set, get) => ({
 
   resetToDefault: (lang = "id") => {
     const data = lang === "id" ? INITIAL_CV_DATA_ID : INITIAL_CV_DATA_EN;
+    set({
+      language: lang,
+      data,
+      isDirty: false,
+    });
+    saveDraftToStorage({
+      title: get().title,
+      language: lang,
+      data,
+    });
+  },
+
+  resetToBlank: (lang = "id") => {
+    const data = lang === "id" ? BLANK_CV_DATA_ID : BLANK_CV_DATA_EN;
     set({
       language: lang,
       data,

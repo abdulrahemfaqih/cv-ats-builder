@@ -166,7 +166,9 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                   )}
 
                   {edu.description && (
-                    <div className="text-black mt-0.5">{edu.description}</div>
+                    <div className="text-black mt-0.5 whitespace-pre-line break-words">
+                      {edu.description}
+                    </div>
                   )}
                 </div>
               );
@@ -231,7 +233,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                       {item.bullets
                         .filter((b: string) => b && b.trim() !== "")
                         .map((bullet: string, bIdx: number) => (
-                          <li key={bIdx} className="leading-snug">
+                          <li key={bIdx} className="leading-snug whitespace-pre-line break-words">
                             {bullet}
                           </li>
                         ))}
@@ -282,16 +284,28 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     )}
                   </div>
 
-                  {proj.bullets && proj.bullets.length > 0 && (
-                    <ul className="mt-1 space-y-0.5 pl-5 list-disc text-black">
-                      {proj.bullets
-                        .filter((b: string) => b && b.trim() !== "")
-                        .map((bullet: string, bIdx: number) => (
-                          <li key={bIdx} className="leading-snug">
-                            {bullet}
-                          </li>
-                        ))}
-                    </ul>
+                  {proj.descriptionType === "paragraph" ? (
+                    proj.description && (
+                      <div className="mt-1 text-black whitespace-pre-line break-words text-[10pt] leading-snug">
+                        {proj.description}
+                      </div>
+                    )
+                  ) : (
+                    proj.bullets &&
+                    proj.bullets.length > 0 && (
+                      <ul className="mt-1 space-y-0.5 pl-5 list-disc text-black">
+                        {proj.bullets
+                          .filter((b: string) => b && b.trim() !== "")
+                          .map((bullet: string, bIdx: number) => (
+                            <li
+                              key={bIdx}
+                              className="leading-snug whitespace-pre-line break-words"
+                            >
+                              {bullet}
+                            </li>
+                          ))}
+                      </ul>
+                    )
                   )}
                 </div>
               );
@@ -390,7 +404,9 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     )}
                   </div>
                   {ach.description && (
-                    <div className="mt-0.5 text-black">{ach.description}</div>
+                    <div className="mt-0.5 text-black whitespace-pre-line break-words">
+                      {ach.description}
+                    </div>
                   )}
                 </div>
               );
@@ -405,11 +421,11 @@ export function CVPreview({ data, language }: CVPreviewProps) {
   };
 
   return (
-    <div className="w-full flex justify-center py-6 px-2">
+    <div className="w-full flex justify-center py-4 px-1">
       {/* A4 Document Container: 210mm x 297mm ratio */}
       <div
         id="cv-ats-document-preview"
-        className="w-full max-w-[800px] min-h-[1130px] bg-white text-black shadow-[0_4px_24px_rgba(0,0,0,0.12)] border border-[#0A0A0A] p-10 sm:p-12 font-[Calibri,Arial,Helvetica,sans-serif]"
+        className="w-full max-w-[800px] min-h-[1130px] bg-white text-black shadow-[0_2px_18px_rgba(0,0,0,0.08)] border border-[#D2D2CC] p-8 sm:p-12 font-[Calibri,Arial,Helvetica,sans-serif] box-border break-words"
         style={{ color: "#000000" }}
       >
         {/* HEADER BLOCK */}
@@ -436,7 +452,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
 
               {/* Centered Contact Line */}
               {contactParts.length > 0 && (
-                <div className="text-[10pt] leading-snug mt-1.5 text-black text-center flex flex-wrap items-center justify-center gap-x-2">
+                <div className="text-[10pt] leading-snug mt-2.5 text-black text-center flex flex-wrap items-center justify-center gap-x-2">
                   {contactParts.map((part, index) => (
                     <React.Fragment key={index}>
                       {index > 0 && <span className="text-black">|</span>}
@@ -454,8 +470,8 @@ export function CVPreview({ data, language }: CVPreviewProps) {
 
         {/* OVERVIEW (No header, left-aligned) */}
         {overview && overview.trim() !== "" && (
-          <section className="mb-4 text-[10pt] leading-[1.4] text-black text-left">
-            <p>{overview}</p>
+          <section className="mb-4 text-[10pt] leading-[1.4] text-black text-left break-words">
+            <p className="whitespace-pre-line break-words">{overview}</p>
           </section>
         )}
 

@@ -48,7 +48,7 @@ export default async function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F4F4F0] flex flex-col">
+    <div className="min-h-screen bg-[#F8F8F6] flex flex-col">
       <Navbar currentSection="dashboard" />
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <DashboardClient

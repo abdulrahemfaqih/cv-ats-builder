@@ -14,7 +14,6 @@ export function HeaderForm() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Convert to base64 data URL for instant live preview and local storage
     const reader = new FileReader();
     reader.onload = () => {
       if (typeof reader.result === "string") {
@@ -28,27 +27,27 @@ export function HeaderForm() {
     <div className="space-y-4">
       {/* Full Name */}
       <div>
-        <label className="block font-mono text-xs uppercase text-[#0A0A0A] font-bold mb-1">
-          NAMA LENGKAP <span className="text-[#E61919]">*</span>
+        <label className="block text-xs font-semibold text-[#111111] mb-1.5">
+          Nama Lengkap <span className="text-[#E61919]">*</span>
         </label>
         <input
           type="text"
           value={header.name}
           onChange={(e) => updateHeader({ name: e.target.value })}
-          placeholder="mis. Abdul Rahem Faqih"
-          className="swiss-input"
+          placeholder="mis. Alex Pratama"
+          className="app-input"
         />
       </div>
 
       {/* Profile Photo Toggle & Upload */}
-      <div className="border border-[#0A0A0A] p-3 bg-white space-y-3">
+      <div className="border border-[#E2E2DC] rounded-xl p-3.5 bg-[#FAFAF8] space-y-3">
         <div className="flex items-center justify-between">
           <div>
-            <label className="font-mono text-xs uppercase text-[#0A0A0A] font-bold block">
-              FOTO PROFIL (OPSIONAL)
+            <label className="text-xs font-semibold text-[#111111] block">
+              Foto Profil (Opsional)
             </label>
-            <span className="font-mono text-[10px] text-[#5C5A54] block">
-              Rasio 1:1 (~2.5cm x 2.5cm di pojok kiri atas CV)
+            <span className="text-[11px] text-[#666660] block">
+              Format persegi 1:1 (~2.5cm x 2.5cm di pojok kiri atas CV)
             </span>
           </div>
           <button
@@ -56,39 +55,39 @@ export function HeaderForm() {
             onClick={() =>
               updateHeader({ useProfilePhoto: !header.useProfilePhoto })
             }
-            className={`font-mono text-xs font-bold px-3 py-1 border border-[#0A0A0A] transition-colors ${
+            className={`text-xs font-medium px-3 py-1 rounded-lg border transition-colors ${
               header.useProfilePhoto
-                ? "bg-[#0A0A0A] text-white"
-                : "bg-[#EAE8E3] text-[#5C5A54]"
+                ? "bg-[#111111] text-white border-[#111111]"
+                : "bg-white text-[#666660] border-[#E2E2DC]"
             }`}
           >
-            {header.useProfilePhoto ? "[ AKTIF ]" : "[ NONAKTIF ]"}
+            {header.useProfilePhoto ? "Aktif" : "Nonaktif"}
           </button>
         </div>
 
         {header.useProfilePhoto && (
-          <div className="pt-3 border-t border-[#0A0A0A] flex items-center gap-4">
+          <div className="pt-3 border-t border-[#E2E2DC] flex items-center gap-4">
             {header.photoUrl ? (
-              <div className="relative w-20 h-20 border-2 border-[#0A0A0A] flex-shrink-0 bg-[#EAE8E3] overflow-hidden">
+              <div className="relative w-16 h-16 rounded-lg border border-[#E2E2DC] flex-shrink-0 bg-white overflow-hidden shadow-sm">
                 <Image
                   src={header.photoUrl}
                   alt="Avatar"
-                  width={80}
-                  height={80}
+                  width={64}
+                  height={64}
                   className="w-full h-full object-cover"
                 />
                 <button
                   type="button"
                   onClick={() => updateHeader({ photoUrl: "" })}
-                  className="absolute top-0 right-0 bg-[#E61919] text-white p-1 hover:opacity-90"
+                  className="absolute top-0 right-0 bg-[#111111] text-white p-1 rounded-bl-md hover:bg-[#E61919] transition-colors"
                   title="Hapus Foto"
                 >
-                  <X className="w-3.5 h-3.5" />
+                  <X className="w-3 h-3" />
                 </button>
               </div>
             ) : (
-              <div className="w-20 h-20 border-2 border-dashed border-[#0A0A0A] flex items-center justify-center bg-[#F4F4F0] text-[#5C5A54] flex-shrink-0 font-mono text-[10px] text-center p-1">
-                1:1 Foto
+              <div className="w-16 h-16 rounded-lg border border-dashed border-[#D2D2CC] flex items-center justify-center bg-white text-[#9E9E96] flex-shrink-0 text-[10px] text-center p-1">
+                Foto 1:1
               </div>
             )}
 
@@ -103,13 +102,13 @@ export function HeaderForm() {
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="swiss-btn-outline text-xs w-full sm:w-auto flex items-center gap-2"
+                className="app-btn-outline text-xs py-1.5 px-3 flex items-center gap-1.5"
               >
-                <Upload className="w-3.5 h-3.5" />
-                PILIH FOTO
+                <Upload className="w-3.5 h-3.5 text-[#666660]" />
+                Pilih Foto
               </button>
-              <p className="font-mono text-[10px] text-[#5C5A54] mt-1.5">
-                Format JPG/PNG, ukuran persegi direkomendasikan.
+              <p className="text-[11px] text-[#666660] mt-1">
+                JPG atau PNG, rasio persegi disarankan.
               </p>
             </div>
           </div>
@@ -118,8 +117,8 @@ export function HeaderForm() {
 
       {/* Address */}
       <div>
-        <label className="block font-mono text-xs uppercase text-[#0A0A0A] font-bold mb-1">
-          ALAMAT DOMISILI <span className="text-[#E61919]">*</span>
+        <label className="block text-xs font-semibold text-[#111111] mb-1.5">
+          Alamat Domisili <span className="text-[#E61919]">*</span>
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
           <input
@@ -130,8 +129,8 @@ export function HeaderForm() {
                 address: { ...header.address, kecamatan: e.target.value },
               })
             }
-            placeholder="Kecamatan (mis. Kamal)"
-            className="swiss-input text-xs"
+            placeholder="Kecamatan (mis. Kebayoran Baru)"
+            className="app-input text-xs"
           />
           <input
             type="text"
@@ -141,8 +140,8 @@ export function HeaderForm() {
                 address: { ...header.address, kabupaten: e.target.value },
               })
             }
-            placeholder="Kabupaten/Kota (mis. Bangkalan)"
-            className="swiss-input text-xs"
+            placeholder="Kabupaten/Kota (mis. Jakarta Selatan)"
+            className="app-input text-xs"
           />
           <input
             type="text"
@@ -152,8 +151,8 @@ export function HeaderForm() {
                 address: { ...header.address, provinsi: e.target.value },
               })
             }
-            placeholder="Provinsi (mis. Jawa Timur)"
-            className="swiss-input text-xs"
+            placeholder="Provinsi (mis. DKI Jakarta)"
+            className="app-input text-xs"
           />
         </div>
       </div>
@@ -161,27 +160,27 @@ export function HeaderForm() {
       {/* Contact: Email & Phone */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="block font-mono text-xs uppercase text-[#0A0A0A] font-bold mb-1">
-            EMAIL <span className="text-[#E61919]">*</span>
+          <label className="block text-xs font-semibold text-[#111111] mb-1.5">
+            Email <span className="text-[#E61919]">*</span>
           </label>
           <input
             type="email"
             value={header.email}
             onChange={(e) => updateHeader({ email: e.target.value })}
             placeholder="nama@email.com"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
         <div>
-          <label className="block font-mono text-xs uppercase text-[#0A0A0A] font-bold mb-1">
-            NOMOR TELEPON / WA <span className="text-[#E61919]">*</span>
+          <label className="block text-xs font-semibold text-[#111111] mb-1.5">
+            Nomor Telepon / WhatsApp <span className="text-[#E61919]">*</span>
           </label>
           <input
             type="text"
             value={header.phone}
             onChange={(e) => updateHeader({ phone: e.target.value })}
-            placeholder="mis. 089531419612"
-            className="swiss-input text-xs"
+            placeholder="mis. 081234567890"
+            className="app-input text-xs"
           />
         </div>
       </div>
@@ -189,27 +188,27 @@ export function HeaderForm() {
       {/* Contact: LinkedIn & Portfolio */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div>
-          <label className="block font-mono text-xs uppercase text-[#0A0A0A] font-bold mb-1">
-            LINKEDIN (OPSIONAL)
+          <label className="block text-xs font-semibold text-[#111111] mb-1.5">
+            LinkedIn (Opsional)
           </label>
           <input
             type="text"
             value={header.linkedin || ""}
             onChange={(e) => updateHeader({ linkedin: e.target.value })}
             placeholder="linkedin.com/in/username"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
         <div>
-          <label className="block font-mono text-xs uppercase text-[#0A0A0A] font-bold mb-1">
-            PORTOFOLIO / WEBSITE (OPSIONAL)
+          <label className="block text-xs font-semibold text-[#111111] mb-1.5">
+            Portofolio / Website (Opsional)
           </label>
           <input
             type="text"
             value={header.portfolio || ""}
             onChange={(e) => updateHeader({ portfolio: e.target.value })}
             placeholder="websiteanda.com"
-            className="swiss-input text-xs"
+            className="app-input text-xs"
           />
         </div>
       </div>
