@@ -111,31 +111,44 @@ Prinsip copywriting: kalimat pendek, jelas manfaatnya, tanpa kata-kata generik a
 
 - **Satu kolom**, top-to-bottom. Tidak ada multi-kolom, tidak ada tabel untuk layout, tidak ada text box mengambang.
 - **Font**: pilih satu, standar & aman — `Calibri`, `Arial`, atau `Times New Roman`. Ukuran: nama 18–20pt bold, section header 11–12pt bold uppercase, body 10–10.5pt.
-- **Warna**: hitam (`#000000`/`#111111`) di atas putih. Tidak ada warna lain di template ini (beda dengan aplikasi).
-- **Tanpa ikon** (tanpa icon telepon/email/dsb), tanpa garis dekoratif berlebihan — cukup `hr` tipis di bawah tiap section header kalau perlu.
-- **Struktur mengikuti contoh CV yang dilampirkan user:**
+- **Warna**: hitam (`#000000`/`#111111`) di atas putih untuk seluruh teks. **Kecuali** link kontak (LinkedIn, Email, Portofolio) yang boleh pakai warna biru standar hyperlink (`#0563C1` mendekati default Word) + underline — dikonfirmasi dari screenshot asli user, dan warna ini tidak berpengaruh ke parsing ATS karena parser cuma baca teks, bukan warna. Tidak ada warna lain di luar dua ini.
+- **Tanpa ikon** (tanpa icon telepon/email/dsb), tanpa garis dekoratif berlebihan — **kecuali** hr tipis full-width di bawah tiap section header (ini WAJIB dan konsisten di semua section, bukan opsional) dan hr penutup blok header (nama+kontak) sebelum overview.
+**Detail berikut dikonfirmasi langsung dari raster/visual PDF asli (bukan cuma dari teks yang di-extract), jadi wajib diikuti persis:**
 
 ```
-NAMA LENGKAP                                    <- bold, besar, huruf besar
-Kec. X, Kab. Y, Prov. Z | Linkedin : {url} | {email} | Portofolio : {url} | {no. hp}
-                                                  <- baris kontak, dipisah "|", opsional item auto-hilang
+                              NAMA LENGKAP                       <- BOLD, besar, CENTER-ALIGNED
+  Kec. X, Kab. Y, Prov. Z | Linkedin : {url} | {email} | {no. hp} | Portofolio : {url}
+                                                    <- CENTER-ALIGNED, wrap otomatis kalau kepanjangan
+                                                    <- Linkedin/email/Portofolio: warna biru (#0563C1) + underline, gaya hyperlink Word
+──────────────────────────────────────────────────  <- hr full-width, PENUTUP blok header (sebelum overview)
 
-{Paragraf overview/ringkasan profil}
+{Paragraf overview/ringkasan profil}                <- rata kiri, tanpa label/header
 
-PENDIDIKAN                                       <- section header, bold, uppercase, hr di bawahnya
-{Universitas} — {Kab, Prov}
-{Jenjang} {Program Studi} — IPK {x.xx}                          {Tahun Mulai - Tahun Selesai}
-• Mata kuliah relevan: ... (jika diisi)
-{deskripsi jika diisi}
+PENDIDIKAN                                           <- bold, uppercase, rata kiri
+──────────────────────────────────────────────────  <- hr full-width, SELALU ada di bawah tiap section header (bukan opsional)
+{Jenjang} - {Universitas}, {Kab, Prov}{, Negara}                    {Tahun Mulai - Tahun Selesai}
+   ↑ BOLD, tanggal rata kanan di baris pertama (kalau baris ini wrap ke baris 2, tanggal tidak diulang)
+{Program Studi} - IPK {x.xx}                         <- ITALIC
+Mata Kuliah Relevan : {daftar dipisah koma}          <- "Mata Kuliah Relevan :" BOLD inline, isinya teks biasa — BUKAN bullet
+{deskripsi jika diisi}                                <- teks biasa
 
 PENGALAMAN KERJA
-{Nama Perusahaan} — {Kab, Prov}
-{Posisi}                                          {Bulan Tahun - Bulan Tahun}
-• bullet 1
-• bullet 2
+──────────────────────────────────────────────────
+{Nama Perusahaan} - {Kab, Prov}{, Negara}                           {Bulan Tahun - Bulan Tahun}
+   ↑ BOLD, tanggal rata kanan di baris pertama saja (sama seperti pendidikan)
+{Posisi}{ - Tipe, jika diisi}                         <- ITALIC
+   • bullet 1                                         <- indented dari margin kiri
+   • bullet 2
 
-...section lain mengikuti pola yang sama...
+PROJECTS / PROYEK
+──────────────────────────────────────────────────
+{Nama Proyek}                                                        {Tahun}
+   ↑ BOLD, tahun rata kanan baris pertama
+   {deskripsi/bullet}                                 <- indented, menjorok dari judul project
+
+...section lain (Sertifikasi, Pelatihan, Pencapaian) mengikuti pola bold-judul + hr + isi yang sama...
 ```
+
 
 - Foto profil (jika dipakai): persegi kecil pojok kiri atas, **sejajar/berdampingan dengan nama** (bukan di atasnya) supaya tidak mengubah urutan baca top-to-bottom yang dipakai parser ATS.
 - Section kosong (tidak diisi user) **tidak dirender sama sekali** — tidak ada header section tanpa isi.
@@ -209,7 +222,7 @@ create policy "Users manage their own CVs"
           "id": "entry_1",
           "level": "S1",
           "institution": "Universitas Trunojoyo Madura",
-          "location": { "kabupaten": "Bangkalan", "provinsi": "Jawa Timur" },
+          "location": { "kabupaten": "Bangkalan", "provinsi": "Jawa Timur", "country": "" },
           "major": "Teknik Informatika",
           "gpa": "3.87",
           "startYear": "2022",
@@ -220,6 +233,7 @@ create policy "Users manage their own CVs"
       ]
     }
     // section type lain punya shape entries yang berbeda sesuai field di PRD.md bagian 4
+    // (mis. work/organization entries punya "employmentType" opsional untuk suffix "- Intern" dsb.)
   ]
 }
 ```

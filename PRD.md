@@ -44,8 +44,8 @@ Auth: Supabase Auth — Google OAuth **atau** Email/Password (dengan verifikasi 
 Urutan pengisian:
 1. **Pilih bahasa CV: Indonesia / English.** Pilihan ini menentukan label section yang tersedia di langkah 4 (mis. "Pengalaman Kerja" vs "Work Experience"). Bahasa bisa diganti lagi belakangan tapi user diberi warning bahwa label section akan ikut berubah.
 2. **Header**: Nama lengkap, toggle "gunakan foto profil" (jika ya → upload/crop foto, ditempatkan pojok kiri atas — lihat `design.md` untuk ukuran).
-3. **Info kontak**: Alamat (Kecamatan, Kabupaten, Provinsi), Email, No. Telepon, LinkedIn (opsional), Portofolio/link (opsional). Ditampilkan sebagai satu baris dipisah `|`, format:
-   `Kec. X, Kab. Y, Prov. Z | Linkedin : {link} | {email} | Portofolio : {link} | {no. telp}`
+3. **Info kontak**: Alamat (Kecamatan, Kabupaten, Provinsi), Email, No. Telepon, LinkedIn (opsional), Portofolio/link (opsional). Ditampilkan sebagai satu baris dipisah `|`, urutan tetap mengikuti contoh CV asli:
+   `Kec. X, Kab. Y, Prov. Z | Linkedin : {link} | {email} | {no. telp} | Portofolio : {link}`
    Field opsional yang kosong otomatis tidak ikut ditampilkan (tidak ada `|` ganda/nyangkut).
 4. **Overview**: textarea paragraf ringkasan profil.
 5. **Pilih & susun section**: user memilih section apa saja yang ingin dipakai dari daftar berikut (semua opsional, bisa pilih sebagian), lalu bisa **drag-and-drop mengurutkan** section sesuai keinginan:
@@ -71,6 +71,7 @@ Urutan pengisian:
 | Jenjang | Ya | Dropdown: SMA/SMK, D3, S1, S2, S3 |
 | Nama Universitas/Institusi | Ya | |
 | Alamat (Kabupaten, Provinsi) | Ya | |
+| Negara | Tidak | default kosong/disembunyikan; isi manual kalau mau ditampilkan (mengikuti contoh PDF yang kadang mencantumkan ", Indonesia") |
 | Program Studi | Ya | |
 | IPK | Ya | |
 | Tahun Mulai — Tahun Selesai | Ya | |
@@ -82,7 +83,9 @@ Urutan pengisian:
 |---|---|---|
 | Nama Perusahaan/Organisasi | Ya | |
 | Alamat (Kabupaten, Provinsi) | Ya | |
+| Negara | Tidak | sama seperti di Pendidikan |
 | Posisi/Jabatan | Ya | |
+| Tipe/Status | Tidak | mis. "Intern", "Full-time", "Paruh Waktu" — kalau diisi, dirender nempel di belakang posisi dipisah " - " (contoh: "Fullstack Developer - Intern"), sesuai contoh PDF |
 | Bulan/Tahun Mulai — Bulan/Tahun Selesai | Ya | opsi "Sekarang" untuk yang masih berjalan |
 | Deskripsi | Ya | list bullet point, user bisa tambah/hapus baris bullet |
 
