@@ -48,7 +48,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
     const cleanUrl = header.linkedin.replace(/^https?:\/\//i, "");
     contactParts.push(
       <span key="linkedin" className="text-black">
-        Linkedin :{" "}
+        Linkedin:{" "}
         <a
           href={header.linkedin.startsWith("http") ? header.linkedin : `https://${header.linkedin}`}
           target="_blank"
@@ -88,7 +88,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
     const cleanPorto = header.portfolio.replace(/^https?:\/\//i, "");
     contactParts.push(
       <span key="porto" className="text-black">
-        Portofolio :{" "}
+        Portofolio:{" "}
         <a
           href={
             header.portfolio.startsWith("http")
@@ -495,12 +495,9 @@ export function CVPreview({ data, language }: CVPreviewProps) {
 
               {/* Centered Contact Line */}
               {contactParts.length > 0 && (
-                <div className="text-[10pt] leading-snug mt-2.5 text-black text-center flex flex-wrap items-center justify-center gap-x-2">
+                <div className="text-[10pt] leading-snug mt-1.5 text-black text-center">
                   {contactParts.map((part, index) => (
-                    <React.Fragment key={index}>
-                      {index > 0 && <span className="text-black">|</span>}
-                      {part}
-                    </React.Fragment>
+                    <React.Fragment key={index}>{index > 0 && " | "}{part}</React.Fragment>
                   ))}
                 </div>
               )}
@@ -508,7 +505,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
           </div>
 
           {/* Full-width Divider closing header block */}
-          <hr className="w-full border-t border-black mt-3 mb-4" />
+          <hr className="w-full border-t border-black mt-2 mb-3" />
         </header>
 
         {/* OVERVIEW (No header, left-aligned) */}

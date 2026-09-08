@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useCVStore } from "@/lib/store/useCVStore";
-import { Save, Download, ArrowLeft, Globe, RotateCcw, Check, X } from "lucide-react";
+import { Save, Download, ArrowLeft, Globe, RotateCcw } from "lucide-react";
 import type { User } from "@supabase/supabase-js";
 import { ConfirmModal } from "@/components/ui/ConfirmModal";
 import { LanguageModal } from "@/components/builder/LanguageModal";

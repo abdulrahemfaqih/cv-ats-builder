@@ -187,7 +187,7 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
     const clean = header.linkedin.replace(/^https?:\/\//i, "");
     contactElements.push({
       type: "link",
-      text: `Linkedin : ${clean}`,
+      text: `Linkedin: ${clean}`,
       url: header.linkedin.startsWith("http")
         ? header.linkedin
         : `https://${header.linkedin}`,
@@ -210,7 +210,7 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
     const clean = header.portfolio.replace(/^https?:\/\//i, "");
     contactElements.push({
       type: "link",
-      text: `Portofolio : ${clean}`,
+      text: `Portofolio: ${clean}`,
       url: header.portfolio.startsWith("http")
         ? header.portfolio
         : `https://${header.portfolio}`,
@@ -585,16 +585,11 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
               {contactElements.length > 0 && (
                 <Text style={styles.contactLine}>
                   {contactElements.map((el, i) => (
-                    <React.Fragment key={i}>
-                      {i > 0 && " | "}
-                      {el.type === "link" && el.url ? (
-                        <Link src={el.url} style={styles.link}>
-                          {el.text}
-                        </Link>
-                      ) : (
-                        el.text
-                      )}
-                    </React.Fragment>
+                    <React.Fragment key={i}>{i > 0 && " | "}{el.type === "link" && el.url ? (
+                      <Link src={el.url} style={styles.link}>{el.text}</Link>
+                    ) : (
+                      el.text
+                    )}</React.Fragment>
                   ))}
                 </Text>
               )}
