@@ -5,7 +5,6 @@ import {
   Text,
   View,
   Link,
-  Image,
   StyleSheet,
 } from "@react-pdf/renderer";
 import {
@@ -42,15 +41,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-  },
-  avatar: {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    width: 65,
-    height: 65,
-    borderWidth: 1,
-    borderColor: "#000000",
   },
   titleWrapper: {
     width: "100%",
@@ -383,8 +373,15 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                       {proj.name}
                       {proj.link ? " (" : ""}
                       {proj.link ? (
-                        <Link src={proj.link} style={styles.link}>
-                          {proj.link.replace(/^https?:\/\//i, "")}
+                        <Link
+                          src={
+                            proj.link.trim().startsWith("http")
+                              ? proj.link.trim()
+                              : `https://${proj.link.trim()}`
+                          }
+                          style={styles.link}
+                        >
+                          Link
                         </Link>
                       ) : null}
                       {proj.link ? ")" : ""}
@@ -535,12 +532,6 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
         {/* HEADER */}
         <View style={styles.headerContainer}>
           <View style={styles.headerRow}>
-            {/* Optional Photo */}
-            {header.useProfilePhoto && header.photoUrl && (
-              /* eslint-disable-next-line jsx-a11y/alt-text */
-              <Image src={header.photoUrl} style={styles.avatar} />
-            )}
-
             {/* Name and Contact */}
             <View style={styles.titleWrapper}>
               <Text style={styles.fullName}>

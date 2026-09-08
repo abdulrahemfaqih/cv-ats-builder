@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import {
   CVData,
   SectionType,
@@ -263,15 +262,15 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                           (
                           <a
                             href={
-                              proj.link.startsWith("http")
-                                ? proj.link
-                                : `https://${proj.link}`
+                              proj.link.trim().startsWith("http")
+                                ? proj.link.trim()
+                                : `https://${proj.link.trim()}`
                             }
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-[#0563C1] underline font-normal"
                           >
-                            {proj.link.replace(/^https?:\/\//i, "")}
+                            Link
                           </a>
                           )
                         </>
@@ -431,19 +430,6 @@ export function CVPreview({ data, language }: CVPreviewProps) {
         {/* HEADER BLOCK */}
         <header className="mb-4">
           <div className="flex items-center justify-center relative">
-            {/* Optional Profile Photo: Square 1:1 (~2.5cm x 2.5cm) in top-left aligned with name */}
-            {header.useProfilePhoto && header.photoUrl && (
-              <div className="absolute left-0 top-0 w-[95px] h-[95px] border border-black overflow-hidden flex-shrink-0 bg-neutral-100">
-                <Image
-                  src={header.photoUrl}
-                  alt={header.name || "Foto Profil"}
-                  width={95}
-                  height={95}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            )}
-
             {/* Centered Name */}
             <div className="text-center w-full">
               <h1 className="text-[18pt] sm:text-[20pt] font-bold tracking-normal uppercase text-black leading-tight">

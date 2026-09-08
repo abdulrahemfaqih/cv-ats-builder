@@ -16,7 +16,7 @@ export interface AddressInfo {
 
 export interface CVHeader {
   name: string;
-  useProfilePhoto: boolean;
+  useProfilePhoto?: boolean;
   photoUrl?: string;
   address: AddressInfo;
   email: string;
