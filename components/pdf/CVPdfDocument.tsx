@@ -20,6 +20,7 @@ import {
   AchievementEntry,
 } from "@/types/cv";
 import { SECTION_TITLES } from "@/lib/constants/defaultCV";
+import { cleanCVText, cleanBullets } from "@/lib/utils/formatText";
 
 const styles = StyleSheet.create({
   page: {
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
   },
   overviewParagraph: {
     fontSize: 10,
-    textAlign: "left",
+    textAlign: "justify",
     marginBottom: 10,
     lineHeight: 1.35,
   },
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
   firstLine: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "baseline",
+    alignItems: "flex-start",
   },
   firstLineTitle: {
     fontFamily: "Helvetica-Bold",
@@ -106,9 +107,17 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingRight: 8,
   },
+  trainingLineTitle: {
+    fontFamily: "Helvetica",
+    fontSize: 10,
+    flex: 1,
+    paddingRight: 8,
+  },
   firstLineDate: {
     fontSize: 9.5,
     textAlign: "right",
+    flexShrink: 0,
+    marginTop: 0.5,
   },
   secondLineItalic: {
     fontFamily: "Helvetica-Oblique",
@@ -118,6 +127,7 @@ const styles = StyleSheet.create({
   coursesLine: {
     fontSize: 9.5,
     marginTop: 1.5,
+    textAlign: "justify",
   },
   coursesLabelBold: {
     fontFamily: "Helvetica-Bold",
@@ -125,6 +135,8 @@ const styles = StyleSheet.create({
   entryDescription: {
     fontSize: 9.5,
     marginTop: 1,
+    textAlign: "justify",
+    lineHeight: 1.3,
   },
   bulletRow: {
     flexDirection: "row",
@@ -139,6 +151,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 9.5,
     lineHeight: 1.3,
+    textAlign: "justify",
   },
   skillRow: {
     flexDirection: "row",
@@ -243,12 +256,14 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                 .filter(Boolean)
                 .join(" - ");
 
-              const coursesStr = Array.isArray(edu.relevantCourses)
-                ? edu.relevantCourses.join(", ")
-                : edu.relevantCourses;
+              const coursesStr = cleanCVText(
+                Array.isArray(edu.relevantCourses)
+                  ? edu.relevantCourses.join(", ")
+                  : edu.relevantCourses
+              );
 
               return (
-                <View key={edu.id || idx} style={styles.entryRow}>
+                <View key={edu.id || idx} style={styles.entryRow} wrap={false}>
                   <View style={styles.firstLine}>
                     <Text style={styles.firstLineTitle}>{leftTitle}</Text>
                     {dateStr ? (
@@ -277,7 +292,7 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
 
                   {edu.description ? (
                     <Text style={styles.entryDescription}>
-                      {edu.description}
+                      {cleanCVText(edu.description)}
                     </Text>
                   ) : null}
                 </View>
@@ -329,8 +344,10 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                 .filter(Boolean)
                 .join(" - ");
 
+              const cleanedBullets = cleanBullets(item.bullets);
+
               return (
-                <View key={item.id || idx} style={styles.entryRow}>
+                <View key={item.id || idx} style={styles.entryRow} wrap={false}>
                   <View style={styles.firstLine}>
                     <Text style={styles.firstLineTitle}>{leftTitle}</Text>
                     {dateStr ? (
@@ -344,16 +361,12 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                     </Text>
                   ) : null}
 
-                  {item.bullets &&
-                    item.bullets.length > 0 &&
-                    item.bullets
-                      .filter((b) => b && b.trim() !== "")
-                      .map((bullet, bIdx) => (
-                        <View key={bIdx} style={styles.bulletRow}>
-                          <Text style={styles.bulletPoint}>•</Text>
-                          <Text style={styles.bulletText}>{bullet}</Text>
-                        </View>
-                      ))}
+                  {cleanedBullets.map((bullet, bIdx) => (
+                    <View key={bIdx} style={styles.bulletRow}>
+                      <Text style={styles.bulletPoint}>•</Text>
+                      <Text style={styles.bulletText}>{bullet}</Text>
+                    </View>
+                  ))}
                 </View>
               );
             })}
@@ -367,8 +380,9 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
           <View>
             {projEntries.map((proj, idx) => {
               if (!proj.name) return null;
+              const cleanedBullets = cleanBullets(proj.bullets);
               return (
-                <View key={proj.id || idx} style={styles.entryRow}>
+                <View key={proj.id || idx} style={styles.entryRow} wrap={false}>
                   <View style={styles.firstLine}>
                     <Text style={styles.firstLineTitle}>
                       {proj.name}
@@ -395,20 +409,16 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                   {proj.descriptionType === "paragraph" ? (
                     proj.description ? (
                       <Text style={styles.entryDescription}>
-                        {proj.description}
+                        {cleanCVText(proj.description)}
                       </Text>
                     ) : null
                   ) : (
-                    proj.bullets &&
-                    proj.bullets.length > 0 &&
-                    proj.bullets
-                      .filter((b) => b && b.trim() !== "")
-                      .map((bullet, bIdx) => (
-                        <View key={bIdx} style={styles.bulletRow}>
-                          <Text style={styles.bulletPoint}>•</Text>
-                          <Text style={styles.bulletText}>{bullet}</Text>
-                        </View>
-                      ))
+                    cleanedBullets.map((bullet, bIdx) => (
+                      <View key={bIdx} style={styles.bulletRow}>
+                        <Text style={styles.bulletPoint}>•</Text>
+                        <Text style={styles.bulletText}>{bullet}</Text>
+                      </View>
+                    ))
                   )}
                 </View>
               );
@@ -423,11 +433,13 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
           <View>
             {skillEntries.map((skillGroup, idx) => {
               if (!skillGroup.groupName) return null;
-              const skillItems = Array.isArray(skillGroup.skills)
-                ? skillGroup.skills.join(", ")
-                : skillGroup.skills;
+              const skillItems = cleanCVText(
+                Array.isArray(skillGroup.skills)
+                  ? skillGroup.skills.join(", ")
+                  : skillGroup.skills
+              );
               return (
-                <View key={skillGroup.id || idx} style={styles.skillRow}>
+                <View key={skillGroup.id || idx} style={styles.skillRow} wrap={false}>
                   <Text style={styles.skillGroupName}>
                     {skillGroup.groupName} :{" "}
                   </Text>
@@ -452,7 +464,7 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                 : [cert.issueDate, cert.expiryDate].filter(Boolean).join(" - ");
 
               return (
-                <View key={cert.id || idx} style={styles.entryRow}>
+                <View key={cert.id || idx} style={styles.entryRow} wrap={false}>
                   <View style={styles.firstLine}>
                     <Text style={styles.firstLineTitle}>
                       {cert.name}
@@ -490,9 +502,9 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
             {trainEntries.map((trn, idx) => {
               if (!trn.name) return null;
               return (
-                <View key={trn.id || idx} style={styles.entryRow}>
+                <View key={trn.id || idx} style={styles.entryRow} wrap={false}>
                   <View style={styles.firstLine}>
-                    <Text style={styles.firstLineTitle}>
+                    <Text style={styles.trainingLineTitle}>
                       {trn.name}
                       {trn.link ? " (" : ""}
                       {trn.link ? (
@@ -528,7 +540,7 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
             {achEntries.map((ach, idx) => {
               if (!ach.name) return null;
               return (
-                <View key={ach.id || idx} style={styles.entryRow}>
+                <View key={ach.id || idx} style={styles.entryRow} wrap={false}>
                   <View style={styles.firstLine}>
                     <Text style={styles.firstLineTitle}>
                       {ach.name}
@@ -554,7 +566,7 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                   </View>
                   {ach.description ? (
                     <Text style={styles.entryDescription}>
-                      {ach.description}
+                      {cleanCVText(ach.description)}
                     </Text>
                   ) : null}
                 </View>
@@ -602,7 +614,7 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
 
         {/* OVERVIEW */}
         {overview && overview.trim() !== "" ? (
-          <Text style={styles.overviewParagraph}>{overview}</Text>
+          <Text style={styles.overviewParagraph}>{cleanCVText(overview)}</Text>
         ) : null}
 
         {/* SECTIONS */}
@@ -617,8 +629,10 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
 
             return (
               <View key={sec.id} style={styles.sectionContainer}>
-                <Text style={styles.sectionHeader}>{title}</Text>
-                <View style={styles.sectionDivider} />
+                <View minPresenceAhead={35}>
+                  <Text style={styles.sectionHeader}>{title}</Text>
+                  <View style={styles.sectionDivider} />
+                </View>
                 {content}
               </View>
             );

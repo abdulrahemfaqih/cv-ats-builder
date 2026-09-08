@@ -15,6 +15,7 @@ import {
   AchievementEntry,
 } from "@/types/cv";
 import { SECTION_TITLES } from "@/lib/constants/defaultCV";
+import { cleanCVText, cleanBullets } from "@/lib/utils/formatText";
 
 interface CVPreviewProps {
   data: CVData;
@@ -137,10 +138,10 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                 .join(" - ");
 
               return (
-                <div key={edu.id || idx} className="text-[10pt] leading-[1.35]">
-                  <div className="flex justify-between items-baseline font-bold text-black">
+                <div key={edu.id || idx} className="text-[10pt] leading-[1.35] break-inside-avoid">
+                  <div className="flex justify-between items-start font-bold text-black">
                     <span className="flex-1 pr-2">{leftTitle}</span>
-                    {dateStr && <span className="text-right whitespace-nowrap">{dateStr}</span>}
+                    {dateStr && <span className="text-right whitespace-nowrap shrink-0">{dateStr}</span>}
                   </div>
 
                   {(edu.major || edu.gpa) && (
@@ -152,21 +153,23 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                   )}
 
                   {edu.relevantCourses && edu.relevantCourses.length > 0 && (
-                    <div className="text-black">
+                    <div className="text-black text-justify">
                       <span className="font-bold">
                         {language === "en" ? "Relevant Courses : " : "Mata Kuliah Relevan : "}
                       </span>
                       <span>
-                        {Array.isArray(edu.relevantCourses)
-                          ? edu.relevantCourses.join(", ")
-                          : edu.relevantCourses}
+                        {cleanCVText(
+                          Array.isArray(edu.relevantCourses)
+                            ? edu.relevantCourses.join(", ")
+                            : edu.relevantCourses
+                        )}
                       </span>
                     </div>
                   )}
 
                   {edu.description && (
-                    <div className="text-black mt-0.5 whitespace-pre-line break-words">
-                      {edu.description}
+                    <div className="text-black mt-0.5 text-justify break-words">
+                      {cleanCVText(edu.description)}
                     </div>
                   )}
                 </div>
@@ -216,26 +219,26 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                 .filter(Boolean)
                 .join(" - ");
 
+              const cleanedBullets = cleanBullets(item.bullets);
+
               return (
-                <div key={item.id || idx} className="text-[10pt] leading-[1.35]">
-                  <div className="flex justify-between items-baseline font-bold text-black">
+                <div key={item.id || idx} className="text-[10pt] leading-[1.35] break-inside-avoid">
+                  <div className="flex justify-between items-start font-bold text-black">
                     <span className="flex-1 pr-2">{leftTitle}</span>
-                    {dateStr && <span className="text-right whitespace-nowrap">{dateStr}</span>}
+                    {dateStr && <span className="text-right whitespace-nowrap shrink-0">{dateStr}</span>}
                   </div>
 
                   {positionTitle && (
                     <div className="italic text-black">{positionTitle}</div>
                   )}
 
-                  {item.bullets && item.bullets.length > 0 && (
+                  {cleanedBullets.length > 0 && (
                     <ul className="mt-1 space-y-0.5 pl-5 list-disc text-black">
-                      {item.bullets
-                        .filter((b: string) => b && b.trim() !== "")
-                        .map((bullet: string, bIdx: number) => (
-                          <li key={bIdx} className="leading-snug whitespace-pre-line break-words">
-                            {bullet}
-                          </li>
-                        ))}
+                      {cleanedBullets.map((bullet: string, bIdx: number) => (
+                        <li key={bIdx} className="leading-snug text-justify break-words">
+                          {bullet}
+                        </li>
+                      ))}
                     </ul>
                   )}
                 </div>
@@ -251,9 +254,10 @@ export function CVPreview({ data, language }: CVPreviewProps) {
           <div className="space-y-3">
             {projEntries.map((proj, idx) => {
               if (!proj.name) return null;
+              const cleanedBullets = cleanBullets(proj.bullets);
               return (
-                <div key={proj.id || idx} className="text-[10pt] leading-[1.35]">
-                  <div className="flex justify-between items-baseline text-black">
+                <div key={proj.id || idx} className="text-[10pt] leading-[1.35] break-inside-avoid">
+                  <div className="flex justify-between items-start text-black">
                     <div className="font-bold flex-1 pr-2">
                       {proj.name}
                       {proj.link && (
@@ -277,7 +281,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                       )}
                     </div>
                     {proj.year && (
-                      <span className="font-bold text-right whitespace-nowrap">
+                      <span className="font-bold text-right whitespace-nowrap shrink-0">
                         {proj.year}
                       </span>
                     )}
@@ -285,24 +289,21 @@ export function CVPreview({ data, language }: CVPreviewProps) {
 
                   {proj.descriptionType === "paragraph" ? (
                     proj.description && (
-                      <div className="mt-1 text-black whitespace-pre-line break-words text-[10pt] leading-snug">
-                        {proj.description}
+                      <div className="mt-1 text-black text-justify break-words text-[10pt] leading-snug">
+                        {cleanCVText(proj.description)}
                       </div>
                     )
                   ) : (
-                    proj.bullets &&
-                    proj.bullets.length > 0 && (
+                    cleanedBullets.length > 0 && (
                       <ul className="mt-1 space-y-0.5 pl-5 list-disc text-black">
-                        {proj.bullets
-                          .filter((b: string) => b && b.trim() !== "")
-                          .map((bullet: string, bIdx: number) => (
-                            <li
-                              key={bIdx}
-                              className="leading-snug whitespace-pre-line break-words"
-                            >
-                              {bullet}
-                            </li>
-                          ))}
+                        {cleanedBullets.map((bullet: string, bIdx: number) => (
+                          <li
+                            key={bIdx}
+                            className="leading-snug text-justify break-words"
+                          >
+                            {bullet}
+                          </li>
+                        ))}
                       </ul>
                     )
                   )}
@@ -319,11 +320,13 @@ export function CVPreview({ data, language }: CVPreviewProps) {
           <div className="space-y-1 text-[10pt] leading-[1.4]">
             {skillEntries.map((skillGroup, idx) => {
               if (!skillGroup.groupName) return null;
-              const skillItems = Array.isArray(skillGroup.skills)
-                ? skillGroup.skills.join(", ")
-                : skillGroup.skills;
+              const skillItems = cleanCVText(
+                Array.isArray(skillGroup.skills)
+                  ? skillGroup.skills.join(", ")
+                  : skillGroup.skills
+              );
               return (
-                <div key={skillGroup.id || idx} className="text-black">
+                <div key={skillGroup.id || idx} className="text-black break-inside-avoid">
                   <span className="font-bold">{skillGroup.groupName} : </span>
                   <span>{skillItems}</span>
                 </div>
@@ -346,7 +349,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
               return (
                 <div
                   key={cert.id || idx}
-                  className="text-[10pt] leading-[1.35] flex justify-between items-baseline text-black"
+                  className="text-[10pt] leading-[1.35] flex justify-between items-start text-black break-inside-avoid"
                 >
                   <div className="flex-1 pr-2">
                     <span className="font-bold">{cert.name}</span>
@@ -371,7 +374,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     )}
                     {cert.issuer && ` - ${cert.issuer}`}
                   </div>
-                  {dateStr && <span className="text-right whitespace-nowrap">{dateStr}</span>}
+                  {dateStr && <span className="text-right whitespace-nowrap shrink-0">{dateStr}</span>}
                 </div>
               );
             })}
@@ -388,10 +391,10 @@ export function CVPreview({ data, language }: CVPreviewProps) {
               return (
                 <div
                   key={trn.id || idx}
-                  className="text-[10pt] leading-[1.35] flex justify-between items-baseline text-black"
+                  className="text-[10pt] leading-[1.35] flex justify-between items-start text-black break-inside-avoid"
                 >
                   <div className="flex-1 pr-2">
-                    <span className="font-bold">{trn.name}</span>
+                    <span className="font-normal">{trn.name}</span>
                     {trn.link && (
                       <>
                         {" "}
@@ -414,7 +417,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     {trn.organizer && ` - ${trn.organizer}`}
                   </div>
                   {trn.date && (
-                    <span className="text-right whitespace-nowrap">{trn.date}</span>
+                    <span className="text-right whitespace-nowrap shrink-0">{trn.date}</span>
                   )}
                 </div>
               );
@@ -430,8 +433,8 @@ export function CVPreview({ data, language }: CVPreviewProps) {
             {achEntries.map((ach, idx) => {
               if (!ach.name) return null;
               return (
-                <div key={ach.id || idx} className="text-[10pt] leading-[1.35] text-black">
-                  <div className="flex justify-between items-baseline">
+                <div key={ach.id || idx} className="text-[10pt] leading-[1.35] text-black break-inside-avoid">
+                  <div className="flex justify-between items-start">
                     <div className="flex-1 pr-2">
                       <span className="font-bold">{ach.name}</span>
                       {ach.link && (
@@ -456,12 +459,12 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                       {ach.context && ` - ${ach.context}`}
                     </div>
                     {ach.date && (
-                      <span className="text-right whitespace-nowrap">{ach.date}</span>
+                      <span className="text-right whitespace-nowrap shrink-0">{ach.date}</span>
                     )}
                   </div>
                   {ach.description && (
-                    <div className="mt-0.5 text-black whitespace-pre-line break-words">
-                      {ach.description}
+                    <div className="mt-0.5 text-black text-justify break-words text-[10pt] leading-snug">
+                      {cleanCVText(ach.description)}
                     </div>
                   )}
                 </div>
@@ -477,41 +480,46 @@ export function CVPreview({ data, language }: CVPreviewProps) {
   };
 
   return (
-    <div className="w-full flex justify-center py-4 px-1">
-      {/* A4 Document Container: 210mm x 297mm ratio */}
+    <div className="w-full flex justify-center bg-[#F7F7F6] p-4 sm:p-6 overflow-x-auto min-h-full">
+      {/* 
+        A4 Container standard ATS
+        210mm x 297mm 
+        Padding: Top/Bottom 36pt (12.7mm), Left/Right 40pt (14.1mm)
+      */}
       <div
-        id="cv-ats-document-preview"
-        className="w-full max-w-[800px] min-h-[1130px] bg-white text-black shadow-[0_2px_18px_rgba(0,0,0,0.08)] border border-[#D2D2CC] p-8 sm:p-12 font-[Calibri,Arial,Helvetica,sans-serif] box-border break-words"
-        style={{ color: "#000000" }}
+        id="cv-print-area"
+        className="bg-white text-black w-[210mm] min-h-[297mm] shadow-md border border-[#E3E3DE] px-[14.1mm] py-[12.7mm] font-sans text-left transition-all box-border"
+        style={{
+          fontFamily: "Helvetica, Arial, sans-serif",
+        }}
       >
-        {/* HEADER BLOCK */}
-        <header className="mb-4">
-          <div className="flex items-center justify-center relative">
-            {/* Centered Name */}
-            <div className="text-center w-full">
-              <h1 className="text-[18pt] sm:text-[20pt] font-bold tracking-normal uppercase text-black leading-tight">
-                {header.name || "NAMA LENGKAP"}
-              </h1>
+        {/* HEADER */}
+        <header className="mb-2 text-center">
+          {/* Full Name */}
+          <h1 className="text-xl sm:text-2xl font-bold uppercase tracking-normal text-black m-0 p-0 leading-tight">
+            {header.name || "NAMA LENGKAP"}
+          </h1>
 
-              {/* Centered Contact Line */}
-              {contactParts.length > 0 && (
-                <div className="text-[10pt] leading-snug mt-1.5 text-black text-center">
-                  {contactParts.map((part, index) => (
-                    <React.Fragment key={index}>{index > 0 && " | "}{part}</React.Fragment>
-                  ))}
-                </div>
-              )}
+          {/* Single-line contact details */}
+          {contactParts.length > 0 && (
+            <div className="mt-2 text-[9.5pt] leading-tight flex flex-wrap justify-center items-center gap-x-2 gap-y-1">
+              {contactParts.map((part, index) => (
+                <React.Fragment key={index}>
+                  {index > 0 && <span className="text-black select-none">|</span>}
+                  {part}
+                </React.Fragment>
+              ))}
             </div>
-          </div>
+          )}
 
-          {/* Full-width Divider closing header block */}
-          <hr className="w-full border-t border-black mt-2 mb-3" />
+          {/* Full-width Divider under header */}
+          <hr className="w-full border-t border-black mt-2 mb-2" />
         </header>
 
-        {/* OVERVIEW (No header, left-aligned) */}
+        {/* OVERVIEW (No header, justified) */}
         {overview && overview.trim() !== "" && (
-          <section className="mb-4 text-[10pt] leading-[1.4] text-black text-left break-words">
-            <p className="whitespace-pre-line break-words">{overview}</p>
+          <section className="mb-4 text-[10pt] leading-[1.4] text-black text-justify break-words">
+            <p className="text-justify break-words">{cleanCVText(overview)}</p>
           </section>
         )}
 
