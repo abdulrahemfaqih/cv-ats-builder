@@ -154,6 +154,20 @@ function SortableCertItem({
           />
         </div>
       </div>
+
+      {/* Link Kredensial / Sertifikat */}
+      <div>
+        <label className="block text-xs font-medium text-[#111111] mb-1.5">
+          Link Kredensial / Sertifikat (Opsional)
+        </label>
+        <input
+          type="text"
+          value={entry.link || ""}
+          onChange={(e) => handleFieldChange("link", e.target.value)}
+          placeholder="mis. https://credential.net/... atau link verifikasi"
+          className="app-input text-xs"
+        />
+      </div>
     </div>
   );
 }

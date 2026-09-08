@@ -142,6 +142,20 @@ function SortableAchItem({
           />
         </div>
       </div>
+
+      {/* Link Bukti / Sertifikat Penghargaan */}
+      <div>
+        <label className="block text-xs font-medium text-[#111111] mb-1.5">
+          Link Bukti / Berita / Sertifikat Penghargaan (Opsional)
+        </label>
+        <input
+          type="text"
+          value={entry.link || ""}
+          onChange={(e) => handleFieldChange("link", e.target.value)}
+          placeholder="mis. https://news.example.com/... atau link sertifikat"
+          className="app-input text-xs"
+        />
+      </div>
     </div>
   );
 }

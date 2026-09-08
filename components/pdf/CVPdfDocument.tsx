@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   link: {
     color: "#0563C1",
     textDecoration: "underline",
+    fontFamily: "Helvetica",
   },
   headerDivider: {
     borderBottomWidth: 1,
@@ -455,6 +456,20 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                   <View style={styles.firstLine}>
                     <Text style={styles.firstLineTitle}>
                       {cert.name}
+                      {cert.link ? " (" : ""}
+                      {cert.link ? (
+                        <Link
+                          src={
+                            cert.link.trim().startsWith("http")
+                              ? cert.link.trim()
+                              : `https://${cert.link.trim()}`
+                          }
+                          style={styles.link}
+                        >
+                          Link
+                        </Link>
+                      ) : null}
+                      {cert.link ? ")" : ""}
                       {cert.issuer ? ` - ${cert.issuer}` : ""}
                     </Text>
                     {dateStr ? (
@@ -503,6 +518,20 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                   <View style={styles.firstLine}>
                     <Text style={styles.firstLineTitle}>
                       {ach.name}
+                      {ach.link ? " (" : ""}
+                      {ach.link ? (
+                        <Link
+                          src={
+                            ach.link.trim().startsWith("http")
+                              ? ach.link.trim()
+                              : `https://${ach.link.trim()}`
+                          }
+                          style={styles.link}
+                        >
+                          Link
+                        </Link>
+                      ) : null}
+                      {ach.link ? ")" : ""}
                       {ach.context ? ` - ${ach.context}` : ""}
                     </Text>
                     {ach.date ? (

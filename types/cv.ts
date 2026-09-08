@@ -97,6 +97,7 @@ export interface CertificationEntry {
   issueDate: string;
   expiryDate?: string;
   isLifetime?: boolean;
+  link?: string;
 }
 
 export interface TrainingEntry {
@@ -112,6 +113,7 @@ export interface AchievementEntry {
   context?: string;
   date: string;
   description?: string;
+  link?: string;
 }
 
 export type CVEntry =

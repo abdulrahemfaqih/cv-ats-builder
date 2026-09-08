@@ -350,6 +350,25 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                 >
                   <div className="flex-1 pr-2">
                     <span className="font-bold">{cert.name}</span>
+                    {cert.link && (
+                      <>
+                        {" "}
+                        (
+                        <a
+                          href={
+                            cert.link.trim().startsWith("http")
+                              ? cert.link.trim()
+                              : `https://${cert.link.trim()}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#0563C1] underline font-normal"
+                        >
+                          Link
+                        </a>
+                        )
+                      </>
+                    )}
                     {cert.issuer && ` - ${cert.issuer}`}
                   </div>
                   {dateStr && <span className="text-right whitespace-nowrap">{dateStr}</span>}
@@ -396,6 +415,25 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                   <div className="flex justify-between items-baseline">
                     <div className="flex-1 pr-2">
                       <span className="font-bold">{ach.name}</span>
+                      {ach.link && (
+                        <>
+                          {" "}
+                          (
+                          <a
+                            href={
+                              ach.link.trim().startsWith("http")
+                                ? ach.link.trim()
+                                : `https://${ach.link.trim()}`
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#0563C1] underline font-normal"
+                          >
+                            Link
+                          </a>
+                          )
+                        </>
+                      )}
                       {ach.context && ` - ${ach.context}`}
                     </div>
                     {ach.date && (

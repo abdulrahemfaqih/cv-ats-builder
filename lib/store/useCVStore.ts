@@ -286,6 +286,7 @@ export const useCVStore = create<CVStoreState>((set, get) => ({
             issueDate: "",
             expiryDate: "",
             isLifetime: false,
+            link: "",
             ...(defaultEntry as Partial<CertificationEntry>),
           };
           break;
@@ -305,6 +306,7 @@ export const useCVStore = create<CVStoreState>((set, get) => ({
             context: "",
             date: "",
             description: "",
+            link: "",
             ...(defaultEntry as Partial<AchievementEntry>),
           };
           break;
