@@ -79,10 +79,10 @@ function SortableSkillGroupItem({
     <div
       ref={setNodeRef}
       style={style}
-      className="border border-[#E2E2DC] bg-white rounded-xl p-4.5 space-y-3.5 shadow-xs transition-shadow hover:shadow-sm"
+      className="space-y-3 py-4 border-b border-[#E2E2DC]/60 last:border-b-0"
     >
       {/* Header bar */}
-      <div className="flex items-center justify-between border-b border-[#F0EFEA] pb-2.5">
+      <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -220,3 +220,6 @@ export function SkillsForm({ sectionId, entries }: SkillsFormProps) {
     </div>
   );
 }
+
+
+

@@ -167,8 +167,8 @@ export default function HomePage() {
                   Beberapa CV, satu akun
                 </h3>
                 <p className="text-sm text-[#666660] leading-relaxed">
-                  Simpan versi berbeda untuk tiap posisi yang kamu lamar —
-                  fullstack, frontend, mobile — tanpa bikin dari nol tiap kali
+                  Simpan versi berbeda untuk tiap posisi yang kamu lamar:
+                  fullstack, frontend, mobile, tanpa bikin dari nol tiap kali
                   ganti tujuan.
                 </p>
               </div>
@@ -181,7 +181,7 @@ export default function HomePage() {
                 </h3>
                 <p className="text-sm text-[#666660] leading-relaxed">
                   Hasil download bisa di-select dan di-copy teksnya. Bukan
-                  screenshot yang disamarkan jadi PDF — makanya ATS beneran bisa
+                  screenshot yang disamarkan jadi PDF, makanya ATS beneran bisa
                   baca isinya.
                 </p>
               </div>
@@ -391,13 +391,14 @@ export default function HomePage() {
                 src="/cevio-logo.png"
                 alt="Cevio"
                 fill
+                sizes="20px"
                 className="object-contain"
               />
             </div>
             <span className="font-bold text-[#111111] text-sm">
               Cevio
             </span>
-            <span>— ATS Resume Generator</span>
+            <span>ATS Resume Generator</span>
           </div>
 
           <div className="flex items-center gap-5">

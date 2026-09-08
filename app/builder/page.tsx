@@ -10,6 +10,7 @@ import { HeaderForm } from "@/components/builder/forms/HeaderForm";
 import { OverviewForm } from "@/components/builder/forms/OverviewForm";
 import { SectionManager } from "@/components/builder/forms/SectionManager";
 import { CVPreview } from "@/components/builder/preview/CVPreview";
+import { ResizablePanels } from "@/components/builder/ResizablePanels";
 import { AlertModal } from "@/components/ui/AlertModal";
 import type { User } from "@supabase/supabase-js";
 
@@ -76,7 +77,7 @@ function BuilderContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F8F6] flex flex-col">
+    <div className="min-h-screen lg:h-screen lg:overflow-hidden bg-[#F8F8F6] flex flex-col">
       {/* Builder Top Bar */}
       <BuilderHeader
         user={user}
@@ -85,8 +86,8 @@ function BuilderContent() {
         isDownloadingPdf={isDownloadingPdf}
       />
 
-      {/* Mobile Tab Switcher */}
-      <div className="md:hidden flex border-b border-[#E2E2DC] bg-white sticky top-16 z-20">
+      {/* Tab Switcher — visible on mobile & tablet (<lg) */}
+      <div className="lg:hidden flex border-b border-[#E2E2DC] bg-white sticky top-16 z-20">
         <button
           type="button"
           onClick={() => setActiveTab("form")}
@@ -111,44 +112,43 @@ function BuilderContent() {
         </button>
       </div>
 
-      {/* Main Workspace */}
-      <main className="flex-1 max-w-[1700px] w-full mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Input Forms */}
-        <section
-          className={`lg:col-span-6 xl:col-span-5 space-y-6 pb-20 ${
-            activeTab === "preview" ? "hidden lg:block" : "block"
-          }`}
-        >
-          {/* Header & Personal Info */}
+      {/* Mobile & Tablet: single-column with tab switcher */}
+      <main className="lg:hidden flex-1 w-full px-4 sm:px-6 py-6 space-y-0">
+        <section className={`space-y-6 pb-20 ${activeTab === "preview" ? "hidden" : "block"}`}>
           <HeaderForm />
-
-          {/* Professional Overview */}
           <OverviewForm />
-
-          {/* Section Manager (Drag & Drop + CRUD) */}
           <SectionManager />
         </section>
-
-        {/* Right Column: Live ATS Preview */}
-        <section
-          className={`lg:col-span-6 xl:col-span-7 lg:sticky lg:top-20 lg:h-[calc(100vh-6.5rem)] lg:flex lg:flex-col ${
-            activeTab === "form" ? "hidden lg:flex" : "flex flex-col"
-          }`}
-        >
+        <section className={`pb-6 ${activeTab === "form" ? "hidden" : "flex flex-col"}`}>
           <div className="w-full mb-2.5 flex items-center justify-between text-[11px] text-[#666660] px-1 flex-shrink-0">
             <span className="font-medium flex items-center gap-1.5">
               <span>Format ATS-Friendly (Kertas A4)</span>
-              <span className="text-[10px] bg-[#EAE8E3] text-[#555550] px-1.5 py-0.5 rounded">
-                Pratinjau Real-Time
-              </span>
+              <span className="text-[10px] bg-[#EAE8E3] text-[#555550] px-1.5 py-0.5 rounded">Pratinjau Real-Time</span>
             </span>
             <span>1 Kolom</span>
           </div>
-
-          <div className="flex-1 w-full bg-[#F5F5F2] border border-[#E2E2DC] rounded-2xl p-3 sm:p-6 overflow-y-auto flex flex-col items-center justify-start shadow-xs">
+          <div className="w-full overflow-y-auto flex flex-col items-center justify-start">
             <CVPreview data={data} language={language} />
           </div>
         </section>
+      </main>
+
+      {/* Desktop: resizable split panels */}
+      <main className="hidden lg:flex flex-1 w-full h-[calc(100vh-4rem)] overflow-hidden px-4 xl:px-6 py-6">
+        <ResizablePanels
+          left={
+            <div className="space-y-6 pb-20 pr-4">
+              <HeaderForm />
+              <OverviewForm />
+              <SectionManager />
+            </div>
+          }
+          right={
+            <div className="flex flex-col h-full pl-2 overflow-y-auto">
+              <CVPreview data={data} language={language} />
+            </div>
+          }
+        />
       </main>
 
       {/* Save Draft Modal */}

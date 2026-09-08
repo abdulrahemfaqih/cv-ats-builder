@@ -37,16 +37,6 @@ export function BuilderHeader({
             className="flex items-center gap-2 group flex-shrink-0 text-[#111111] hover:opacity-80 transition-opacity"
             title="Kembali ke Beranda"
           >
-            <div className="relative w-7 h-7 flex-shrink-0">
-              <Image
-                src="/cevio-logo.png"
-                alt="Cevio Logo"
-                fill
-                sizes="28px"
-                className="object-contain"
-                priority
-              />
-            </div>
             <span className="text-xl font-bold tracking-tight text-[#111111] hidden sm:inline-block">
               Cevio
             </span>
@@ -85,23 +75,23 @@ export function BuilderHeader({
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 flex-shrink-0">
           {/* Language Switcher */}
           <button
             type="button"
             onClick={() => setIsLanguageModalOpen(true)}
-            className="text-xs font-semibold px-3 py-1.5 rounded-lg border border-[#E2E2DC] bg-white hover:bg-[#F2F2EE] text-[#111111] flex items-center gap-1.5 transition-colors"
+            className="text-xs font-semibold px-2 sm:px-3 py-1.5 rounded-lg border border-[#E2E2DC] bg-white hover:bg-[#F2F2EE] text-[#111111] flex items-center gap-1.5 transition-colors"
             title="Ganti Bahasa CV"
           >
             <Globe className="w-3.5 h-3.5 text-[#666660]" />
-            <span>{language.toUpperCase()}</span>
+            <span className="hidden sm:inline">{language.toUpperCase()}</span>
           </button>
 
           {/* Reset / Blank CV Button */}
           <button
             type="button"
             onClick={() => setIsResetModalOpen(true)}
-            className="text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-[#E2E2DC] bg-white hover:bg-[#F2F2EE] text-[#666660] hover:text-[#111111] flex items-center gap-1.5 transition-colors"
+            className="text-xs font-semibold px-2 sm:px-2.5 py-1.5 rounded-lg border border-[#E2E2DC] bg-white hover:bg-[#F2F2EE] text-[#666660] hover:text-[#111111] flex items-center gap-1.5 transition-colors"
             title="Kosongkan seluruh isian CV untuk mulai dari awal"
           >
             <RotateCcw className="w-3.5 h-3.5 text-[#666660]" />
@@ -112,7 +102,7 @@ export function BuilderHeader({
           <button
             type="button"
             onClick={onOpenSaveModal}
-            className="app-btn-outline text-xs px-3.5 py-1.5 flex items-center gap-1.5"
+            className="app-btn-outline text-xs px-2 sm:px-3.5 py-1.5 flex items-center gap-1.5"
             title="Simpan CV ke akun"
           >
             <Save className="w-3.5 h-3.5 text-[#666660]" />
@@ -124,11 +114,11 @@ export function BuilderHeader({
             type="button"
             onClick={onDownloadPdf}
             disabled={isDownloadingPdf}
-            className="app-btn text-xs px-4 py-1.5 flex items-center gap-1.5 disabled:opacity-50"
+            className="app-btn text-xs px-2.5 sm:px-4 py-1.5 flex items-center gap-1.5 disabled:opacity-50"
             title="Unduh CV sebagai PDF ATS-Safe"
           >
             <Download className="w-3.5 h-3.5" />
-            <span>{isDownloadingPdf ? "Membuat PDF..." : "Unduh PDF"}</span>
+            <span className="hidden sm:inline">{isDownloadingPdf ? "Membuat PDF..." : "Unduh PDF"}</span>
           </button>
 
           {user && (

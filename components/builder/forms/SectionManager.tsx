@@ -198,7 +198,7 @@ function SortableSectionCard({
       </div>
 
       {/* Expanded Form Content */}
-      {isExpanded && <div className="p-5 bg-[#FAFAF8] border-t border-[#E2E2DC]/40">{renderFormByType()}</div>}
+      {isExpanded && <div className="px-4 py-2 bg-white border-t border-[#E2E2DC]/40">{renderFormByType()}</div>}
     </div>
   );
 }

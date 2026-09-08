@@ -93,10 +93,10 @@ function SortableEducationItem({
     <div
       ref={setNodeRef}
       style={style}
-      className="border border-[#E2E2DC] rounded-lg bg-white p-4 space-y-3 shadow-xs"
+      className="space-y-3 py-4 border-b border-[#E2E2DC]/60 last:border-b-0"
     >
       {/* Header bar */}
-      <div className="flex items-center justify-between border-b border-[#E2E2DC] pb-2">
+      <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -108,7 +108,7 @@ function SortableEducationItem({
             <GripVertical className="w-4 h-4" />
           </button>
           <span className="text-xs font-semibold text-[#111111]">
-            Pendidikan #{index + 1} {entry.institution ? `— ${entry.institution}` : ""}
+            Pendidikan #{index + 1}{entry.institution ? `: ${entry.institution}` : ""}
           </span>
         </div>
         <button
@@ -352,3 +352,6 @@ export function EducationForm({ sectionId, entries }: EducationFormProps) {
     </div>
   );
 }
+
+
+

@@ -86,6 +86,26 @@ body {
   border-color: #D2D2CC;
 }
 
+.app-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFFFFF;
+  color: #111111;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.625rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.app-btn-secondary:hover {
+  background-color: #F5F5F3;
+  border-color: #D2D2CC;
+}
+
 .app-btn-destructive {
   display: inline-flex;
   align-items: center;

@@ -50,31 +50,23 @@ export function Navbar({ currentSection }: NavbarProps) {
           href="/"
           className="flex items-center gap-2.5 group focus:outline-none"
         >
-          <div className="relative w-8 h-8 flex-shrink-0">
-            <Image
-              src="/cevio-logo.png"
-              alt="Cevio Logo"
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
           <span className="font-sans text-xl font-bold tracking-tight text-[#111111]">
             Cevio
           </span>
         </Link>
 
         {/* Navigation Actions */}
-        <nav className="flex items-center gap-3">
+        <nav className="flex items-center gap-2 sm:gap-3">
           <Link
             href="/builder"
-            className={`text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors ${
+            className={`text-xs font-semibold px-3 sm:px-3.5 py-2 rounded-lg transition-colors ${
               currentSection === "builder"
                 ? "bg-[#111111] text-white"
                 : "bg-white border border-[#E2E2DC] text-[#111111] hover:bg-[#F2F2EE]"
             }`}
           >
-            Buat CV
+            <span className="hidden sm:inline">Buat CV</span>
+            <span className="sm:hidden">+ CV</span>
           </Link>
 
           {!loading && (
@@ -83,7 +75,7 @@ export function Navbar({ currentSection }: NavbarProps) {
                 <>
                   <Link
                     href="/dashboard"
-                    className={`text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors ${
+                    className={`text-xs font-semibold px-3 sm:px-3.5 py-2 rounded-lg transition-colors ${
                       currentSection === "dashboard"
                         ? "bg-[#111111] text-white"
                         : "text-[#666660] hover:text-[#111111]"
@@ -93,7 +85,7 @@ export function Navbar({ currentSection }: NavbarProps) {
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="text-xs font-medium px-3 py-2 text-[#666660] hover:text-[#E61919] transition-colors"
+                    className="text-xs font-medium px-2 sm:px-3 py-2 text-[#666660] hover:text-[#E61919] transition-colors"
                   >
                     Keluar
                   </button>
@@ -101,7 +93,7 @@ export function Navbar({ currentSection }: NavbarProps) {
               ) : (
                 <Link
                   href="/login"
-                  className={`text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors ${
+                  className={`text-xs font-semibold px-3 sm:px-3.5 py-2 rounded-lg transition-colors ${
                     currentSection === "auth"
                       ? "bg-[#111111] text-white"
                       : "text-[#111111] hover:text-[#666660]"

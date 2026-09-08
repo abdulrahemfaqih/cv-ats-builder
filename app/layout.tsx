@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     title: "Cevio — CV yang Beneran Lolos ATS",
     description:
       "CV generator ATS-friendly interaktif dengan format 1 kolom standar korporat, live preview real-time, dan export PDF teks asli.",
-    url: "https://cevio.id",
+    url: "https://cv-cevio.vercel.app",
     siteName: "Cevio",
     images: [
       {
