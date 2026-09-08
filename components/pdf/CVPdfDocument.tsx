@@ -494,6 +494,20 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                   <View style={styles.firstLine}>
                     <Text style={styles.firstLineTitle}>
                       {trn.name}
+                      {trn.link ? " (" : ""}
+                      {trn.link ? (
+                        <Link
+                          src={
+                            trn.link.trim().startsWith("http")
+                              ? trn.link.trim()
+                              : `https://${trn.link.trim()}`
+                          }
+                          style={styles.link}
+                        >
+                          Link
+                        </Link>
+                      ) : null}
+                      {trn.link ? ")" : ""}
                       {trn.organizer ? ` - ${trn.organizer}` : ""}
                     </Text>
                     {trn.date ? (

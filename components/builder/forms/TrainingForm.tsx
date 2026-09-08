@@ -115,18 +115,32 @@ function SortableTrainingItem({
         </div>
       </div>
 
-      {/* Date */}
-      <div>
-        <label className="block text-xs font-medium text-[#111111] mb-1.5">
-          Bulan/Tahun Pelaksanaan *
-        </label>
-        <input
-          type="text"
-          value={entry.date}
-          onChange={(e) => handleFieldChange("date", e.target.value)}
-          placeholder="mis. Mar 2024 - Jun 2024"
-          className="app-input text-xs"
-        />
+      {/* Date & Link */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
+            Bulan/Tahun Pelaksanaan *
+          </label>
+          <input
+            type="text"
+            value={entry.date}
+            onChange={(e) => handleFieldChange("date", e.target.value)}
+            placeholder="mis. Mar 2024 - Jun 2024"
+            className="app-input text-xs"
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-[#111111] mb-1.5">
+            Link Sertifikat / Silabus (Opsional)
+          </label>
+          <input
+            type="text"
+            value={entry.link || ""}
+            onChange={(e) => handleFieldChange("link", e.target.value)}
+            placeholder="mis. https://binaracademy.com/... atau link sertifikat"
+            className="app-input text-xs"
+          />
+        </div>
       </div>
     </div>
   );

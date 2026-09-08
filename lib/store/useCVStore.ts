@@ -296,6 +296,7 @@ export const useCVStore = create<CVStoreState>((set, get) => ({
             name: "",
             organizer: "",
             date: "",
+            link: "",
             ...(defaultEntry as Partial<TrainingEntry>),
           };
           break;

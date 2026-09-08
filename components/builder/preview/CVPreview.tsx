@@ -392,6 +392,25 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                 >
                   <div className="flex-1 pr-2">
                     <span className="font-bold">{trn.name}</span>
+                    {trn.link && (
+                      <>
+                        {" "}
+                        (
+                        <a
+                          href={
+                            trn.link.trim().startsWith("http")
+                              ? trn.link.trim()
+                              : `https://${trn.link.trim()}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#0563C1] underline font-normal"
+                        >
+                          Link
+                        </a>
+                        )
+                      </>
+                    )}
                     {trn.organizer && ` - ${trn.organizer}`}
                   </div>
                   {trn.date && (

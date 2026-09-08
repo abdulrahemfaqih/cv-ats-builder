@@ -105,6 +105,7 @@ export interface TrainingEntry {
   name: string;
   organizer: string;
   date: string;
+  link?: string;
 }
 
 export interface AchievementEntry {
