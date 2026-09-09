@@ -12,6 +12,7 @@ import {
   CertificationEntry,
   TrainingEntry,
   AchievementEntry,
+  LanguageEntry,
 } from "@/types/cv";
 import { AVAILABLE_SECTIONS, SECTION_TITLES } from "@/lib/constants/defaultCV";
 import {
@@ -47,6 +48,7 @@ import { SkillsForm } from "./SkillsForm";
 import { CertificationForm } from "./CertificationForm";
 import { TrainingForm } from "./TrainingForm";
 import { AchievementForm } from "./AchievementForm";
+import { LanguagesForm } from "./LanguagesForm";
 
 interface SortableSectionCardProps {
   section: CVSection;
@@ -136,6 +138,13 @@ function SortableSectionCard({
           <AchievementForm
             sectionId={section.id}
             entries={section.entries as AchievementEntry[]}
+          />
+        );
+      case "languages":
+        return (
+          <LanguagesForm
+            sectionId={section.id}
+            entries={section.entries as LanguageEntry[]}
           />
         );
       default:

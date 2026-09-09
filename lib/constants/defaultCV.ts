@@ -23,6 +23,7 @@ export const AVAILABLE_SECTIONS: SectionMeta[] = [
   },
   { type: "training", labelId: "Pelatihan", labelEn: "Training" },
   { type: "achievement", labelId: "Pencapaian", labelEn: "Achievements" },
+  { type: "languages", labelId: "Bahasa", labelEn: "Languages" },
 ];
 
 export const SECTION_TITLES: Record<
@@ -38,6 +39,7 @@ export const SECTION_TITLES: Record<
     certification: "SERTIFIKASI",
     training: "PELATIHAN",
     achievement: "PENCAPAIAN",
+    languages: "BAHASA",
   },
   en: {
     education: "EDUCATION",
@@ -48,6 +50,7 @@ export const SECTION_TITLES: Record<
     certification: "CERTIFICATIONS",
     training: "TRAINING",
     achievement: "ACHIEVEMENTS",
+    languages: "LANGUAGES",
   },
 };
 
@@ -166,6 +169,24 @@ export const INITIAL_CV_DATA_ID: CVData = {
           id: "entry_skill_3",
           groupName: "Database & Tools",
           skills: ["PostgreSQL", "Supabase", "Git", "GitHub", "Docker", "Postman"],
+        },
+      ],
+    },
+    {
+      id: "sec_languages",
+      type: "languages",
+      order: 4,
+      entries: [
+        {
+          id: "entry_lang_1",
+          language: "Bahasa Indonesia",
+          proficiency: "Penutur Asli (Native)",
+        },
+        {
+          id: "entry_lang_2",
+          language: "Bahasa Inggris",
+          proficiency: "Tingkat Kerja Profesional",
+          info: "TOEFL ITP: 580",
         },
       ],
     },
@@ -290,6 +311,24 @@ export const INITIAL_CV_DATA_EN: CVData = {
         },
       ],
     },
+    {
+      id: "sec_languages",
+      type: "languages",
+      order: 4,
+      entries: [
+        {
+          id: "entry_lang_1",
+          language: "Indonesian",
+          proficiency: "Native",
+        },
+        {
+          id: "entry_lang_2",
+          language: "English",
+          proficiency: "Professional Working Proficiency",
+          info: "TOEFL ITP: 580",
+        },
+      ],
+    },
   ],
 };
 
@@ -333,6 +372,12 @@ export const BLANK_CV_DATA_ID: CVData = {
       order: 3,
       entries: [],
     },
+    {
+      id: "sec_languages",
+      type: "languages",
+      order: 4,
+      entries: [],
+    },
   ],
 };
 
@@ -374,6 +419,12 @@ export const BLANK_CV_DATA_EN: CVData = {
       id: "sec_skills",
       type: "skills",
       order: 3,
+      entries: [],
+    },
+    {
+      id: "sec_languages",
+      type: "languages",
+      order: 4,
       entries: [],
     },
   ],

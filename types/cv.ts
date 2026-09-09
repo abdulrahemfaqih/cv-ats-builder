@@ -6,7 +6,8 @@ export type SectionType =
   | "skills"
   | "certification"
   | "training"
-  | "achievement";
+  | "achievement"
+  | "languages";
 
 export interface AddressInfo {
   kecamatan: string;
@@ -117,6 +118,13 @@ export interface AchievementEntry {
   link?: string;
 }
 
+export interface LanguageEntry {
+  id: string;
+  language: string;
+  proficiency: string;
+  info?: string;
+}
+
 export type CVEntry =
   | EducationEntry
   | WorkEntry
@@ -125,7 +133,8 @@ export type CVEntry =
   | SkillGroupEntry
   | CertificationEntry
   | TrainingEntry
-  | AchievementEntry;
+  | AchievementEntry
+  | LanguageEntry;
 
 export interface CVSection {
   id: string;

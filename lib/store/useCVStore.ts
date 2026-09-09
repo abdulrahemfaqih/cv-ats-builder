@@ -14,6 +14,7 @@ import {
   CertificationEntry,
   TrainingEntry,
   AchievementEntry,
+  LanguageEntry,
 } from "@/types/cv";
 import {
   INITIAL_CV_DATA_ID,
@@ -309,6 +310,18 @@ export const useCVStore = create<CVStoreState>((set, get) => ({
             description: "",
             link: "",
             ...(defaultEntry as Partial<AchievementEntry>),
+          };
+          break;
+        case "languages":
+          createdEntry = {
+            id: newEntryId,
+            language: "",
+            proficiency:
+              state.language === "en"
+                ? "Professional Working Proficiency"
+                : "Tingkat Kerja Profesional",
+            info: "",
+            ...(defaultEntry as Partial<LanguageEntry>),
           };
           break;
       }

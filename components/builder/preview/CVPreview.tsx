@@ -13,6 +13,7 @@ import {
   CertificationEntry,
   TrainingEntry,
   AchievementEntry,
+  LanguageEntry,
 } from "@/types/cv";
 import { SECTION_TITLES } from "@/lib/constants/defaultCV";
 import { cleanCVText, cleanBullets } from "@/lib/utils/formatText";
@@ -467,6 +468,35 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                       {cleanCVText(ach.description)}
                     </div>
                   )}
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+
+      case "languages": {
+        const langEntries = entries as LanguageEntry[];
+        return (
+          <div className="space-y-1 text-[10pt] leading-[1.4]">
+            {langEntries.map((lang, idx) => {
+              if (!lang.language) return null;
+              const details = [
+                lang.proficiency ? cleanCVText(lang.proficiency) : "",
+                lang.info ? `(${cleanCVText(lang.info)})` : "",
+              ]
+                .filter(Boolean)
+                .join(" ");
+
+              return (
+                <div
+                  key={lang.id || idx}
+                  className="text-black break-inside-avoid"
+                >
+                  <span className="font-bold">
+                    {cleanCVText(lang.language)}
+                  </span>
+                  {details ? <span> : {details}</span> : null}
                 </div>
               );
             })}
