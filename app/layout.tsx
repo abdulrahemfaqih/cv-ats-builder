@@ -19,7 +19,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://cevio.id"),
   title: {
-    default: "Cevio — CV ATS-Friendly Generator Gratis & Teruji Lolos",
+    default: "Cevio - CV ATS-Friendly Generator Gratis",
     template: "%s | Cevio",
   },
   description:
