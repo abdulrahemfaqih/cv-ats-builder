@@ -269,25 +269,6 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                   <div className="flex justify-between items-start text-black gap-x-4">
                     <div className="font-bold flex-1 min-w-0 pr-3">
                       {proj.name}
-                      {proj.link && (
-                        <>
-                          {" "}
-                          (
-                          <a
-                            href={
-                              proj.link.trim().startsWith("http")
-                                ? proj.link.trim()
-                                : `https://${proj.link.trim()}`
-                            }
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#0563C1] underline font-normal"
-                          >
-                            Link
-                          </a>
-                          )
-                        </>
-                      )}
                     </div>
                     {proj.year && (
                       <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
@@ -295,6 +276,24 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                       </span>
                     )}
                   </div>
+
+                  {proj.link && (
+                    <div className="text-[9.5pt] text-black mt-0.5">
+                      <span>Link : </span>
+                      <a
+                        href={
+                          proj.link.trim().startsWith("http")
+                            ? proj.link.trim()
+                            : `https://${proj.link.trim()}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#0563C1] underline"
+                      >
+                        {proj.link.trim().replace(/^https?:\/\//i, "")}
+                      </a>
+                    </div>
+                  )}
 
                   {proj.descriptionType === "paragraph" ? (
                     proj.description && (
@@ -358,35 +357,36 @@ export function CVPreview({ data, language }: CVPreviewProps) {
               return (
                 <div
                   key={cert.id || idx}
-                  className="text-[10pt] leading-[1.35] flex justify-between items-start text-black break-inside-avoid gap-x-4"
+                  className="text-[10pt] leading-[1.35] text-black break-inside-avoid"
                 >
-                  <div className="flex-1 min-w-0 pr-3">
-                    <span className="font-bold">{cert.name}</span>
-                    {cert.link && (
-                      <>
-                        {" "}
-                        (
-                        <a
-                          href={
-                            cert.link.trim().startsWith("http")
-                              ? cert.link.trim()
-                              : `https://${cert.link.trim()}`
-                          }
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#0563C1] underline font-normal"
-                        >
-                          Link
-                        </a>
-                        )
-                      </>
+                  <div className="flex justify-between items-start gap-x-4">
+                    <div className="flex-1 min-w-0 pr-3 font-bold">
+                      {cert.name}
+                      {cert.issuer && ` - ${cert.issuer}`}
+                    </div>
+                    {dateStr && (
+                      <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
+                        {dateStr}
+                      </span>
                     )}
-                    {cert.issuer && ` - ${cert.issuer}`}
                   </div>
-                  {dateStr && (
-                    <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
-                      {dateStr}
-                    </span>
+
+                  {cert.link && (
+                    <div className="text-[9.5pt] text-black mt-0.5">
+                      <span>Link : </span>
+                      <a
+                        href={
+                          cert.link.trim().startsWith("http")
+                            ? cert.link.trim()
+                            : `https://${cert.link.trim()}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#0563C1] underline"
+                      >
+                        {cert.link.trim().replace(/^https?:\/\//i, "")}
+                      </a>
+                    </div>
                   )}
                 </div>
               );
@@ -404,35 +404,36 @@ export function CVPreview({ data, language }: CVPreviewProps) {
               return (
                 <div
                   key={trn.id || idx}
-                  className="text-[10pt] leading-[1.35] flex justify-between items-start text-black break-inside-avoid gap-x-4"
+                  className="text-[10pt] leading-[1.35] text-black break-inside-avoid"
                 >
-                  <div className="flex-1 min-w-0 pr-3">
-                    <span className="font-bold">{trn.name}</span>
-                    {trn.link && (
-                      <>
-                        {" "}
-                        (
-                        <a
-                          href={
-                            trn.link.trim().startsWith("http")
-                              ? trn.link.trim()
-                              : `https://${trn.link.trim()}`
-                          }
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#0563C1] underline font-normal"
-                        >
-                          Link
-                        </a>
-                        )
-                      </>
+                  <div className="flex justify-between items-start gap-x-4">
+                    <div className="flex-1 min-w-0 pr-3 font-bold">
+                      {trn.name}
+                      {trn.organizer && ` - ${trn.organizer}`}
+                    </div>
+                    {trn.date && (
+                      <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
+                        {trn.date}
+                      </span>
                     )}
-                    {trn.organizer && ` - ${trn.organizer}`}
                   </div>
-                  {trn.date && (
-                    <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
-                      {trn.date}
-                    </span>
+
+                  {trn.link && (
+                    <div className="text-[9.5pt] text-black mt-0.5">
+                      <span>Link : </span>
+                      <a
+                        href={
+                          trn.link.trim().startsWith("http")
+                            ? trn.link.trim()
+                            : `https://${trn.link.trim()}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#0563C1] underline"
+                      >
+                        {trn.link.trim().replace(/^https?:\/\//i, "")}
+                      </a>
+                    </div>
                   )}
                 </div>
               );
@@ -450,27 +451,8 @@ export function CVPreview({ data, language }: CVPreviewProps) {
               return (
                 <div key={ach.id || idx} className="text-[10pt] leading-[1.35] text-black break-inside-avoid">
                   <div className="flex justify-between items-start gap-x-4">
-                    <div className="flex-1 min-w-0 pr-3">
-                      <span className="font-bold">{ach.name}</span>
-                      {ach.link && (
-                        <>
-                          {" "}
-                          (
-                          <a
-                            href={
-                              ach.link.trim().startsWith("http")
-                                ? ach.link.trim()
-                                : `https://${ach.link.trim()}`
-                            }
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#0563C1] underline font-normal"
-                          >
-                            Link
-                          </a>
-                          )
-                        </>
-                      )}
+                    <div className="flex-1 min-w-0 pr-3 font-bold">
+                      {ach.name}
                       {ach.context && ` - ${ach.context}`}
                     </div>
                     {ach.date && (
@@ -479,6 +461,25 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                       </span>
                     )}
                   </div>
+
+                  {ach.link && (
+                    <div className="text-[9.5pt] text-black mt-0.5">
+                      <span>Link : </span>
+                      <a
+                        href={
+                          ach.link.trim().startsWith("http")
+                            ? ach.link.trim()
+                            : `https://${ach.link.trim()}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#0563C1] underline"
+                      >
+                        {ach.link.trim().replace(/^https?:\/\//i, "")}
+                      </a>
+                    </div>
+                  )}
+
                   {ach.description && (
                     <div className="mt-1 text-black text-justify break-words text-[10pt] leading-snug">
                       {cleanCVText(ach.description)}

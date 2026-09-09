@@ -180,6 +180,11 @@ const styles = StyleSheet.create({
     textAlign: "justify",
     lineHeight: 1.3,
   },
+  entryLinkLine: {
+    fontSize: 9.5,
+    marginTop: 1,
+    color: "#000000",
+  },
   bulletRow: {
     flexDirection: "row",
     marginTop: 2,
@@ -426,27 +431,27 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
               return (
                 <View key={proj.id || idx} style={styles.entryRow} wrap={false}>
                   <View style={styles.firstLine}>
-                    <Text style={styles.firstLineTitle}>
-                      {proj.name}
-                      {proj.link ? " (" : ""}
-                      {proj.link ? (
-                        <Link
-                          src={
-                            proj.link.trim().startsWith("http")
-                              ? proj.link.trim()
-                              : `https://${proj.link.trim()}`
-                          }
-                          style={styles.link}
-                        >
-                          Link
-                        </Link>
-                      ) : null}
-                      {proj.link ? ")" : ""}
-                    </Text>
+                    <Text style={styles.firstLineTitle}>{proj.name}</Text>
                     {proj.year ? (
                       <Text style={styles.firstLineDate}>{proj.year}</Text>
                     ) : null}
                   </View>
+
+                  {proj.link && proj.link.trim() ? (
+                    <Text style={styles.entryLinkLine}>
+                      Link :{" "}
+                      <Link
+                        src={
+                          proj.link.trim().startsWith("http")
+                            ? proj.link.trim()
+                            : `https://${proj.link.trim()}`
+                        }
+                        style={styles.link}
+                      >
+                        {proj.link.trim().replace(/^https?:\/\//i, "")}
+                      </Link>
+                    </Text>
+                  ) : null}
 
                   {proj.descriptionType === "paragraph" ? (
                     proj.description ? (
@@ -510,26 +515,28 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                   <View style={styles.firstLine}>
                     <Text style={styles.firstLineTitle}>
                       {cert.name}
-                      {cert.link ? " (" : ""}
-                      {cert.link ? (
-                        <Link
-                          src={
-                            cert.link.trim().startsWith("http")
-                              ? cert.link.trim()
-                              : `https://${cert.link.trim()}`
-                          }
-                          style={styles.link}
-                        >
-                          Link
-                        </Link>
-                      ) : null}
-                      {cert.link ? ")" : ""}
                       {cert.issuer ? ` - ${cert.issuer}` : ""}
                     </Text>
                     {dateStr ? (
                       <Text style={styles.firstLineDate}>{dateStr}</Text>
                     ) : null}
                   </View>
+
+                  {cert.link && cert.link.trim() ? (
+                    <Text style={styles.entryLinkLine}>
+                      Link :{" "}
+                      <Link
+                        src={
+                          cert.link.trim().startsWith("http")
+                            ? cert.link.trim()
+                            : `https://${cert.link.trim()}`
+                        }
+                        style={styles.link}
+                      >
+                        {cert.link.trim().replace(/^https?:\/\//i, "")}
+                      </Link>
+                    </Text>
+                  ) : null}
                 </View>
               );
             })}
@@ -548,26 +555,28 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                   <View style={styles.firstLine}>
                     <Text style={styles.trainingLineTitle}>
                       {trn.name}
-                      {trn.link ? " (" : ""}
-                      {trn.link ? (
-                        <Link
-                          src={
-                            trn.link.trim().startsWith("http")
-                              ? trn.link.trim()
-                              : `https://${trn.link.trim()}`
-                          }
-                          style={styles.link}
-                        >
-                          Link
-                        </Link>
-                      ) : null}
-                      {trn.link ? ")" : ""}
                       {trn.organizer ? ` - ${trn.organizer}` : ""}
                     </Text>
                     {trn.date ? (
                       <Text style={styles.firstLineDate}>{trn.date}</Text>
                     ) : null}
                   </View>
+
+                  {trn.link && trn.link.trim() ? (
+                    <Text style={styles.entryLinkLine}>
+                      Link :{" "}
+                      <Link
+                        src={
+                          trn.link.trim().startsWith("http")
+                            ? trn.link.trim()
+                            : `https://${trn.link.trim()}`
+                        }
+                        style={styles.link}
+                      >
+                        {trn.link.trim().replace(/^https?:\/\//i, "")}
+                      </Link>
+                    </Text>
+                  ) : null}
                 </View>
               );
             })}
@@ -586,26 +595,28 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                   <View style={styles.firstLine}>
                     <Text style={styles.firstLineTitle}>
                       {ach.name}
-                      {ach.link ? " (" : ""}
-                      {ach.link ? (
-                        <Link
-                          src={
-                            ach.link.trim().startsWith("http")
-                              ? ach.link.trim()
-                              : `https://${ach.link.trim()}`
-                          }
-                          style={styles.link}
-                        >
-                          Link
-                        </Link>
-                      ) : null}
-                      {ach.link ? ")" : ""}
                       {ach.context ? ` - ${ach.context}` : ""}
                     </Text>
                     {ach.date ? (
                       <Text style={styles.firstLineDate}>{ach.date}</Text>
                     ) : null}
                   </View>
+
+                  {ach.link && ach.link.trim() ? (
+                    <Text style={styles.entryLinkLine}>
+                      Link :{" "}
+                      <Link
+                        src={
+                          ach.link.trim().startsWith("http")
+                            ? ach.link.trim()
+                            : `https://${ach.link.trim()}`
+                        }
+                        style={styles.link}
+                      >
+                        {ach.link.trim().replace(/^https?:\/\//i, "")}
+                      </Link>
+                    </Text>
+                  ) : null}
                   {ach.description ? (
                     <Text style={styles.entryDescription}>
                       {cleanCVText(ach.description)}
