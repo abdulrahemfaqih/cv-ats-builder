@@ -166,7 +166,7 @@ function SortableCertItem({
           type="text"
           value={entry.link || ""}
           onChange={(e) => handleFieldChange("link", e.target.value)}
-          placeholder="mis. https://credential.net/... atau link verifikasi"
+          placeholder="mis. bit.ly/sertifikat-kredensial"
           className="app-input text-xs"
         />
       </div>

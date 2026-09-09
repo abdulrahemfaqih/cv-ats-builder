@@ -118,7 +118,7 @@ function SortableSkillGroupItem({
           type="text"
           value={entry.groupName}
           onChange={(e) => handleGroupNameChange(e.target.value)}
-          placeholder="mis. Bahasa Pemrograman / Framework / Database"
+          placeholder="mis. Bahasa Pemrograman / Soft Skills / Hard Skills"
           className="app-input text-xs"
         />
       </div>

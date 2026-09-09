@@ -352,7 +352,7 @@ export function HeaderForm() {
             type="text"
             value={header.portfolio || ""}
             onChange={(e) => updateHeader({ portfolio: e.target.value })}
-            placeholder="websiteanda.com"
+            placeholder="mis. bit.ly/portofolio-anda"
             className="app-input text-xs"
           />
         </div>

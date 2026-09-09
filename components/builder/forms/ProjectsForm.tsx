@@ -142,7 +142,7 @@ function SortableProjectItem({
           type="text"
           value={entry.link || ""}
           onChange={(e) => handleFieldChange("link", e.target.value)}
-          placeholder="https://github.com/username/project atau link demo"
+          placeholder="mis. bit.ly/nama-proyek"
           className="app-input text-xs"
         />
       </div>

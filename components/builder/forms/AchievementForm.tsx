@@ -154,7 +154,7 @@ function SortableAchItem({
           type="text"
           value={entry.link || ""}
           onChange={(e) => handleFieldChange("link", e.target.value)}
-          placeholder="mis. https://news.example.com/... atau link sertifikat"
+          placeholder="mis. bit.ly/bukti-penghargaan"
           className="app-input text-xs"
         />
       </div>

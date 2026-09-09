@@ -139,7 +139,7 @@ function SortableTrainingItem({
             type="text"
             value={entry.link || ""}
             onChange={(e) => handleFieldChange("link", e.target.value)}
-            placeholder="mis. https://binaracademy.com/... atau link sertifikat"
+            placeholder="mis. bit.ly/sertifikat-pelatihan"
             className="app-input text-xs"
           />
         </div>
