@@ -26,7 +26,8 @@ import {
   DndContext,
   closestCenter,
   KeyboardSensor,
-  PointerSensor,
+  MouseSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragEndEvent,
@@ -165,7 +166,8 @@ function SortableSectionCard({
             type="button"
             {...attributes}
             {...listeners}
-            className="cursor-grab active:cursor-grabbing text-[#9E9E96] hover:text-[#111111] p-1"
+            className="cursor-grab active:cursor-grabbing text-[#9E9E96] hover:text-[#111111] p-1 touch-none select-none"
+            style={{ touchAction: "none" }}
             title="Tahan & geser untuk mengubah urutan"
           >
             <GripVertical className="w-4 h-4" />
@@ -221,9 +223,15 @@ export function SectionManager() {
   const [showAddMenu, setShowAddMenu] = useState(false);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(MouseSensor, {
       activationConstraint: {
-        distance: 4,
+        distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 200,
+        tolerance: 6,
       },
     }),
     useSensor(KeyboardSensor, {

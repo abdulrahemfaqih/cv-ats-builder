@@ -8,7 +8,8 @@ import {
   DndContext,
   closestCenter,
   KeyboardSensor,
-  PointerSensor,
+  MouseSensor,
+  TouchSensor,
   useSensor,
   useSensors,
   DragEndEvent,
@@ -68,7 +69,8 @@ function SortableCertItem({
             type="button"
             {...attributes}
             {...listeners}
-            className="cursor-grab active:cursor-grabbing text-[#8E8C85] hover:text-[#111111] p-1 rounded transition-colors"
+            className="cursor-grab active:cursor-grabbing text-[#8E8C85] hover:text-[#111111] p-1 rounded transition-colors touch-none select-none"
+            style={{ touchAction: "none" }}
             title="Tahan & geser untuk mengubah urutan"
           >
             <GripVertical className="w-4 h-4" />
@@ -179,9 +181,15 @@ export function CertificationForm({
   const { addEntry, reorderEntries } = useCVStore();
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(MouseSensor, {
       activationConstraint: {
-        distance: 4,
+        distance: 8,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 200,
+        tolerance: 6,
       },
     }),
     useSensor(KeyboardSensor, {
