@@ -525,26 +525,60 @@ export function CVPreview({ data, language }: CVPreviewProps) {
           }}
         >
         {/* HEADER */}
-        <header className="mb-2 text-center">
-          {/* Full Name */}
-          <h1 className="text-xl sm:text-2xl font-bold uppercase tracking-normal text-black m-0 p-0 leading-tight">
-            {header.name || "NAMA LENGKAP"}
-          </h1>
+        <header className="mb-2">
+          {header.useProfilePhoto && header.photoUrl?.trim() ? (
+            <div className="flex flex-row items-center gap-4 sm:gap-5">
+              {/* Foto profil di pojok kiri atas (rasio 3:4) */}
+              <div className="w-[66px] h-[88px] shrink-0 rounded-xs overflow-hidden border border-neutral-300 bg-neutral-100 shadow-2xs">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={header.photoUrl}
+                  alt={header.name || "Foto Profil"}
+                  className="w-full h-full object-cover block"
+                />
+              </div>
 
-          {/* Single-line contact details */}
-          {contactParts.length > 0 && (
-            <div className="mt-2 text-[9.5pt] leading-tight flex flex-wrap justify-center items-center gap-x-2 gap-y-1">
-              {contactParts.map((part, index) => (
-                <React.Fragment key={index}>
-                  {index > 0 && <span className="text-black select-none">|</span>}
-                  {part}
-                </React.Fragment>
-              ))}
+              {/* Nama dan informasi kontak di samping foto */}
+              <div className="flex-1 min-w-0 text-left">
+                <h1 className="text-xl sm:text-2xl font-bold uppercase tracking-normal text-black m-0 p-0 leading-tight">
+                  {header.name || "NAMA LENGKAP"}
+                </h1>
+
+                {contactParts.length > 0 && (
+                  <div className="mt-2 text-[9.5pt] leading-tight flex flex-wrap justify-start items-center gap-x-2 gap-y-1">
+                    {contactParts.map((part, index) => (
+                      <React.Fragment key={index}>
+                        {index > 0 && <span className="text-black select-none">|</span>}
+                        {part}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="text-center">
+              {/* Full Name */}
+              <h1 className="text-xl sm:text-2xl font-bold uppercase tracking-normal text-black m-0 p-0 leading-tight">
+                {header.name || "NAMA LENGKAP"}
+              </h1>
+
+              {/* Single-line contact details */}
+              {contactParts.length > 0 && (
+                <div className="mt-2 text-[9.5pt] leading-tight flex flex-wrap justify-center items-center gap-x-2 gap-y-1">
+                  {contactParts.map((part, index) => (
+                    <React.Fragment key={index}>
+                      {index > 0 && <span className="text-black select-none">|</span>}
+                      {part}
+                    </React.Fragment>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
           {/* Full-width Divider under header */}
-          <hr className="w-full border-t border-black mt-2 mb-2" />
+          <hr className="w-full border-t border-black mt-2.5 mb-2" />
         </header>
 
         {/* OVERVIEW (No header, justified) */}

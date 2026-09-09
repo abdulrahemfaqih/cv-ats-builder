@@ -5,6 +5,7 @@ import {
   Text,
   View,
   Link,
+  Image,
   StyleSheet,
 } from "@react-pdf/renderer";
 import {
@@ -44,9 +45,33 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  headerRowWithPhoto: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  photoContainer: {
+    width: 60,
+    height: 80,
+    marginRight: 14,
+    borderRadius: 1,
+    overflow: "hidden",
+    borderWidth: 0.5,
+    borderColor: "#CCCCCC",
+  },
+  photo: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  },
   titleWrapper: {
     width: "100%",
     textAlign: "center",
+  },
+  titleWrapperWithPhoto: {
+    flex: 1,
+    textAlign: "left",
+    justifyContent: "center",
   },
   fullName: {
     fontSize: 18,
@@ -56,9 +81,23 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     lineHeight: 1.15,
   },
+  fullNameWithPhoto: {
+    fontSize: 18,
+    fontFamily: "Helvetica-Bold",
+    textTransform: "uppercase",
+    textAlign: "left",
+    marginBottom: 6,
+    lineHeight: 1.15,
+  },
   contactLine: {
     fontSize: 9.5,
     textAlign: "center",
+    color: "#000000",
+    lineHeight: 1.35,
+  },
+  contactLineWithPhoto: {
+    fontSize: 9.5,
+    textAlign: "left",
     color: "#000000",
     lineHeight: 1.35,
   },
@@ -611,21 +650,29 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
     }
   };
 
+  const hasPhoto = Boolean(header.useProfilePhoto && header.photoUrl?.trim());
+
   return (
     <Document title={`${header.name || "CV"} - Cevio ATS Resume`}>
       <Page size="A4" style={styles.page}>
         {/* HEADER */}
         <View style={styles.headerContainer}>
-          <View style={styles.headerRow}>
+          <View style={hasPhoto ? styles.headerRowWithPhoto : styles.headerRow}>
+            {hasPhoto && (
+              <View style={styles.photoContainer}>
+                <Image src={header.photoUrl!} style={styles.photo} />
+              </View>
+            )}
+
             {/* Name and Contact */}
-            <View style={styles.titleWrapper}>
-              <Text style={styles.fullName}>
+            <View style={hasPhoto ? styles.titleWrapperWithPhoto : styles.titleWrapper}>
+              <Text style={hasPhoto ? styles.fullNameWithPhoto : styles.fullName}>
                 {header.name || "NAMA LENGKAP"}
               </Text>
 
-              {/* Single-line contact */}
+              {/* Contact line */}
               {contactElements.length > 0 && (
-                <Text style={styles.contactLine}>
+                <Text style={hasPhoto ? styles.contactLineWithPhoto : styles.contactLine}>
                   {contactElements.map((el, i) => (
                     <React.Fragment key={i}>{i > 0 && " | "}{el.type === "link" && el.url ? (
                       <Link src={el.url} style={styles.link}>{el.text}</Link>
