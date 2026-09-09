@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useCVStore } from "@/lib/store/useCVStore";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
@@ -20,6 +20,17 @@ export function SaveDraftModal({ isOpen, onClose, user }: SaveDraftModalProps) {
   const [success, setSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  // Selalu sinkronkan judul terbaru dari store saat modal dibuka
+  useEffect(() => {
+    if (isOpen) {
+      if ((!title || title === "Untitled CV") && data.header?.name) {
+        setDocTitle(`CV ${data.header.name}`);
+      } else {
+        setDocTitle(title || "Untitled CV");
+      }
+    }
+  }, [isOpen, title, data.header?.name]);
+
   if (!isOpen) return null;
 
   const isConfigured = isSupabaseConfigured();
@@ -33,14 +44,19 @@ export function SaveDraftModal({ isOpen, onClose, user }: SaveDraftModalProps) {
 
     try {
       const supabase = createClient();
-      setTitle(docTitle);
+      const finalTitle =
+        docTitle.trim() ||
+        title ||
+        (data.header?.name ? `CV ${data.header.name}` : "Untitled CV");
+
+      setTitle(finalTitle);
 
       if (documentId) {
         // Update existing document
         const { error } = await supabase
           .from("cv_documents")
           .update({
-            title: docTitle,
+            title: finalTitle,
             language,
             data,
             updated_at: new Date().toISOString(),
@@ -56,7 +72,7 @@ export function SaveDraftModal({ isOpen, onClose, user }: SaveDraftModalProps) {
           .from("cv_documents")
           .insert({
             user_id: user.id,
-            title: docTitle,
+            title: finalTitle,
             language,
             data,
           })
@@ -66,6 +82,9 @@ export function SaveDraftModal({ isOpen, onClose, user }: SaveDraftModalProps) {
         if (error) throw error;
         if (inserted) {
           markSaved(inserted.id);
+          if (typeof window !== "undefined") {
+            window.history.replaceState(null, "", `/builder?id=${inserted.id}`);
+          }
         }
       }
 

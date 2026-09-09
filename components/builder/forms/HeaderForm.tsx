@@ -6,7 +6,7 @@ import { compressImageFile } from "@/lib/utils/imageCompressor";
 import { Upload, Trash2, Camera, RefreshCw, Link as LinkIcon, AlertCircle } from "lucide-react";
 
 export function HeaderForm() {
-  const { data, updateHeader } = useCVStore();
+  const { data, updateHeader, title, setTitle } = useCVStore();
   const { header } = data;
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -246,7 +246,15 @@ export function HeaderForm() {
         <input
           type="text"
           value={header.name}
-          onChange={(e) => updateHeader({ name: e.target.value })}
+          onChange={(e) => {
+            const newName = e.target.value;
+            updateHeader({ name: newName });
+            if (!title || title === "Untitled CV" || title === "CV Alex Pratama") {
+              if (newName.trim()) {
+                setTitle(`CV ${newName.trim()}`);
+              }
+            }
+          }}
           placeholder="mis. Alex Pratama"
           className="app-input"
         />

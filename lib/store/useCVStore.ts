@@ -501,8 +501,15 @@ export const useCVStore = create<CVStoreState>((set, get) => ({
       if (!raw) return false;
       const parsed = JSON.parse(raw);
       if (parsed && parsed.data) {
+        const resolvedTitle =
+          parsed.title && parsed.title !== "Untitled CV"
+            ? parsed.title
+            : parsed.data?.header?.name
+            ? `CV ${parsed.data.header.name}`
+            : "Untitled CV";
+
         set({
-          title: parsed.title || "Untitled CV",
+          title: resolvedTitle,
           language: parsed.language || "id",
           data: parsed.data,
           isDirty: false,
