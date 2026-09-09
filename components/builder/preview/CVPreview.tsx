@@ -140,13 +140,17 @@ export function CVPreview({ data, language }: CVPreviewProps) {
 
               return (
                 <div key={edu.id || idx} className="text-[10pt] leading-[1.35] break-inside-avoid">
-                  <div className="flex justify-between items-start font-bold text-black">
-                    <span className="flex-1 pr-2">{leftTitle}</span>
-                    {dateStr && <span className="text-right whitespace-nowrap shrink-0">{dateStr}</span>}
+                  <div className="flex justify-between items-start font-bold text-black gap-x-4">
+                    <span className="flex-1 min-w-0 pr-3">{leftTitle}</span>
+                    {dateStr && (
+                      <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
+                        {dateStr}
+                      </span>
+                    )}
                   </div>
 
                   {(edu.major || edu.gpa) && (
-                    <div className="italic text-black">
+                    <div className="italic text-black mt-0.5">
                       {edu.major}
                       {edu.major && edu.gpa && " - "}
                       {edu.gpa && `IPK ${edu.gpa}`}
@@ -154,7 +158,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                   )}
 
                   {edu.relevantCourses && edu.relevantCourses.length > 0 && (
-                    <div className="text-black text-justify">
+                    <div className="text-black text-justify mt-0.5">
                       <span className="font-bold">
                         {language === "en" ? "Relevant Courses : " : "Mata Kuliah Relevan : "}
                       </span>
@@ -169,7 +173,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                   )}
 
                   {edu.description && (
-                    <div className="text-black mt-0.5 text-justify break-words">
+                    <div className="text-black mt-1 text-justify break-words">
                       {cleanCVText(edu.description)}
                     </div>
                   )}
@@ -224,17 +228,21 @@ export function CVPreview({ data, language }: CVPreviewProps) {
 
               return (
                 <div key={item.id || idx} className="text-[10pt] leading-[1.35] break-inside-avoid">
-                  <div className="flex justify-between items-start font-bold text-black">
-                    <span className="flex-1 pr-2">{leftTitle}</span>
-                    {dateStr && <span className="text-right whitespace-nowrap shrink-0">{dateStr}</span>}
+                  <div className="flex justify-between items-start font-bold text-black gap-x-4">
+                    <span className="flex-1 min-w-0 pr-3">{leftTitle}</span>
+                    {dateStr && (
+                      <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
+                        {dateStr}
+                      </span>
+                    )}
                   </div>
 
                   {positionTitle && (
-                    <div className="italic text-black">{positionTitle}</div>
+                    <div className="italic text-black mt-0.5">{positionTitle}</div>
                   )}
 
                   {cleanedBullets.length > 0 && (
-                    <ul className="mt-1 space-y-0.5 pl-5 list-disc text-black">
+                    <ul className="mt-1.5 space-y-0.5 pl-5 list-disc text-black">
                       {cleanedBullets.map((bullet: string, bIdx: number) => (
                         <li key={bIdx} className="leading-snug text-justify break-words">
                           {bullet}
@@ -258,8 +266,8 @@ export function CVPreview({ data, language }: CVPreviewProps) {
               const cleanedBullets = cleanBullets(proj.bullets);
               return (
                 <div key={proj.id || idx} className="text-[10pt] leading-[1.35] break-inside-avoid">
-                  <div className="flex justify-between items-start text-black">
-                    <div className="font-bold flex-1 pr-2">
+                  <div className="flex justify-between items-start text-black gap-x-4">
+                    <div className="font-bold flex-1 min-w-0 pr-3">
                       {proj.name}
                       {proj.link && (
                         <>
@@ -282,7 +290,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                       )}
                     </div>
                     {proj.year && (
-                      <span className="font-bold text-right whitespace-nowrap shrink-0">
+                      <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
                         {proj.year}
                       </span>
                     )}
@@ -350,9 +358,9 @@ export function CVPreview({ data, language }: CVPreviewProps) {
               return (
                 <div
                   key={cert.id || idx}
-                  className="text-[10pt] leading-[1.35] flex justify-between items-start text-black break-inside-avoid"
+                  className="text-[10pt] leading-[1.35] flex justify-between items-start text-black break-inside-avoid gap-x-4"
                 >
-                  <div className="flex-1 pr-2">
+                  <div className="flex-1 min-w-0 pr-3">
                     <span className="font-bold">{cert.name}</span>
                     {cert.link && (
                       <>
@@ -375,7 +383,11 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     )}
                     {cert.issuer && ` - ${cert.issuer}`}
                   </div>
-                  {dateStr && <span className="text-right whitespace-nowrap shrink-0">{dateStr}</span>}
+                  {dateStr && (
+                    <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
+                      {dateStr}
+                    </span>
+                  )}
                 </div>
               );
             })}
@@ -392,10 +404,10 @@ export function CVPreview({ data, language }: CVPreviewProps) {
               return (
                 <div
                   key={trn.id || idx}
-                  className="text-[10pt] leading-[1.35] flex justify-between items-start text-black break-inside-avoid"
+                  className="text-[10pt] leading-[1.35] flex justify-between items-start text-black break-inside-avoid gap-x-4"
                 >
-                  <div className="flex-1 pr-2">
-                    <span className="font-normal">{trn.name}</span>
+                  <div className="flex-1 min-w-0 pr-3">
+                    <span className="font-bold">{trn.name}</span>
                     {trn.link && (
                       <>
                         {" "}
@@ -418,7 +430,9 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     {trn.organizer && ` - ${trn.organizer}`}
                   </div>
                   {trn.date && (
-                    <span className="text-right whitespace-nowrap shrink-0">{trn.date}</span>
+                    <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
+                      {trn.date}
+                    </span>
                   )}
                 </div>
               );
@@ -435,8 +449,8 @@ export function CVPreview({ data, language }: CVPreviewProps) {
               if (!ach.name) return null;
               return (
                 <div key={ach.id || idx} className="text-[10pt] leading-[1.35] text-black break-inside-avoid">
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1 pr-2">
+                  <div className="flex justify-between items-start gap-x-4">
+                    <div className="flex-1 min-w-0 pr-3">
                       <span className="font-bold">{ach.name}</span>
                       {ach.link && (
                         <>
@@ -460,11 +474,13 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                       {ach.context && ` - ${ach.context}`}
                     </div>
                     {ach.date && (
-                      <span className="text-right whitespace-nowrap shrink-0">{ach.date}</span>
+                      <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
+                        {ach.date}
+                      </span>
                     )}
                   </div>
                   {ach.description && (
-                    <div className="mt-0.5 text-black text-justify break-words text-[10pt] leading-snug">
+                    <div className="mt-1 text-black text-justify break-words text-[10pt] leading-snug">
                       {cleanCVText(ach.description)}
                     </div>
                   )}
