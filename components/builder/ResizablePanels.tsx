@@ -96,7 +96,7 @@ export function ResizablePanels({
       {/* Right Panel */}
       <div
         style={{ width: `${100 - leftPercent}%` }}
-        className="flex-shrink-0 min-w-0 flex flex-col overflow-y-auto"
+        className="flex-shrink-0 min-w-0 flex flex-col h-full overflow-hidden"
       >
         {right}
       </div>

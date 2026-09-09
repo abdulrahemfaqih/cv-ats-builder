@@ -510,19 +510,20 @@ export function CVPreview({ data, language }: CVPreviewProps) {
   };
 
   return (
-    <div className="w-full flex justify-center bg-[#F7F7F6] p-4 sm:p-6 overflow-x-auto min-h-full">
-      {/* 
-        A4 Container standard ATS
-        210mm x 297mm 
-        Padding: Top/Bottom 36pt (12.7mm), Left/Right 40pt (14.1mm)
-      */}
-      <div
-        id="cv-print-area"
-        className="bg-white text-black w-[210mm] min-h-[297mm] shadow-md border border-[#E3E3DE] px-[14.1mm] py-[12.7mm] font-sans text-left transition-all box-border"
-        style={{
-          fontFamily: "Helvetica, Arial, sans-serif",
-        }}
-      >
+    <div className="w-full h-full overflow-auto bg-[#F7F7F6]">
+      <div className="w-fit min-w-full min-h-full p-4 sm:p-8 flex justify-center items-start">
+        {/* 
+          A4 Container standard ATS
+          210mm x 297mm 
+          Padding: Top/Bottom 36pt (12.7mm), Left/Right 40pt (14.1mm)
+        */}
+        <div
+          id="cv-print-area"
+          className="bg-white text-black w-[210mm] min-w-[210mm] min-h-[297mm] shadow-md border border-[#E3E3DE] px-[14.1mm] py-[12.7mm] font-sans text-left transition-all box-border shrink-0"
+          style={{
+            fontFamily: "Helvetica, Arial, sans-serif",
+          }}
+        >
         {/* HEADER */}
         <header className="mb-2 text-center">
           {/* Full Name */}
@@ -580,6 +581,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
               </section>
             );
           })}
+        </div>
       </div>
     </div>
   );
