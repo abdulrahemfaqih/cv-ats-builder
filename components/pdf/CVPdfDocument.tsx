@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     objectFit: "cover",
+    borderRadius: 1,
   },
   titleWrapper: {
     width: "100%",
@@ -277,389 +278,376 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
     });
   }
 
-  const renderSectionPdf = (sectionType: string, entries: CVEntry[]) => {
-    if (!entries || entries.length === 0) return null;
+  const renderSectionEntries = (
+    sectionType: string,
+    entries: CVEntry[]
+  ): React.ReactElement[] => {
+    if (!entries || entries.length === 0) return [];
 
     switch (sectionType) {
       case "education": {
         const eduEntries = entries as EducationEntry[];
-        return (
-          <View>
-            {eduEntries.map((edu, idx) => {
-              if (!edu.institution && !edu.major) return null;
-              const locStr = [
-                edu.location?.kabupaten,
-                edu.location?.provinsi,
-                edu.location?.country,
-              ]
-                .filter(Boolean)
-                .join(", ");
+        return eduEntries
+          .map((edu, idx) => {
+            if (!edu.institution && !edu.major) return null;
+            const locStr = [
+              edu.location?.kabupaten,
+              edu.location?.provinsi,
+              edu.location?.country,
+            ]
+              .filter(Boolean)
+              .join(", ");
 
-              const leftTitle = [edu.level, edu.institution, locStr]
-                .filter(Boolean)
-                .join(" - ");
+            const leftTitle = [edu.level, edu.institution, locStr]
+              .filter(Boolean)
+              .join(" - ");
 
-              const dateStr = [edu.startYear, edu.endYear]
-                .filter(Boolean)
-                .join(" - ");
+            const dateStr = [edu.startYear, edu.endYear]
+              .filter(Boolean)
+              .join(" - ");
 
-              const coursesStr = cleanCVText(
-                Array.isArray(edu.relevantCourses)
-                  ? edu.relevantCourses.join(", ")
-                  : edu.relevantCourses
-              );
+            const coursesStr = cleanCVText(
+              Array.isArray(edu.relevantCourses)
+                ? edu.relevantCourses.join(", ")
+                : edu.relevantCourses
+            );
 
-              return (
-                <View key={edu.id || idx} style={styles.entryRow} wrap={false}>
-                  <View style={styles.firstLine}>
-                    <Text style={styles.firstLineTitle}>{leftTitle}</Text>
-                    {dateStr ? (
-                      <Text style={styles.firstLineDate}>{dateStr}</Text>
-                    ) : null}
-                  </View>
-
-                  {(edu.major || edu.gpa) && (
-                    <Text style={styles.secondLineItalic}>
-                      {edu.major}
-                      {edu.major && edu.gpa ? " - " : ""}
-                      {edu.gpa ? `IPK ${edu.gpa}` : ""}
-                    </Text>
-                  )}
-
-                  {coursesStr ? (
-                    <Text style={styles.coursesLine}>
-                      <Text style={styles.coursesLabelBold}>
-                        {language === "en"
-                          ? "Relevant Courses : "
-                          : "Mata Kuliah Relevan : "}
-                      </Text>
-                      <Text>{coursesStr}</Text>
-                    </Text>
-                  ) : null}
-
-                  {edu.description ? (
-                    <Text style={styles.entryDescription}>
-                      {cleanCVText(edu.description)}
-                    </Text>
+            return (
+              <View key={edu.id || idx} style={styles.entryRow} wrap={false}>
+                <View style={styles.firstLine}>
+                  <Text style={styles.firstLineTitle}>{leftTitle}</Text>
+                  {dateStr ? (
+                    <Text style={styles.firstLineDate}>{dateStr}</Text>
                   ) : null}
                 </View>
-              );
-            })}
-          </View>
-        );
+
+                {(edu.major || edu.gpa) && (
+                  <Text style={styles.secondLineItalic}>
+                    {edu.major}
+                    {edu.major && edu.gpa ? " - " : ""}
+                    {edu.gpa ? `IPK ${edu.gpa}` : ""}
+                  </Text>
+                )}
+
+                {coursesStr ? (
+                  <Text style={styles.coursesLine}>
+                    <Text style={styles.coursesLabelBold}>
+                      {language === "en"
+                        ? "Relevant Courses : "
+                        : "Mata Kuliah Relevan : "}
+                    </Text>
+                    <Text>{coursesStr}</Text>
+                  </Text>
+                ) : null}
+
+                {edu.description ? (
+                  <Text style={styles.entryDescription}>
+                    {cleanCVText(edu.description)}
+                  </Text>
+                ) : null}
+              </View>
+            );
+          })
+          .filter((el): el is React.ReactElement => el !== null);
       }
 
       case "work":
       case "organization": {
         const orgOrWorkEntries = entries as (WorkEntry | OrganizationEntry)[];
-        return (
-          <View>
-            {orgOrWorkEntries.map((item, idx) => {
-              const name =
-                "company" in item ? item.company : item.organization;
-              if (!name && !item.position) return null;
+        return orgOrWorkEntries
+          .map((item, idx) => {
+            const name =
+              "company" in item ? item.company : item.organization;
+            if (!name && !item.position) return null;
 
-              const locStr = [
-                item.location?.kabupaten,
-                item.location?.provinsi,
-                item.location?.country,
-              ]
-                .filter(Boolean)
-                .join(", ");
+            const locStr = [
+              item.location?.kabupaten,
+              item.location?.provinsi,
+              item.location?.country,
+            ]
+              .filter(Boolean)
+              .join(", ");
 
-              const leftTitle = [name, locStr].filter(Boolean).join(" - ");
+            const leftTitle = [name, locStr].filter(Boolean).join(" - ");
 
-              const dateStr = [
-                item.startDate,
-                item.isCurrent
-                  ? language === "en"
-                    ? "Present"
-                    : "Sekarang"
-                  : item.endDate,
-              ]
-                .filter(Boolean)
-                .join(" - ");
+            const dateStr = [
+              item.startDate,
+              item.isCurrent
+                ? language === "en"
+                  ? "Present"
+                  : "Sekarang"
+                : item.endDate,
+            ]
+              .filter(Boolean)
+              .join(" - ");
 
-              const typeSuffix =
-                "employmentType" in item
-                  ? item.employmentType
-                  : "roleType" in item
-                  ? item.roleType
-                  : undefined;
+            const typeSuffix =
+              "employmentType" in item
+                ? item.employmentType
+                : "roleType" in item
+                ? item.roleType
+                : undefined;
 
-              const positionTitle = [item.position, typeSuffix]
-                .filter(Boolean)
-                .join(" - ");
+            const positionTitle = [item.position, typeSuffix]
+              .filter(Boolean)
+              .join(" - ");
 
-              const cleanedBullets = cleanBullets(item.bullets);
+            const cleanedBullets = cleanBullets(item.bullets);
 
-              return (
-                <View key={item.id || idx} style={styles.entryRow} wrap={false}>
-                  <View style={styles.firstLine}>
-                    <Text style={styles.firstLineTitle}>{leftTitle}</Text>
-                    {dateStr ? (
-                      <Text style={styles.firstLineDate}>{dateStr}</Text>
-                    ) : null}
-                  </View>
-
-                  {positionTitle ? (
-                    <Text style={styles.secondLineItalic}>
-                      {positionTitle}
-                    </Text>
+            return (
+              <View key={item.id || idx} style={styles.entryRow} wrap={false}>
+                <View style={styles.firstLine}>
+                  <Text style={styles.firstLineTitle}>{leftTitle}</Text>
+                  {dateStr ? (
+                    <Text style={styles.firstLineDate}>{dateStr}</Text>
                   ) : null}
-
-                  {cleanedBullets.map((bullet, bIdx) => (
-                    <View key={bIdx} style={styles.bulletRow}>
-                      <Text style={styles.bulletPoint}>•</Text>
-                      <Text style={styles.bulletText}>{bullet}</Text>
-                    </View>
-                  ))}
                 </View>
-              );
-            })}
-          </View>
-        );
+
+                {positionTitle ? (
+                  <Text style={styles.secondLineItalic}>
+                    {positionTitle}
+                  </Text>
+                ) : null}
+
+                {cleanedBullets.map((bullet, bIdx) => (
+                  <View key={bIdx} style={styles.bulletRow}>
+                    <Text style={styles.bulletPoint}>•</Text>
+                    <Text style={styles.bulletText}>{bullet}</Text>
+                  </View>
+                ))}
+              </View>
+            );
+          })
+          .filter((el): el is React.ReactElement => el !== null);
       }
 
       case "project": {
         const projEntries = entries as ProjectEntry[];
-        return (
-          <View>
-            {projEntries.map((proj, idx) => {
-              if (!proj.name) return null;
-              const cleanedBullets = cleanBullets(proj.bullets);
-              return (
-                <View key={proj.id || idx} style={styles.entryRow} wrap={false}>
-                  <View style={styles.firstLine}>
-                    <Text style={styles.firstLineTitle}>{proj.name}</Text>
-                    {proj.year ? (
-                      <Text style={styles.firstLineDate}>{proj.year}</Text>
-                    ) : null}
-                  </View>
-
-                  {proj.link && proj.link.trim() ? (
-                    <Text style={styles.entryLinkLine}>
-                      Link :{" "}
-                      <Link
-                        src={
-                          proj.link.trim().startsWith("http")
-                            ? proj.link.trim()
-                            : `https://${proj.link.trim()}`
-                        }
-                        style={styles.link}
-                      >
-                        {proj.link.trim().replace(/^https?:\/\//i, "")}
-                      </Link>
-                    </Text>
+        return projEntries
+          .map((proj, idx) => {
+            if (!proj.name) return null;
+            const cleanedBullets = cleanBullets(proj.bullets);
+            return (
+              <View key={proj.id || idx} style={styles.entryRow} wrap={false}>
+                <View style={styles.firstLine}>
+                  <Text style={styles.firstLineTitle}>{proj.name}</Text>
+                  {proj.year ? (
+                    <Text style={styles.firstLineDate}>{proj.year}</Text>
                   ) : null}
-
-                  {proj.descriptionType === "paragraph" ? (
-                    proj.description ? (
-                      <Text style={styles.entryDescription}>
-                        {cleanCVText(proj.description)}
-                      </Text>
-                    ) : null
-                  ) : (
-                    cleanedBullets.map((bullet, bIdx) => (
-                      <View key={bIdx} style={styles.bulletRow}>
-                        <Text style={styles.bulletPoint}>•</Text>
-                        <Text style={styles.bulletText}>{bullet}</Text>
-                      </View>
-                    ))
-                  )}
                 </View>
-              );
-            })}
-          </View>
-        );
+
+                {proj.link && proj.link.trim() ? (
+                  <Text style={styles.entryLinkLine}>
+                    Link :{" "}
+                    <Link
+                      src={
+                        proj.link.trim().startsWith("http")
+                          ? proj.link.trim()
+                          : `https://${proj.link.trim()}`
+                      }
+                      style={styles.link}
+                    >
+                      {proj.link.trim().replace(/^https?:\/\//i, "")}
+                    </Link>
+                  </Text>
+                ) : null}
+
+                {proj.descriptionType === "paragraph" ? (
+                  proj.description ? (
+                    <Text style={styles.entryDescription}>
+                      {cleanCVText(proj.description)}
+                    </Text>
+                  ) : null
+                ) : (
+                  cleanedBullets.map((bullet, bIdx) => (
+                    <View key={bIdx} style={styles.bulletRow}>
+                      <Text style={styles.bulletPoint}>•</Text>
+                      <Text style={styles.bulletText}>{bullet}</Text>
+                    </View>
+                  ))
+                )}
+              </View>
+            );
+          })
+          .filter((el): el is React.ReactElement => el !== null);
       }
 
       case "skills": {
         const skillEntries = entries as SkillGroupEntry[];
-        return (
-          <View>
-            {skillEntries.map((skillGroup, idx) => {
-              if (!skillGroup.groupName) return null;
-              const skillItems = cleanCVText(
-                Array.isArray(skillGroup.skills)
-                  ? skillGroup.skills.join(", ")
-                  : skillGroup.skills
-              );
-              return (
-                <View key={skillGroup.id || idx} style={styles.skillRow} wrap={false}>
-                  <Text style={styles.skillGroupName}>
-                    {skillGroup.groupName} :{" "}
-                  </Text>
-                  <Text style={styles.skillItems}>{skillItems}</Text>
-                </View>
-              );
-            })}
-          </View>
-        );
+        return skillEntries
+          .map((skillGroup, idx) => {
+            if (!skillGroup.groupName) return null;
+            const skillItems = cleanCVText(
+              Array.isArray(skillGroup.skills)
+                ? skillGroup.skills.join(", ")
+                : skillGroup.skills
+            );
+            return (
+              <View key={skillGroup.id || idx} style={styles.skillRow} wrap={false}>
+                <Text style={styles.skillGroupName}>
+                  {skillGroup.groupName} :{" "}
+                </Text>
+                <Text style={styles.skillItems}>{skillItems}</Text>
+              </View>
+            );
+          })
+          .filter((el): el is React.ReactElement => el !== null);
       }
 
       case "certification": {
         const certEntries = entries as CertificationEntry[];
-        return (
-          <View>
-            {certEntries.map((cert, idx) => {
-              if (!cert.name) return null;
-              const dateStr = cert.isLifetime
-                ? `${cert.issueDate || ""} (${
-                    language === "en" ? "Lifetime" : "Seumur Hidup"
-                  })`
-                : [cert.issueDate, cert.expiryDate].filter(Boolean).join(" - ");
+        return certEntries
+          .map((cert, idx) => {
+            if (!cert.name) return null;
+            const dateStr = cert.isLifetime
+              ? `${cert.issueDate || ""} (${
+                  language === "en" ? "Lifetime" : "Seumur Hidup"
+                })`
+              : [cert.issueDate, cert.expiryDate].filter(Boolean).join(" - ");
 
-              return (
-                <View key={cert.id || idx} style={styles.entryRow} wrap={false}>
-                  <View style={styles.firstLine}>
-                    <Text style={styles.firstLineTitle}>
-                      {cert.name}
-                      {cert.issuer ? ` - ${cert.issuer}` : ""}
-                    </Text>
-                    {dateStr ? (
-                      <Text style={styles.firstLineDate}>{dateStr}</Text>
-                    ) : null}
-                  </View>
-
-                  {cert.link && cert.link.trim() ? (
-                    <Text style={styles.entryLinkLine}>
-                      Link :{" "}
-                      <Link
-                        src={
-                          cert.link.trim().startsWith("http")
-                            ? cert.link.trim()
-                            : `https://${cert.link.trim()}`
-                        }
-                        style={styles.link}
-                      >
-                        {cert.link.trim().replace(/^https?:\/\//i, "")}
-                      </Link>
-                    </Text>
+            return (
+              <View key={cert.id || idx} style={styles.entryRow} wrap={false}>
+                <View style={styles.firstLine}>
+                  <Text style={styles.firstLineTitle}>
+                    {cert.name}
+                    {cert.issuer ? ` - ${cert.issuer}` : ""}
+                  </Text>
+                  {dateStr ? (
+                    <Text style={styles.firstLineDate}>{dateStr}</Text>
                   ) : null}
                 </View>
-              );
-            })}
-          </View>
-        );
+
+                {cert.link && cert.link.trim() ? (
+                  <Text style={styles.entryLinkLine}>
+                    Link :{" "}
+                    <Link
+                      src={
+                        cert.link.trim().startsWith("http")
+                          ? cert.link.trim()
+                          : `https://${cert.link.trim()}`
+                      }
+                      style={styles.link}
+                    >
+                      {cert.link.trim().replace(/^https?:\/\//i, "")}
+                    </Link>
+                  </Text>
+                ) : null}
+              </View>
+            );
+          })
+          .filter((el): el is React.ReactElement => el !== null);
       }
 
       case "training": {
         const trainEntries = entries as TrainingEntry[];
-        return (
-          <View>
-            {trainEntries.map((trn, idx) => {
-              if (!trn.name) return null;
-              return (
-                <View key={trn.id || idx} style={styles.entryRow} wrap={false}>
-                  <View style={styles.firstLine}>
-                    <Text style={styles.trainingLineTitle}>
-                      {trn.name}
-                      {trn.organizer ? ` - ${trn.organizer}` : ""}
-                    </Text>
-                    {trn.date ? (
-                      <Text style={styles.firstLineDate}>{trn.date}</Text>
-                    ) : null}
-                  </View>
-
-                  {trn.link && trn.link.trim() ? (
-                    <Text style={styles.entryLinkLine}>
-                      Link :{" "}
-                      <Link
-                        src={
-                          trn.link.trim().startsWith("http")
-                            ? trn.link.trim()
-                            : `https://${trn.link.trim()}`
-                        }
-                        style={styles.link}
-                      >
-                        {trn.link.trim().replace(/^https?:\/\//i, "")}
-                      </Link>
-                    </Text>
+        return trainEntries
+          .map((trn, idx) => {
+            if (!trn.name) return null;
+            return (
+              <View key={trn.id || idx} style={styles.entryRow} wrap={false}>
+                <View style={styles.firstLine}>
+                  <Text style={styles.trainingLineTitle}>
+                    {trn.name}
+                    {trn.organizer ? ` - ${trn.organizer}` : ""}
+                  </Text>
+                  {trn.date ? (
+                    <Text style={styles.firstLineDate}>{trn.date}</Text>
                   ) : null}
                 </View>
-              );
-            })}
-          </View>
-        );
+
+                {trn.link && trn.link.trim() ? (
+                  <Text style={styles.entryLinkLine}>
+                    Link :{" "}
+                    <Link
+                      src={
+                        trn.link.trim().startsWith("http")
+                          ? trn.link.trim()
+                          : `https://${trn.link.trim()}`
+                      }
+                      style={styles.link}
+                    >
+                      {trn.link.trim().replace(/^https?:\/\//i, "")}
+                    </Link>
+                  </Text>
+                ) : null}
+              </View>
+            );
+          })
+          .filter((el): el is React.ReactElement => el !== null);
       }
 
       case "achievement": {
         const achEntries = entries as AchievementEntry[];
-        return (
-          <View>
-            {achEntries.map((ach, idx) => {
-              if (!ach.name) return null;
-              return (
-                <View key={ach.id || idx} style={styles.entryRow} wrap={false}>
-                  <View style={styles.firstLine}>
-                    <Text style={styles.firstLineTitle}>
-                      {ach.name}
-                      {ach.context ? ` - ${ach.context}` : ""}
-                    </Text>
-                    {ach.date ? (
-                      <Text style={styles.firstLineDate}>{ach.date}</Text>
-                    ) : null}
-                  </View>
-
-                  {ach.link && ach.link.trim() ? (
-                    <Text style={styles.entryLinkLine}>
-                      Link :{" "}
-                      <Link
-                        src={
-                          ach.link.trim().startsWith("http")
-                            ? ach.link.trim()
-                            : `https://${ach.link.trim()}`
-                        }
-                        style={styles.link}
-                      >
-                        {ach.link.trim().replace(/^https?:\/\//i, "")}
-                      </Link>
-                    </Text>
-                  ) : null}
-                  {ach.description ? (
-                    <Text style={styles.entryDescription}>
-                      {cleanCVText(ach.description)}
-                    </Text>
+        return achEntries
+          .map((ach, idx) => {
+            if (!ach.name) return null;
+            return (
+              <View key={ach.id || idx} style={styles.entryRow} wrap={false}>
+                <View style={styles.firstLine}>
+                  <Text style={styles.firstLineTitle}>
+                    {ach.name}
+                    {ach.context ? ` - ${ach.context}` : ""}
+                  </Text>
+                  {ach.date ? (
+                    <Text style={styles.firstLineDate}>{ach.date}</Text>
                   ) : null}
                 </View>
-              );
-            })}
-          </View>
-        );
+
+                {ach.link && ach.link.trim() ? (
+                  <Text style={styles.entryLinkLine}>
+                    Link :{" "}
+                    <Link
+                      src={
+                        ach.link.trim().startsWith("http")
+                          ? ach.link.trim()
+                          : `https://${ach.link.trim()}`
+                      }
+                      style={styles.link}
+                    >
+                      {ach.link.trim().replace(/^https?:\/\//i, "")}
+                    </Link>
+                  </Text>
+                ) : null}
+                {ach.description ? (
+                  <Text style={styles.entryDescription}>
+                    {cleanCVText(ach.description)}
+                  </Text>
+                ) : null}
+              </View>
+            );
+          })
+          .filter((el): el is React.ReactElement => el !== null);
       }
 
       case "languages": {
         const langEntries = entries as LanguageEntry[];
-        return (
-          <View>
-            {langEntries.map((lang, idx) => {
-              if (!lang.language) return null;
-              const details = [
-                lang.proficiency ? cleanCVText(lang.proficiency) : "",
-                lang.info ? `(${cleanCVText(lang.info)})` : "",
-              ]
-                .filter(Boolean)
-                .join(" ");
+        return langEntries
+          .map((lang, idx) => {
+            if (!lang.language) return null;
+            const details = [
+              lang.proficiency ? cleanCVText(lang.proficiency) : "",
+              lang.info ? `(${cleanCVText(lang.info)})` : "",
+            ]
+              .filter(Boolean)
+              .join(" ");
 
-              return (
-                <View key={lang.id || idx} style={styles.skillRow} wrap={false}>
-                  <Text style={styles.skillGroupName}>
-                    {cleanCVText(lang.language)}
-                    {details ? " : " : ""}
-                  </Text>
-                  {details ? (
-                    <Text style={styles.skillItems}>{details}</Text>
-                  ) : null}
-                </View>
-              );
-            })}
-          </View>
-        );
+            return (
+              <View key={lang.id || idx} style={styles.skillRow} wrap={false}>
+                <Text style={styles.skillGroupName}>
+                  {cleanCVText(lang.language)}
+                  {details ? " : " : ""}
+                </Text>
+                {details ? (
+                  <Text style={styles.skillItems}>{details}</Text>
+                ) : null}
+              </View>
+            );
+          })
+          .filter((el): el is React.ReactElement => el !== null);
       }
 
       default:
-        return null;
+        return [];
     }
   };
 
@@ -673,6 +661,7 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
           <View style={hasPhoto ? styles.headerRowWithPhoto : styles.headerRow}>
             {hasPhoto && (
               <View style={styles.photoContainer}>
+                {/* eslint-disable-next-line jsx-a11y/alt-text */}
                 <Image src={header.photoUrl!} style={styles.photo} />
               </View>
             )}
@@ -714,16 +703,26 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
           .map((sec) => {
             if (!sec.entries || sec.entries.length === 0) return null;
             const title = titles[sec.type] || sec.type.toUpperCase();
-            const content = renderSectionPdf(sec.type, sec.entries);
-            if (!content) return null;
+            const entryElements = renderSectionEntries(sec.type, sec.entries);
+            if (!entryElements || entryElements.length === 0) return null;
+
+            const firstEntry = entryElements[0];
+            const remainingEntries = entryElements.slice(1);
 
             return (
               <View key={sec.id} style={styles.sectionContainer}>
-                <View minPresenceAhead={35}>
+                {/* 
+                  Judul section digabung dengan entri pertama menggunakan wrap={false}.
+                  Dengan cara ini, jika ruang di halaman saat ini tidak cukup untuk memuat judul
+                  DAN entri pertamanya, @react-pdf akan otomatis memindahkan keduanya bersama-sama
+                  ke halaman berikutnya. Hal ini mencegah judul menggantung sendirian di akhir halaman (orphan).
+                */}
+                <View wrap={false}>
                   <Text style={styles.sectionHeader}>{title}</Text>
                   <View style={styles.sectionDivider} />
+                  {firstEntry}
                 </View>
-                {content}
+                {remainingEntries}
               </View>
             );
           })}

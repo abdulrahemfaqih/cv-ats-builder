@@ -620,12 +620,14 @@ export function CVPreview({ data, language }: CVPreviewProps) {
 
             return (
               <section key={section.id} className="mb-4 text-left">
-                {/* Section Header: Bold, uppercase, left-aligned */}
-                <h2 className="text-[11pt] sm:text-[12pt] font-bold uppercase tracking-normal text-black m-0 p-0 leading-none">
-                  {title}
-                </h2>
-                {/* Full-width Divider under section header */}
-                <hr className="w-full border-t border-black mt-1 mb-2" />
+                {/* Section Header: Bold, uppercase, left-aligned with orphan break avoidance */}
+                <div className="break-inside-avoid break-after-avoid">
+                  <h2 className="text-[11pt] sm:text-[12pt] font-bold uppercase tracking-normal text-black m-0 p-0 leading-none">
+                    {title}
+                  </h2>
+                  {/* Full-width Divider under section header */}
+                  <hr className="w-full border-t border-black mt-1 mb-2" />
+                </div>
 
                 {/* Section Entries */}
                 {content}

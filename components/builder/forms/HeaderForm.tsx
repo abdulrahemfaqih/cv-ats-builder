@@ -25,7 +25,7 @@ export function HeaderForm() {
     try {
       setIsUploading(true);
       setUploadError(null);
-      const compressedDataUrl = await compressImageFile(file, 400, 500, 0.85);
+      const compressedDataUrl = await compressImageFile(file, 900, 1200, 0.92);
       updateHeader({
         useProfilePhoto: true,
         photoUrl: compressedDataUrl,
