@@ -609,32 +609,54 @@ export async function exportCVToDocx(
           if (!proj.name) return;
           const cleanedBullets = cleanBullets(proj.bullets);
 
+          const hasLink = Boolean(proj.link && proj.link.trim());
+          const isBeside = Boolean(hasLink && proj.linkPosition === "beside");
+          const rawLink = proj.link?.trim() || "";
+          const href = rawLink.startsWith("http")
+            ? rawLink
+            : `https://${rawLink}`;
+          const clean = rawLink.replace(/^https?:\/\//i, "");
+
+          const line1Children: Array<TextRun | ExternalHyperlink> = [
+            new TextRun({ text: proj.name, bold: true, size: 20 }),
+          ];
+
+          if (isBeside) {
+            line1Children.push(
+              new TextRun({ text: " | ", color: "555555", size: 19 }),
+              new ExternalHyperlink({
+                children: [
+                  new TextRun({
+                    text: clean,
+                    size: 19,
+                    color: "0563C1",
+                    underline: { type: UnderlineType.SINGLE },
+                  }),
+                ],
+                link: href,
+              })
+            );
+          }
+
+          if (proj.year) {
+            line1Children.push(
+              new TextRun({ children: [new Tab()] }),
+              new TextRun({ text: proj.year, bold: true, size: 19 })
+            );
+          }
+
           // Line 1: Project Name & Year
           paragraphs.push(
             new Paragraph({
               tabStops: [{ type: TabStopType.RIGHT, position: 10300 }],
-              children: [
-                new TextRun({ text: proj.name, bold: true, size: 20 }),
-                ...(proj.year
-                  ? [
-                      new TextRun({ children: [new Tab()] }),
-                      new TextRun({ text: proj.year, bold: true, size: 19 }),
-                    ]
-                  : []),
-              ],
+              children: line1Children,
               spacing: { before: 60, after: 15 },
               keepNext: true,
             })
           );
 
           // Line 2: Link
-          if (proj.link && proj.link.trim()) {
-            const rawLink = proj.link.trim();
-            const href = rawLink.startsWith("http")
-              ? rawLink
-              : `https://${rawLink}`;
-            const clean = rawLink.replace(/^https?:\/\//i, "");
-
+          if (hasLink && !isBeside) {
             paragraphs.push(
               new Paragraph({
                 children: [
@@ -728,30 +750,52 @@ export async function exportCVToDocx(
 
           const leftTitle = [cert.name, cert.issuer].filter(Boolean).join(" - ");
 
+          const hasLink = Boolean(cert.link && cert.link.trim());
+          const isBeside = Boolean(hasLink && cert.linkPosition === "beside");
+          const rawLink = cert.link?.trim() || "";
+          const href = rawLink.startsWith("http")
+            ? rawLink
+            : `https://${rawLink}`;
+          const clean = rawLink.replace(/^https?:\/\//i, "");
+
+          const line1Children: Array<TextRun | ExternalHyperlink> = [
+            new TextRun({ text: leftTitle, bold: true, size: 20 }),
+          ];
+
+          if (isBeside) {
+            line1Children.push(
+              new TextRun({ text: " | ", color: "555555", size: 19 }),
+              new ExternalHyperlink({
+                children: [
+                  new TextRun({
+                    text: clean,
+                    size: 19,
+                    color: "0563C1",
+                    underline: { type: UnderlineType.SINGLE },
+                  }),
+                ],
+                link: href,
+              })
+            );
+          }
+
+          if (dateStr) {
+            line1Children.push(
+              new TextRun({ children: [new Tab()] }),
+              new TextRun({ text: dateStr, bold: true, size: 19 })
+            );
+          }
+
           paragraphs.push(
             new Paragraph({
               tabStops: [{ type: TabStopType.RIGHT, position: 10300 }],
-              children: [
-                new TextRun({ text: leftTitle, bold: true, size: 20 }),
-                ...(dateStr
-                  ? [
-                      new TextRun({ children: [new Tab()] }),
-                      new TextRun({ text: dateStr, bold: true, size: 19 }),
-                    ]
-                  : []),
-              ],
+              children: line1Children,
               spacing: { before: 50, after: 15 },
               keepNext: true,
             })
           );
 
-          if (cert.link && cert.link.trim()) {
-            const rawLink = cert.link.trim();
-            const href = rawLink.startsWith("http")
-              ? rawLink
-              : `https://${rawLink}`;
-            const clean = rawLink.replace(/^https?:\/\//i, "");
-
+          if (hasLink && !isBeside) {
             paragraphs.push(
               new Paragraph({
                 children: [
@@ -784,30 +828,52 @@ export async function exportCVToDocx(
             .filter(Boolean)
             .join(" - ");
 
+          const hasLink = Boolean(trn.link && trn.link.trim());
+          const isBeside = Boolean(hasLink && trn.linkPosition === "beside");
+          const rawLink = trn.link?.trim() || "";
+          const href = rawLink.startsWith("http")
+            ? rawLink
+            : `https://${rawLink}`;
+          const clean = rawLink.replace(/^https?:\/\//i, "");
+
+          const line1Children: Array<TextRun | ExternalHyperlink> = [
+            new TextRun({ text: leftTitle, bold: true, size: 20 }),
+          ];
+
+          if (isBeside) {
+            line1Children.push(
+              new TextRun({ text: " | ", color: "555555", size: 19 }),
+              new ExternalHyperlink({
+                children: [
+                  new TextRun({
+                    text: clean,
+                    size: 19,
+                    color: "0563C1",
+                    underline: { type: UnderlineType.SINGLE },
+                  }),
+                ],
+                link: href,
+              })
+            );
+          }
+
+          if (trn.date) {
+            line1Children.push(
+              new TextRun({ children: [new Tab()] }),
+              new TextRun({ text: trn.date, bold: true, size: 19 })
+            );
+          }
+
           paragraphs.push(
             new Paragraph({
               tabStops: [{ type: TabStopType.RIGHT, position: 10300 }],
-              children: [
-                new TextRun({ text: leftTitle, bold: true, size: 20 }),
-                ...(trn.date
-                  ? [
-                      new TextRun({ children: [new Tab()] }),
-                      new TextRun({ text: trn.date, bold: true, size: 19 }),
-                    ]
-                  : []),
-              ],
+              children: line1Children,
               spacing: { before: 50, after: 15 },
               keepNext: true,
             })
           );
 
-          if (trn.link && trn.link.trim()) {
-            const rawLink = trn.link.trim();
-            const href = rawLink.startsWith("http")
-              ? rawLink
-              : `https://${rawLink}`;
-            const clean = rawLink.replace(/^https?:\/\//i, "");
-
+          if (hasLink && !isBeside) {
             paragraphs.push(
               new Paragraph({
                 children: [
@@ -838,30 +904,52 @@ export async function exportCVToDocx(
           if (!ach.name) return;
           const leftTitle = [ach.name, ach.context].filter(Boolean).join(" - ");
 
+          const hasLink = Boolean(ach.link && ach.link.trim());
+          const isBeside = Boolean(hasLink && ach.linkPosition === "beside");
+          const rawLink = ach.link?.trim() || "";
+          const href = rawLink.startsWith("http")
+            ? rawLink
+            : `https://${rawLink}`;
+          const clean = rawLink.replace(/^https?:\/\//i, "");
+
+          const line1Children: Array<TextRun | ExternalHyperlink> = [
+            new TextRun({ text: leftTitle, bold: true, size: 20 }),
+          ];
+
+          if (isBeside) {
+            line1Children.push(
+              new TextRun({ text: " | ", color: "555555", size: 19 }),
+              new ExternalHyperlink({
+                children: [
+                  new TextRun({
+                    text: clean,
+                    size: 19,
+                    color: "0563C1",
+                    underline: { type: UnderlineType.SINGLE },
+                  }),
+                ],
+                link: href,
+              })
+            );
+          }
+
+          if (ach.date) {
+            line1Children.push(
+              new TextRun({ children: [new Tab()] }),
+              new TextRun({ text: ach.date, bold: true, size: 19 })
+            );
+          }
+
           paragraphs.push(
             new Paragraph({
               tabStops: [{ type: TabStopType.RIGHT, position: 10300 }],
-              children: [
-                new TextRun({ text: leftTitle, bold: true, size: 20 }),
-                ...(ach.date
-                  ? [
-                      new TextRun({ children: [new Tab()] }),
-                      new TextRun({ text: ach.date, bold: true, size: 19 }),
-                    ]
-                  : []),
-              ],
+              children: line1Children,
               spacing: { before: 50, after: 15 },
               keepNext: true,
             })
           );
 
-          if (ach.link && ach.link.trim()) {
-            const rawLink = ach.link.trim();
-            const href = rawLink.startsWith("http")
-              ? rawLink
-              : `https://${rawLink}`;
-            const clean = rawLink.replace(/^https?:\/\//i, "");
-
+          if (hasLink && !isBeside) {
             paragraphs.push(
               new Paragraph({
                 children: [

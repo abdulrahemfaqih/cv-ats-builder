@@ -145,6 +145,37 @@ function SortableProjectItem({
           placeholder="mis. bit.ly/nama-proyek"
           className="app-input text-xs"
         />
+
+        {/* Link Position Option */}
+        {entry.link && entry.link.trim() ? (
+          <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-[#F2F2EE]">
+            <span className="text-[11px] text-[#666660]">Posisi Link:</span>
+            <div className="inline-flex rounded-lg border border-[#E2E2DC] p-0.5 bg-[#F8F8F6] text-xs">
+              <button
+                type="button"
+                onClick={() => handleFieldChange("linkPosition", "below")}
+                className={`px-2.5 py-0.5 rounded-md text-[11px] transition-all ${
+                  (entry.linkPosition || "below") === "below"
+                    ? "bg-white text-[#111111] shadow-2xs font-semibold"
+                    : "text-[#666660] hover:text-[#111111] font-medium"
+                }`}
+              >
+                Di Bawah Judul
+              </button>
+              <button
+                type="button"
+                onClick={() => handleFieldChange("linkPosition", "beside")}
+                className={`px-2.5 py-0.5 rounded-md text-[11px] transition-all ${
+                  entry.linkPosition === "beside"
+                    ? "bg-white text-[#111111] shadow-2xs font-semibold"
+                    : "text-[#666660] hover:text-[#111111] font-medium"
+                }`}
+              >
+                Di Samping Judul (|)
+              </button>
+            </div>
+          </div>
+        ) : null}
       </div>
 
       {/* Description Format & Inputs */}

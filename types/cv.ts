@@ -80,6 +80,7 @@ export interface ProjectEntry {
   id: string;
   name: string;
   link?: string;
+  linkPosition?: "below" | "beside";
   year: string;
   bullets: string[];
   descriptionType?: "bullets" | "paragraph";
@@ -100,6 +101,7 @@ export interface CertificationEntry {
   expiryDate?: string;
   isLifetime?: boolean;
   link?: string;
+  linkPosition?: "below" | "beside";
 }
 
 export interface TrainingEntry {
@@ -108,6 +110,7 @@ export interface TrainingEntry {
   organizer: string;
   date: string;
   link?: string;
+  linkPosition?: "below" | "beside";
 }
 
 export interface AchievementEntry {
@@ -117,6 +120,7 @@ export interface AchievementEntry {
   date: string;
   description?: string;
   link?: string;
+  linkPosition?: "below" | "beside";
 }
 
 export interface LanguageEntry {

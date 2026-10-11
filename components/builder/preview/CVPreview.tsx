@@ -295,6 +295,23 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                   <div className="flex justify-between items-start text-black gap-x-4">
                     <div className="font-bold flex-1 min-w-0 pr-3">
                       {proj.name}
+                      {proj.link && proj.linkPosition === "beside" && (
+                        <>
+                          <span className="font-normal text-[#555555]"> | </span>
+                          <a
+                            href={
+                              proj.link.trim().startsWith("http")
+                                ? proj.link.trim()
+                                : `https://${proj.link.trim()}`
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#0563C1] underline font-normal text-[9.5pt]"
+                          >
+                            {proj.link.trim().replace(/^https?:\/\//i, "")}
+                          </a>
+                        </>
+                      )}
                     </div>
                     {proj.year && (
                       <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
@@ -303,7 +320,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     )}
                   </div>
 
-                  {proj.link && (
+                  {proj.link && proj.linkPosition !== "beside" && (
                     <div className="text-[9.5pt] text-black mt-0.5">
                       <span>Link : </span>
                       <a
@@ -389,6 +406,23 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     <div className="flex-1 min-w-0 pr-3 font-bold">
                       {cert.name}
                       {cert.issuer && ` - ${cert.issuer}`}
+                      {cert.link && cert.linkPosition === "beside" && (
+                        <>
+                          <span className="font-normal text-[#555555]"> | </span>
+                          <a
+                            href={
+                              cert.link.trim().startsWith("http")
+                                ? cert.link.trim()
+                                : `https://${cert.link.trim()}`
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#0563C1] underline font-normal text-[9.5pt]"
+                          >
+                            {cert.link.trim().replace(/^https?:\/\//i, "")}
+                          </a>
+                        </>
+                      )}
                     </div>
                     {dateStr && (
                       <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
@@ -397,7 +431,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     )}
                   </div>
 
-                  {cert.link && (
+                  {cert.link && cert.linkPosition !== "beside" && (
                     <div className="text-[9.5pt] text-black mt-0.5">
                       <span>Link : </span>
                       <a
@@ -436,6 +470,23 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     <div className="flex-1 min-w-0 pr-3 font-bold">
                       {trn.name}
                       {trn.organizer && ` - ${trn.organizer}`}
+                      {trn.link && trn.linkPosition === "beside" && (
+                        <>
+                          <span className="font-normal text-[#555555]"> | </span>
+                          <a
+                            href={
+                              trn.link.trim().startsWith("http")
+                                ? trn.link.trim()
+                                : `https://${trn.link.trim()}`
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#0563C1] underline font-normal text-[9.5pt]"
+                          >
+                            {trn.link.trim().replace(/^https?:\/\//i, "")}
+                          </a>
+                        </>
+                      )}
                     </div>
                     {trn.date && (
                       <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
@@ -444,7 +495,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     )}
                   </div>
 
-                  {trn.link && (
+                  {trn.link && trn.linkPosition !== "beside" && (
                     <div className="text-[9.5pt] text-black mt-0.5">
                       <span>Link : </span>
                       <a
@@ -480,6 +531,23 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     <div className="flex-1 min-w-0 pr-3 font-bold">
                       {ach.name}
                       {ach.context && ` - ${ach.context}`}
+                      {ach.link && ach.linkPosition === "beside" && (
+                        <>
+                          <span className="font-normal text-[#555555]"> | </span>
+                          <a
+                            href={
+                              ach.link.trim().startsWith("http")
+                                ? ach.link.trim()
+                                : `https://${ach.link.trim()}`
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[#0563C1] underline font-normal text-[9.5pt]"
+                          >
+                            {ach.link.trim().replace(/^https?:\/\//i, "")}
+                          </a>
+                        </>
+                      )}
                     </div>
                     {ach.date && (
                       <span className="font-bold text-right whitespace-nowrap shrink-0 ml-3">
@@ -488,7 +556,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     )}
                   </div>
 
-                  {ach.link && (
+                  {ach.link && ach.linkPosition !== "beside" && (
                     <div className="text-[9.5pt] text-black mt-0.5">
                       <span>Link : </span>
                       <a

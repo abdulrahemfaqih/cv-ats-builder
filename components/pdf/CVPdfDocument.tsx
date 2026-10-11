@@ -107,6 +107,15 @@ const styles = StyleSheet.create({
     textDecoration: "underline",
     fontFamily: "Helvetica",
   },
+  linkSeparator: {
+    fontFamily: "Helvetica",
+    color: "#555555",
+  },
+  inlineLink: {
+    fontFamily: "Helvetica",
+    color: "#0563C1",
+    textDecoration: "underline",
+  },
   headerDivider: {
     borderBottomWidth: 1,
     borderBottomColor: "#000000",
@@ -445,27 +454,42 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
           .map((proj, idx) => {
             if (!proj.name) return null;
             const cleanedBullets = cleanBullets(proj.bullets);
+            const isBeside = Boolean(
+              proj.link && proj.link.trim() && proj.linkPosition === "beside"
+            );
+            const linkUrl = proj.link?.trim()
+              ? proj.link.trim().startsWith("http")
+                ? proj.link.trim()
+                : `https://${proj.link.trim()}`
+              : "";
+            const cleanLink = proj.link
+              ? proj.link.trim().replace(/^https?:\/\//i, "")
+              : "";
+
             return (
               <View key={proj.id || idx} style={styles.entryRow} wrap={false}>
                 <View style={styles.firstLine}>
-                  <Text style={styles.firstLineTitle}>{proj.name}</Text>
+                  <Text style={styles.firstLineTitle}>
+                    {proj.name}
+                    {isBeside && (
+                      <>
+                        <Text style={styles.linkSeparator}> | </Text>
+                        <Link src={linkUrl} style={styles.inlineLink}>
+                          {cleanLink}
+                        </Link>
+                      </>
+                    )}
+                  </Text>
                   {proj.year ? (
                     <Text style={styles.firstLineDate}>{proj.year}</Text>
                   ) : null}
                 </View>
 
-                {proj.link && proj.link.trim() ? (
+                {!isBeside && proj.link && proj.link.trim() ? (
                   <Text style={styles.entryLinkLine}>
                     Link :{" "}
-                    <Link
-                      src={
-                        proj.link.trim().startsWith("http")
-                          ? proj.link.trim()
-                          : `https://${proj.link.trim()}`
-                      }
-                      style={styles.link}
-                    >
-                      {proj.link.trim().replace(/^https?:\/\//i, "")}
+                    <Link src={linkUrl} style={styles.link}>
+                      {cleanLink}
                     </Link>
                   </Text>
                 ) : null}
@@ -523,30 +547,43 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
                 })`
               : [cert.issueDate, cert.expiryDate].filter(Boolean).join(" - ");
 
+            const isBeside = Boolean(
+              cert.link && cert.link.trim() && cert.linkPosition === "beside"
+            );
+            const linkUrl = cert.link?.trim()
+              ? cert.link.trim().startsWith("http")
+                ? cert.link.trim()
+                : `https://${cert.link.trim()}`
+              : "";
+            const cleanLink = cert.link
+              ? cert.link.trim().replace(/^https?:\/\//i, "")
+              : "";
+
             return (
               <View key={cert.id || idx} style={styles.entryRow} wrap={false}>
                 <View style={styles.firstLine}>
                   <Text style={styles.firstLineTitle}>
                     {cert.name}
                     {cert.issuer ? ` - ${cert.issuer}` : ""}
+                    {isBeside && (
+                      <>
+                        <Text style={styles.linkSeparator}> | </Text>
+                        <Link src={linkUrl} style={styles.inlineLink}>
+                          {cleanLink}
+                        </Link>
+                      </>
+                    )}
                   </Text>
                   {dateStr ? (
                     <Text style={styles.firstLineDate}>{dateStr}</Text>
                   ) : null}
                 </View>
 
-                {cert.link && cert.link.trim() ? (
+                {!isBeside && cert.link && cert.link.trim() ? (
                   <Text style={styles.entryLinkLine}>
                     Link :{" "}
-                    <Link
-                      src={
-                        cert.link.trim().startsWith("http")
-                          ? cert.link.trim()
-                          : `https://${cert.link.trim()}`
-                      }
-                      style={styles.link}
-                    >
-                      {cert.link.trim().replace(/^https?:\/\//i, "")}
+                    <Link src={linkUrl} style={styles.link}>
+                      {cleanLink}
                     </Link>
                   </Text>
                 ) : null}
@@ -561,30 +598,43 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
         return trainEntries
           .map((trn, idx) => {
             if (!trn.name) return null;
+            const isBeside = Boolean(
+              trn.link && trn.link.trim() && trn.linkPosition === "beside"
+            );
+            const linkUrl = trn.link?.trim()
+              ? trn.link.trim().startsWith("http")
+                ? trn.link.trim()
+                : `https://${trn.link.trim()}`
+              : "";
+            const cleanLink = trn.link
+              ? trn.link.trim().replace(/^https?:\/\//i, "")
+              : "";
+
             return (
               <View key={trn.id || idx} style={styles.entryRow} wrap={false}>
                 <View style={styles.firstLine}>
                   <Text style={styles.trainingLineTitle}>
                     {trn.name}
                     {trn.organizer ? ` - ${trn.organizer}` : ""}
+                    {isBeside && (
+                      <>
+                        <Text style={styles.linkSeparator}> | </Text>
+                        <Link src={linkUrl} style={styles.inlineLink}>
+                          {cleanLink}
+                        </Link>
+                      </>
+                    )}
                   </Text>
                   {trn.date ? (
                     <Text style={styles.firstLineDate}>{trn.date}</Text>
                   ) : null}
                 </View>
 
-                {trn.link && trn.link.trim() ? (
+                {!isBeside && trn.link && trn.link.trim() ? (
                   <Text style={styles.entryLinkLine}>
                     Link :{" "}
-                    <Link
-                      src={
-                        trn.link.trim().startsWith("http")
-                          ? trn.link.trim()
-                          : `https://${trn.link.trim()}`
-                      }
-                      style={styles.link}
-                    >
-                      {trn.link.trim().replace(/^https?:\/\//i, "")}
+                    <Link src={linkUrl} style={styles.link}>
+                      {cleanLink}
                     </Link>
                   </Text>
                 ) : null}
@@ -599,30 +649,43 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
         return achEntries
           .map((ach, idx) => {
             if (!ach.name) return null;
+            const isBeside = Boolean(
+              ach.link && ach.link.trim() && ach.linkPosition === "beside"
+            );
+            const linkUrl = ach.link?.trim()
+              ? ach.link.trim().startsWith("http")
+                ? ach.link.trim()
+                : `https://${ach.link.trim()}`
+              : "";
+            const cleanLink = ach.link
+              ? ach.link.trim().replace(/^https?:\/\//i, "")
+              : "";
+
             return (
               <View key={ach.id || idx} style={styles.entryRow} wrap={false}>
                 <View style={styles.firstLine}>
                   <Text style={styles.firstLineTitle}>
                     {ach.name}
                     {ach.context ? ` - ${ach.context}` : ""}
+                    {isBeside && (
+                      <>
+                        <Text style={styles.linkSeparator}> | </Text>
+                        <Link src={linkUrl} style={styles.inlineLink}>
+                          {cleanLink}
+                        </Link>
+                      </>
+                    )}
                   </Text>
                   {ach.date ? (
                     <Text style={styles.firstLineDate}>{ach.date}</Text>
                   ) : null}
                 </View>
 
-                {ach.link && ach.link.trim() ? (
+                {!isBeside && ach.link && ach.link.trim() ? (
                   <Text style={styles.entryLinkLine}>
                     Link :{" "}
-                    <Link
-                      src={
-                        ach.link.trim().startsWith("http")
-                          ? ach.link.trim()
-                          : `https://${ach.link.trim()}`
-                      }
-                      style={styles.link}
-                    >
-                      {ach.link.trim().replace(/^https?:\/\//i, "")}
+                    <Link src={linkUrl} style={styles.link}>
+                      {cleanLink}
                     </Link>
                   </Text>
                 ) : null}
