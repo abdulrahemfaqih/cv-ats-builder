@@ -224,13 +224,20 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
   const { header, overview, sections } = data;
   const titles = SECTION_TITLES[language] || SECTION_TITLES.id;
 
-  // Address parts
-  const addressParts = [
-    header.address.kecamatan ? `Kec. ${header.address.kecamatan}` : "",
-    header.address.kabupaten ? `Kab. ${header.address.kabupaten}` : "",
-    header.address.provinsi ? `Prov. ${header.address.provinsi}` : "",
-  ].filter(Boolean);
+  // Address parts (Kecamatan opsional dengan prefix Kec., Kabupaten & Provinsi tanpa prefix Kab./Prov.)
+  const formatKec = header.address?.kecamatan?.trim()
+    ? (/^kec(\.|\b)/i.test(header.address.kecamatan.trim())
+        ? header.address.kecamatan.trim()
+        : `Kec. ${header.address.kecamatan.trim()}`)
+    : "";
+  const formatKab = header.address?.kabupaten?.trim()
+    ? header.address.kabupaten.trim().replace(/^(kab\.|kabupaten)\s+/i, "")
+    : "";
+  const formatProv = header.address?.provinsi?.trim()
+    ? header.address.provinsi.trim().replace(/^(prov\.|provinsi)\s+/i, "")
+    : "";
 
+  const addressParts = [formatKec, formatKab, formatProv].filter(Boolean);
   const addressString = addressParts.join(", ");
 
   // Build contact nodes
@@ -252,6 +259,17 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
       url: header.linkedin.startsWith("http")
         ? header.linkedin
         : `https://${header.linkedin}`,
+    });
+  }
+
+  if (header.github) {
+    const clean = header.github.replace(/^https?:\/\//i, "");
+    contactElements.push({
+      type: "link",
+      text: `GitHub: ${clean}`,
+      url: header.github.startsWith("http")
+        ? header.github
+        : `https://${header.github}`,
     });
   }
 

@@ -266,39 +266,54 @@ export function HeaderForm() {
           Alamat Domisili <span className="text-[#E61919]">*</span>
         </label>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-          <input
-            type="text"
-            value={header.address.kecamatan}
-            onChange={(e) =>
-              updateHeader({
-                address: { ...header.address, kecamatan: e.target.value },
-              })
-            }
-            placeholder="Kecamatan (mis. Kebayoran Baru)"
-            className="app-input text-xs"
-          />
-          <input
-            type="text"
-            value={header.address.kabupaten}
-            onChange={(e) =>
-              updateHeader({
-                address: { ...header.address, kabupaten: e.target.value },
-              })
-            }
-            placeholder="Kabupaten/Kota (mis. Jakarta Selatan)"
-            className="app-input text-xs"
-          />
-          <input
-            type="text"
-            value={header.address.provinsi}
-            onChange={(e) =>
-              updateHeader({
-                address: { ...header.address, provinsi: e.target.value },
-              })
-            }
-            placeholder="Provinsi (mis. DKI Jakarta)"
-            className="app-input text-xs"
-          />
+          <div>
+            <label className="block text-[11px] font-semibold text-[#666660] mb-1">
+              Kecamatan (Opsional)
+            </label>
+            <input
+              type="text"
+              value={header.address.kecamatan || ""}
+              onChange={(e) =>
+                updateHeader({
+                  address: { ...header.address, kecamatan: e.target.value },
+                })
+              }
+              placeholder="mis. Kebayoran Baru"
+              className="app-input text-xs"
+            />
+          </div>
+          <div>
+            <label className="block text-[11px] font-semibold text-[#111111] mb-1">
+              Kabupaten / Kota <span className="text-[#E61919]">*</span>
+            </label>
+            <input
+              type="text"
+              value={header.address.kabupaten || ""}
+              onChange={(e) =>
+                updateHeader({
+                  address: { ...header.address, kabupaten: e.target.value },
+                })
+              }
+              placeholder="mis. Jakarta Selatan / Surabaya"
+              className="app-input text-xs"
+            />
+          </div>
+          <div>
+            <label className="block text-[11px] font-semibold text-[#111111] mb-1">
+              Provinsi <span className="text-[#E61919]">*</span>
+            </label>
+            <input
+              type="text"
+              value={header.address.provinsi || ""}
+              onChange={(e) =>
+                updateHeader({
+                  address: { ...header.address, provinsi: e.target.value },
+                })
+              }
+              placeholder="mis. DKI Jakarta / Jawa Timur"
+              className="app-input text-xs"
+            />
+          </div>
         </div>
       </div>
 
@@ -330,8 +345,8 @@ export function HeaderForm() {
         </div>
       </div>
 
-      {/* Contact: LinkedIn & Portfolio */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {/* Contact: LinkedIn, GitHub & Portfolio */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div>
           <label className="block text-xs font-semibold text-[#111111] mb-1.5">
             LinkedIn (Opsional)
@@ -346,13 +361,25 @@ export function HeaderForm() {
         </div>
         <div>
           <label className="block text-xs font-semibold text-[#111111] mb-1.5">
-            Portofolio / Website (Opsional)
+            GitHub (Opsional)
+          </label>
+          <input
+            type="text"
+            value={header.github || ""}
+            onChange={(e) => updateHeader({ github: e.target.value })}
+            placeholder="github.com/username"
+            className="app-input text-xs"
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-semibold text-[#111111] mb-1.5">
+            Portofolio / Web (Opsional)
           </label>
           <input
             type="text"
             value={header.portfolio || ""}
             onChange={(e) => updateHeader({ portfolio: e.target.value })}
-            placeholder="mis. bit.ly/portofolio-anda"
+            placeholder="mis. bit.ly/portofolio"
             className="app-input text-xs"
           />
         </div>

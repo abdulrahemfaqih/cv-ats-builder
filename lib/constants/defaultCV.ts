@@ -66,6 +66,7 @@ export const INITIAL_CV_DATA_ID: CVData = {
     email: "alex.pratama@email.com",
     phone: "081234567890",
     linkedin: "https://linkedin.com/in/alexpratama",
+    github: "https://github.com/alexpratama",
     portfolio: "https://alexpratama.dev",
   },
   overview:
@@ -205,6 +206,7 @@ export const INITIAL_CV_DATA_EN: CVData = {
     email: "alex.pratama@email.com",
     phone: "+62 812 3456 7890",
     linkedin: "https://linkedin.com/in/alexpratama",
+    github: "https://github.com/alexpratama",
     portfolio: "https://alexpratama.dev",
   },
   overview:
@@ -344,6 +346,7 @@ export const BLANK_CV_DATA_ID: CVData = {
     email: "",
     phone: "",
     linkedin: "",
+    github: "",
     portfolio: "",
   },
   overview: "",
@@ -393,6 +396,7 @@ export const BLANK_CV_DATA_EN: CVData = {
     email: "",
     phone: "",
     linkedin: "",
+    github: "",
     portfolio: "",
   },
   overview: "",

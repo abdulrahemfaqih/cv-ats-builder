@@ -32,7 +32,11 @@ function BuilderContent() {
   const [activeTab, setActiveTab] = useState<"form" | "preview">("form");
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
   const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
-  const [pdfError, setPdfError] = useState<string | null>(null);
+  const [isDownloadingDocx, setIsDownloadingDocx] = useState(false);
+  const [downloadError, setDownloadError] = useState<{
+    title: string;
+    message: string;
+  } | null>(null);
 
   // Initialize auth user & load document or hydrate from local storage
   useEffect(() => {
@@ -68,11 +72,30 @@ function BuilderContent() {
       await exportCVToPdf(data, language, title);
     } catch (e) {
       console.error("Download PDF error:", e);
-      setPdfError(
-        "Terjadi kendala saat merender dokumen ke format PDF. Pastikan browser Anda tidak memblokir popup unduhan file, lalu coba kembali."
-      );
+      setDownloadError({
+        title: "Gagal Mengunduh PDF",
+        message:
+          "Terjadi kendala saat merender dokumen ke format PDF. Pastikan browser Anda tidak memblokir popup unduhan file, lalu coba kembali.",
+      });
     } finally {
       setIsDownloadingPdf(false);
+    }
+  };
+
+  const handleDownloadDocx = async () => {
+    setIsDownloadingDocx(true);
+    try {
+      const { exportCVToDocx } = await import("@/lib/utils/downloadDocx");
+      await exportCVToDocx(data, language, title);
+    } catch (e) {
+      console.error("Download Word error:", e);
+      setDownloadError({
+        title: "Gagal Mengunduh Word",
+        message:
+          "Terjadi kendala saat merender dokumen ke format Microsoft Word (.docx). Silakan periksa kembali isian formulir dan coba lagi.",
+      });
+    } finally {
+      setIsDownloadingDocx(false);
     }
   };
 
@@ -84,6 +107,8 @@ function BuilderContent() {
         onOpenSaveModal={() => setIsSaveModalOpen(true)}
         onDownloadPdf={handleDownloadPdf}
         isDownloadingPdf={isDownloadingPdf}
+        onDownloadDocx={handleDownloadDocx}
+        isDownloadingDocx={isDownloadingDocx}
       />
 
       {/* Tab Switcher — visible on mobile & tablet (<lg) */}
@@ -162,10 +187,10 @@ function BuilderContent() {
 
       {/* Alert Modal */}
       <AlertModal
-        isOpen={!!pdfError}
-        onClose={() => setPdfError(null)}
-        title="Gagal Mengunduh PDF"
-        message={pdfError || ""}
+        isOpen={!!downloadError}
+        onClose={() => setDownloadError(null)}
+        title={downloadError?.title || "Gagal Mengunduh Dokumen"}
+        message={downloadError?.message || ""}
         variant="error"
         buttonText="Tutup"
       />

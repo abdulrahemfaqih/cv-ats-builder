@@ -10,7 +10,7 @@ export type SectionType =
   | "languages";
 
 export interface AddressInfo {
-  kecamatan: string;
+  kecamatan?: string;
   kabupaten: string;
   provinsi: string;
 }
@@ -23,6 +23,7 @@ export interface CVHeader {
   email: string;
   phone: string;
   linkedin?: string;
+  github?: string;
   portfolio?: string;
 }
 
@@ -46,9 +47,9 @@ export interface EducationEntry {
 export interface WorkEntry {
   id: string;
   company: string;
-  location: {
-    kabupaten: string;
-    provinsi: string;
+  location?: {
+    kabupaten?: string;
+    provinsi?: string;
     country?: string;
   };
   position: string;

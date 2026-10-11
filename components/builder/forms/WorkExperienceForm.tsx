@@ -198,7 +198,7 @@ function SortableWorkItem({
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
         <div>
           <label className="block text-[11px] font-semibold text-[#111111] mb-1">
-            Kabupaten / Kota *
+            Kabupaten / Kota (Opsional)
           </label>
           <input
             type="text"
@@ -210,7 +210,7 @@ function SortableWorkItem({
         </div>
         <div>
           <label className="block text-[11px] font-semibold text-[#111111] mb-1">
-            Provinsi *
+            Provinsi (Opsional)
           </label>
           <input
             type="text"

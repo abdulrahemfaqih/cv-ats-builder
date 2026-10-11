@@ -30,12 +30,20 @@ export function CVPreview({ data, language }: CVPreviewProps) {
   // Format single-line contact string parts
   const contactParts: React.ReactNode[] = [];
 
-  // Address
-  const addressParts = [
-    header.address.kecamatan ? `Kec. ${header.address.kecamatan}` : "",
-    header.address.kabupaten ? `Kab. ${header.address.kabupaten}` : "",
-    header.address.provinsi ? `Prov. ${header.address.provinsi}` : "",
-  ].filter(Boolean);
+  // Address (Kecamatan opsional dengan prefix Kec., Kabupaten & Provinsi tanpa prefix Kab./Prov.)
+  const formatKec = header.address?.kecamatan?.trim()
+    ? (/^kec(\.|\b)/i.test(header.address.kecamatan.trim())
+        ? header.address.kecamatan.trim()
+        : `Kec. ${header.address.kecamatan.trim()}`)
+    : "";
+  const formatKab = header.address?.kabupaten?.trim()
+    ? header.address.kabupaten.trim().replace(/^(kab\.|kabupaten)\s+/i, "")
+    : "";
+  const formatProv = header.address?.provinsi?.trim()
+    ? header.address.provinsi.trim().replace(/^(prov\.|provinsi)\s+/i, "")
+    : "";
+
+  const addressParts = [formatKec, formatKab, formatProv].filter(Boolean);
 
   if (addressParts.length > 0) {
     contactParts.push(
@@ -53,6 +61,24 @@ export function CVPreview({ data, language }: CVPreviewProps) {
         Linkedin:{" "}
         <a
           href={header.linkedin.startsWith("http") ? header.linkedin : `https://${header.linkedin}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[#0563C1] underline"
+        >
+          {cleanUrl}
+        </a>
+      </span>
+    );
+  }
+
+  // GitHub
+  if (header.github) {
+    const cleanUrl = header.github.replace(/^https?:\/\//i, "");
+    contactParts.push(
+      <span key="github" className="text-black">
+        GitHub:{" "}
+        <a
+          href={header.github.startsWith("http") ? header.github : `https://${header.github}`}
           target="_blank"
           rel="noopener noreferrer"
           className="text-[#0563C1] underline"
