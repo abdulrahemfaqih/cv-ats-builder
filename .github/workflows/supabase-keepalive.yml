@@ -2,8 +2,8 @@ name: Supabase Keep-Alive (Prevent Free Tier Pause)
 
 on:
   schedule:
-    # Berjalan setiap 3 hari pada pukul 06:00 UTC
-    - cron: '0 6 */3 * *'
+    # Berjalan setiap hari pada pukul 02:00 UTC (09:00 WIB) untuk mencegah Supabase Free Tier ter-pause
+    - cron: '0 2 * * *'
   # Memungkinkan trigger manual langsung dari tab Actions di GitHub
   workflow_dispatch:
 
@@ -14,21 +14,32 @@ jobs:
       - name: Ping Supabase Database & Reset Inactivity Timer
         env:
           SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://uwmkjksnqoqmyozakxxw.supabase.co' }}
-          SUPABASE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3bWtqa3NucW9xbXlvemFreHh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4NTc2NTgsImV4cCI6MjEwNDQzMzY1OH0.g8A-774omkuzusSzmZ6TF9zqLz74obGyMBDLrBMYGao' }}
         run: |
-          echo "Pinging Supabase PostgREST API..."
+          echo "=== Pinging Supabase Database (PostgREST API) ==="
           HTTP_STATUS=$(curl -s -o response.txt -w "%{http_code}" \
             -X GET "${SUPABASE_URL}/rest/v1/cv_documents?select=id&limit=1" \
             -H "apikey: ${SUPABASE_KEY}" \
             -H "Authorization: Bearer ${SUPABASE_KEY}")
           
-          echo "HTTP Response Status: $HTTP_STATUS"
+          echo "PostgREST HTTP Status: $HTTP_STATUS"
           cat response.txt
+          echo ""
+
+          echo "=== Pinging Supabase Auth Health Service ==="
+          AUTH_STATUS=$(curl -s -o auth_response.txt -w "%{http_code}" \
+            -X GET "${SUPABASE_URL}/auth/v1/health" \
+            -H "apikey: ${SUPABASE_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_KEY}")
           
-          if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 206 ]; then
-            echo "Success: Supabase database is active and timer has been reset!"
+          echo "Auth HTTP Status: $AUTH_STATUS"
+          cat auth_response.txt
+          echo ""
+          
+          if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 206 ] || [ "$AUTH_STATUS" -eq 200 ]; then
+            echo "SUCCESS: Supabase activity timer has been successfully refreshed!"
             exit 0
           else
-            echo "Warning: Response code $HTTP_STATUS received. Database pinged."
-            exit 0
+            echo "WARNING: Response codes - PostgREST: $HTTP_STATUS, Auth: $AUTH_STATUS"
+            exit 1
           fi
