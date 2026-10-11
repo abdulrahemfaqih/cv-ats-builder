@@ -162,6 +162,7 @@ export async function exportCVToDocx(
   // Build contact nodes
   const contactItems: Array<{
     type: "text" | "link";
+    prefix?: string;
     text: string;
     url?: string;
   }> = [];
@@ -174,7 +175,8 @@ export async function exportCVToDocx(
     const clean = header.linkedin.replace(/^https?:\/\//i, "");
     contactItems.push({
       type: "link",
-      text: `Linkedin: ${clean}`,
+      prefix: "Linkedin: ",
+      text: clean,
       url: header.linkedin.startsWith("http")
         ? header.linkedin
         : `https://${header.linkedin}`,
@@ -185,7 +187,8 @@ export async function exportCVToDocx(
     const clean = header.github.replace(/^https?:\/\//i, "");
     contactItems.push({
       type: "link",
-      text: `GitHub: ${clean}`,
+      prefix: "GitHub: ",
+      text: clean,
       url: header.github.startsWith("http")
         ? header.github
         : `https://${header.github}`,
@@ -208,7 +211,8 @@ export async function exportCVToDocx(
     const clean = header.portfolio.replace(/^https?:\/\//i, "");
     contactItems.push({
       type: "link",
-      text: `Portofolio: ${clean}`,
+      prefix: "Portofolio: ",
+      text: clean,
       url: header.portfolio.startsWith("http")
         ? header.portfolio
         : `https://${header.portfolio}`,
@@ -221,6 +225,11 @@ export async function exportCVToDocx(
     contactItems.forEach((item, idx) => {
       if (idx > 0) {
         runs.push(new TextRun({ text: " | ", size: 19, color: "555555" }));
+      }
+      if (item.prefix) {
+        runs.push(
+          new TextRun({ text: item.prefix, size: 19, color: "000000" })
+        );
       }
       if (item.type === "link" && item.url) {
         runs.push(

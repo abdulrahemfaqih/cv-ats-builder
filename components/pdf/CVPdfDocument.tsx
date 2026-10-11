@@ -252,6 +252,7 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
   // Build contact nodes
   const contactElements: Array<{
     type: "text" | "link";
+    prefix?: string;
     text: string;
     url?: string;
   }> = [];
@@ -264,7 +265,8 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
     const clean = header.linkedin.replace(/^https?:\/\//i, "");
     contactElements.push({
       type: "link",
-      text: `Linkedin: ${clean}`,
+      prefix: "Linkedin: ",
+      text: clean,
       url: header.linkedin.startsWith("http")
         ? header.linkedin
         : `https://${header.linkedin}`,
@@ -275,7 +277,8 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
     const clean = header.github.replace(/^https?:\/\//i, "");
     contactElements.push({
       type: "link",
-      text: `GitHub: ${clean}`,
+      prefix: "GitHub: ",
+      text: clean,
       url: header.github.startsWith("http")
         ? header.github
         : `https://${header.github}`,
@@ -298,7 +301,8 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
     const clean = header.portfolio.replace(/^https?:\/\//i, "");
     contactElements.push({
       type: "link",
-      text: `Portofolio: ${clean}`,
+      prefix: "Portofolio: ",
+      text: clean,
       url: header.portfolio.startsWith("http")
         ? header.portfolio
         : `https://${header.portfolio}`,
@@ -757,11 +761,17 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
               {contactElements.length > 0 && (
                 <Text style={hasPhoto ? styles.contactLineWithPhoto : styles.contactLine}>
                   {contactElements.map((el, i) => (
-                    <React.Fragment key={i}>{i > 0 && " | "}{el.type === "link" && el.url ? (
-                      <Link src={el.url} style={styles.link}>{el.text}</Link>
-                    ) : (
-                      el.text
-                    )}</React.Fragment>
+                    <React.Fragment key={i}>
+                      {i > 0 && " | "}
+                      {el.prefix ? el.prefix : null}
+                      {el.type === "link" && el.url ? (
+                        <Link src={el.url} style={styles.link}>
+                          {el.text}
+                        </Link>
+                      ) : (
+                        el.text
+                      )}
+                    </React.Fragment>
                   ))}
                 </Text>
               )}
