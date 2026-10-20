@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   CVData,
   SectionType,
@@ -17,6 +17,7 @@ import {
 } from "@/types/cv";
 import { SECTION_TITLES } from "@/lib/constants/defaultCV";
 import { cleanCVText, cleanBullets, formatGpa } from "@/lib/utils/formatText";
+import { ATS_FONTS, ATS_SPACINGS } from "@/lib/constants/atsFormatting";
 
 interface CVPreviewProps {
   data: CVData;
@@ -26,6 +27,34 @@ interface CVPreviewProps {
 export function CVPreview({ data, language }: CVPreviewProps) {
   const { header, overview, sections } = data;
   const titles = SECTION_TITLES[language] || SECTION_TITLES.id;
+
+  const settings = data.settings || {
+    fontFamily: "arial",
+    spacing: "normal",
+    showPageBreaks: true,
+  };
+  const font = ATS_FONTS[settings.fontFamily || "arial"] || ATS_FONTS.arial;
+  const spacing = ATS_SPACINGS[settings.spacing || "normal"] || ATS_SPACINGS.normal;
+  const showPageBreaks = settings.showPageBreaks ?? true;
+
+  const paperRef = useRef<HTMLDivElement>(null);
+  const [pageCount, setPageCount] = useState(1);
+
+  useEffect(() => {
+    if (!paperRef.current) return;
+    const calc = () => {
+      if (!paperRef.current) return;
+      const heightPx = paperRef.current.scrollHeight;
+      // 297mm in pixels (96 DPI: 1 inch = 25.4mm = 96px => 1mm = 3.779527559px)
+      const a4Px = 297 * 3.779527559;
+      const count = Math.max(1, Math.ceil((heightPx - 5) / a4Px));
+      setPageCount(count);
+    };
+    calc();
+    const ro = new ResizeObserver(calc);
+    ro.observe(paperRef.current);
+    return () => ro.disconnect();
+  }, [data, settings.fontFamily, settings.spacing]);
 
   // Format single-line contact string parts
   const contactParts: React.ReactNode[] = [];
@@ -621,7 +650,25 @@ export function CVPreview({ data, language }: CVPreviewProps) {
   };
 
   return (
-    <div className="w-full h-full overflow-auto bg-[#F7F7F6]">
+    <div className="w-full h-full overflow-auto bg-[#F7F7F6] relative">
+      {/* Floating minimalist page count badge */}
+      <div className="sticky top-2 z-30 flex justify-center pointer-events-none mb-[-2rem]">
+        <div className="pointer-events-auto bg-white/95 backdrop-blur-md border border-[#E2E2DC] shadow-xs rounded-full px-3 py-1 text-[11px] font-semibold flex items-center gap-2 text-[#444440] select-none">
+          <span
+            className={`w-2 h-2 rounded-full ${
+              pageCount === 1 ? "bg-emerald-500" : "bg-amber-500"
+            }`}
+          />
+          <span>
+            {pageCount === 1 ? "Pas 1 Halaman A4" : `${pageCount} Halaman A4`}
+          </span>
+          <span className="text-[#D0D0C8]">•</span>
+          <span className="text-[10px] text-[#777770]">
+            {font.name} ({spacing.label.split(" ")[0]})
+          </span>
+        </div>
+      </div>
+
       <div className="w-fit min-w-full min-h-full p-4 sm:p-8 flex justify-center items-start">
         {/* 
           A4 Container standard ATS
@@ -630,9 +677,10 @@ export function CVPreview({ data, language }: CVPreviewProps) {
         */}
         <div
           id="cv-print-area"
-          className="bg-white text-black w-[210mm] min-w-[210mm] min-h-[297mm] shadow-md border border-[#E3E3DE] px-[14.1mm] py-[12.7mm] font-sans text-left transition-all box-border shrink-0"
+          ref={paperRef}
+          className={`relative bg-white text-black w-[210mm] min-w-[210mm] min-h-[297mm] shadow-md border border-[#E3E3DE] px-[14.1mm] py-[12.7mm] text-left transition-all box-border shrink-0 ${spacing.previewLineHeight}`}
           style={{
-            fontFamily: "Helvetica, Arial, sans-serif",
+            fontFamily: font.fontFamily,
           }}
         >
         {/* HEADER */}
@@ -713,7 +761,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
             if (!content) return null;
 
             return (
-              <section key={section.id} className="mb-4 text-left">
+              <section key={section.id} className={`${spacing.previewSectionMargin} text-left`}>
                 {/* Section Header: Bold, uppercase, left-aligned with orphan break avoidance */}
                 <div className="break-inside-avoid break-after-avoid">
                   <h2 className="text-[11pt] sm:text-[12pt] font-bold uppercase tracking-normal text-black m-0 p-0 leading-none">
@@ -728,6 +776,33 @@ export function CVPreview({ data, language }: CVPreviewProps) {
               </section>
             );
           })}
+
+          {/* Visual Page Break Guides (A4) */}
+          {showPageBreaks && (
+            <>
+              {/* Page 1 Break Line */}
+              <div
+                style={{ top: "297mm" }}
+                className="absolute left-0 right-0 pointer-events-none print:hidden z-20 flex items-center justify-between select-none"
+              >
+                <div className="w-full border-b border-dashed border-[#EA580C]/80" />
+                <span className="shrink-0 bg-[#FFF7ED] text-[#C2410C] border border-[#FED7AA] text-[10px] font-bold px-2 py-0.5 rounded shadow-xs ml-2 mr-3 -translate-y-1/2">
+                  Batas Halaman 1 (A4)
+                </span>
+              </div>
+
+              {/* Page 2 Break Line */}
+              <div
+                style={{ top: "594mm" }}
+                className="absolute left-0 right-0 pointer-events-none print:hidden z-20 flex items-center justify-between select-none"
+              >
+                <div className="w-full border-b border-dashed border-[#EA580C]/80" />
+                <span className="shrink-0 bg-[#FFF7ED] text-[#C2410C] border border-[#FED7AA] text-[10px] font-bold px-2 py-0.5 rounded shadow-xs ml-2 mr-3 -translate-y-1/2">
+                  Batas Halaman 2 (A4)
+                </span>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

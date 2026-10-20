@@ -15,6 +15,7 @@ import {
   TrainingEntry,
   AchievementEntry,
   LanguageEntry,
+  CVSettings,
 } from "@/types/cv";
 import {
   INITIAL_CV_DATA_ID,
@@ -39,6 +40,7 @@ interface CVStoreState {
   setLanguage: (lang: "id" | "en") => void;
   updateHeader: (fields: Partial<CVHeader>) => void;
   updateOverview: (overview: string) => void;
+  updateSettings: (settings: Partial<CVSettings>) => void;
   addSection: (type: SectionType) => void;
   removeSection: (sectionId: string) => void;
   reorderSections: (activeId: string, overId: string) => void;
@@ -122,6 +124,28 @@ export const useCVStore = create<CVStoreState>((set, get) => ({
       const updatedData: CVData = {
         ...state.data,
         overview,
+      };
+      saveDraftToStorage({
+        title: state.title,
+        language: state.language,
+        data: updatedData,
+      });
+      return { data: updatedData, isDirty: true };
+    });
+  },
+
+  updateSettings: (settings) => {
+    set((state) => {
+      const updatedData: CVData = {
+        ...state.data,
+        settings: {
+          fontFamily: state.data.settings?.fontFamily || "arial",
+          spacing: state.data.settings?.spacing || "normal",
+          isPublic: state.data.settings?.isPublic || false,
+          showPageBreaks: state.data.settings?.showPageBreaks ?? true,
+          ...state.data.settings,
+          ...settings,
+        },
       };
       saveDraftToStorage({
         title: state.title,

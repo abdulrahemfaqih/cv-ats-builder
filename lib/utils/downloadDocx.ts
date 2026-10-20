@@ -30,6 +30,7 @@ import {
 } from "@/types/cv";
 import { SECTION_TITLES } from "@/lib/constants/defaultCV";
 import { cleanCVText, cleanBullets, formatGpa } from "@/lib/utils/formatText";
+import { ATS_FONTS, ATS_SPACINGS } from "@/lib/constants/atsFormatting";
 
 // Fallback: convert raw image URL or Base64 string to Uint8Array
 async function getImageBytes(url: string): Promise<Uint8Array | null> {
@@ -142,6 +143,10 @@ export async function exportCVToDocx(
 
   const { header, overview, sections } = data;
   const titles = SECTION_TITLES[language] || SECTION_TITLES.id;
+
+  const settings = data.settings || { fontFamily: "arial", spacing: "normal" };
+  const font = ATS_FONTS[settings.fontFamily || "arial"] || ATS_FONTS.arial;
+  const spacing = ATS_SPACINGS[settings.spacing || "normal"] || ATS_SPACINGS.normal;
 
   // Address parts (Kecamatan opsional dengan prefix Kec., Kabupaten & Provinsi tanpa prefix Kab./Prov.)
   const formatKec = header.address?.kecamatan?.trim()
@@ -1049,7 +1054,7 @@ export async function exportCVToDocx(
     if (entryParagraphs.length === 0) return;
 
     // First section has tighter top spacing if preceded by header/overview
-    const topSpacing = secIdx === 0 && !overview ? 40 : 110;
+    const topSpacing = secIdx === 0 && !overview ? 40 : spacing.docxBefore;
 
     // Section Header with border bottom divider
     docChildren.push(
@@ -1086,15 +1091,15 @@ export async function exportCVToDocx(
       default: {
         document: {
           run: {
-            font: "Calibri",
+            font: font.docxFont,
             size: 19, // 9.5pt default
             color: "000000",
           },
           paragraph: {
             spacing: {
-              line: 240,
+              line: spacing.docxLine,
               before: 0,
-              after: 20,
+              after: spacing.docxAfter,
             },
           },
         },

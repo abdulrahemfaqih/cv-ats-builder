@@ -144,14 +144,7 @@ function BuilderContent() {
           <OverviewForm />
           <SectionManager />
         </section>
-        <section className={`pb-6 ${activeTab === "form" ? "hidden" : "flex flex-col h-[calc(100dvh-10.5rem)]"}`}>
-          <div className="w-full mb-2 flex items-center justify-between text-[11px] text-[#666660] px-1 flex-shrink-0">
-            <span className="font-medium flex items-center gap-1.5">
-              <span>Format ATS-Friendly (Kertas A4 Asli)</span>
-              <span className="text-[10px] bg-[#EAE8E3] text-[#555550] px-1.5 py-0.5 rounded">Pratinjau Real-Time</span>
-            </span>
-            <span className="text-[10px] text-[#777770]">Geser ↔ horizontal & ↕ vertikal</span>
-          </div>
+        <section className={`pb-6 ${activeTab === "form" ? "hidden" : "flex flex-col h-[calc(100dvh-7.5rem)]"}`}>
           <div className="w-full flex-1 min-h-0 border border-[#E2E2DC] rounded-xl overflow-hidden bg-[#F7F7F6] shadow-xs">
             <CVPreview data={data} language={language} />
           </div>

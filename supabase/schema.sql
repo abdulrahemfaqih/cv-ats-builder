@@ -72,6 +72,14 @@ create policy "Users manage their own CVs"
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
+-- Allow public read access when isPublic is enabled in settings
+create policy "Public CVs are readable by anyone"
+  on public.cv_documents
+  for select
+  using (
+    (data->'settings'->>'isPublic') = 'true'
+  );
+
 -- Updated_at trigger for cv_documents
 create or replace function public.handle_updated_at()
 returns trigger

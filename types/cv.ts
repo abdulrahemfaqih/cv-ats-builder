@@ -148,10 +148,22 @@ export interface CVSection {
   entries: CVEntry[];
 }
 
+export type ATSFont = "arial" | "times" | "calibri" | "garamond" | "roboto";
+export type ATSSpacing = "compact" | "normal" | "relaxed";
+
+export interface CVSettings {
+  fontFamily: ATSFont;
+  spacing: ATSSpacing;
+  isPublic?: boolean;
+  publicSlug?: string;
+  showPageBreaks?: boolean;
+}
+
 export interface CVData {
   header: CVHeader;
   overview: string;
   sections: CVSection[];
+  settings?: CVSettings;
 }
 
 export interface CVDocument {
@@ -163,3 +175,4 @@ export interface CVDocument {
   created_at: string;
   updated_at: string;
 }
+

@@ -23,6 +23,7 @@ import {
 } from "@/types/cv";
 import { SECTION_TITLES } from "@/lib/constants/defaultCV";
 import { cleanCVText, cleanBullets, formatGpa } from "@/lib/utils/formatText";
+import { ATS_FONTS, ATS_SPACINGS } from "@/lib/constants/atsFormatting";
 
 const styles = StyleSheet.create({
   page: {
@@ -232,6 +233,10 @@ interface CVPdfDocumentProps {
 export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
   const { header, overview, sections } = data;
   const titles = SECTION_TITLES[language] || SECTION_TITLES.id;
+
+  const settings = data.settings || { fontFamily: "arial", spacing: "normal" };
+  const font = ATS_FONTS[settings.fontFamily || "arial"] || ATS_FONTS.arial;
+  const spacing = ATS_SPACINGS[settings.spacing || "normal"] || ATS_SPACINGS.normal;
 
   // Address parts (Kecamatan opsional dengan prefix Kec., Kabupaten & Provinsi tanpa prefix Kab./Prov.)
   const formatKec = header.address?.kecamatan?.trim()
@@ -740,7 +745,20 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
 
   return (
     <Document title={`${header.name || "CV"} - Cevio ATS Resume`}>
-      <Page size="A4" style={styles.page}>
+      <Page
+        size="A4"
+        style={[
+          styles.page,
+          {
+            paddingTop: spacing.pdfPaddingY,
+            paddingBottom: spacing.pdfPaddingY,
+            paddingLeft: spacing.pdfPaddingX,
+            paddingRight: spacing.pdfPaddingX,
+            fontFamily: font.pdfFont,
+            lineHeight: spacing.pdfLineHeight,
+          },
+        ]}
+      >
         {/* HEADER */}
         <View style={styles.headerContainer}>
           <View style={hasPhoto ? styles.headerRowWithPhoto : styles.headerRow}>
@@ -801,7 +819,13 @@ export function CVPdfDocument({ data, language }: CVPdfDocumentProps) {
             const remainingEntries = entryElements.slice(1);
 
             return (
-              <View key={sec.id} style={styles.sectionContainer}>
+              <View
+                key={sec.id}
+                style={[
+                  styles.sectionContainer,
+                  { marginBottom: spacing.pdfSectionMargin },
+                ]}
+              >
                 {/* 
                   Judul section digabung dengan entri pertama menggunakan wrap={false}.
                   Dengan cara ini, jika ruang di halaman saat ini tidak cukup untuk memuat judul

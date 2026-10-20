@@ -1,4 +1,12 @@
-import { CVData, SectionType } from "@/types/cv";
+import { CVData, SectionType, CVSettings } from "@/types/cv";
+
+export const DEFAULT_CV_SETTINGS: CVSettings = {
+  fontFamily: "arial",
+  spacing: "normal",
+  isPublic: false,
+  showPageBreaks: true,
+};
+
 
 export interface SectionMeta {
   type: SectionType;
@@ -71,6 +79,7 @@ export const INITIAL_CV_DATA_ID: CVData = {
   },
   overview:
     "Software Engineer dengan pengalaman dalam membangun aplikasi web modern yang scalable, berkinerja tinggi, dan berorientasi pengguna. Memiliki keahlian mendalam pada ekosistem TypeScript, Next.js, Node.js, dan arsitektur cloud database.",
+  settings: DEFAULT_CV_SETTINGS,
   sections: [
     {
       id: "sec_edu",
@@ -211,6 +220,7 @@ export const INITIAL_CV_DATA_EN: CVData = {
   },
   overview:
     "Results-driven Software Engineer with extensive experience developing scalable, high-performance web applications. Proficient in TypeScript, Next.js, Node.js, and modern cloud databases with a strong focus on clean architecture.",
+  settings: DEFAULT_CV_SETTINGS,
   sections: [
     {
       id: "sec_edu",
@@ -350,6 +360,7 @@ export const BLANK_CV_DATA_ID: CVData = {
     portfolio: "",
   },
   overview: "",
+  settings: DEFAULT_CV_SETTINGS,
   sections: [
     {
       id: "sec_edu",
@@ -400,6 +411,7 @@ export const BLANK_CV_DATA_EN: CVData = {
     portfolio: "",
   },
   overview: "",
+  settings: DEFAULT_CV_SETTINGS,
   sections: [
     {
       id: "sec_edu",
