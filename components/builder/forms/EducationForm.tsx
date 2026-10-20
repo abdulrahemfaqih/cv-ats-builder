@@ -36,7 +36,7 @@ function SortableEducationItem({
   sectionId: string;
   index: number;
 }) {
-  const { updateEntry, removeEntry } = useCVStore();
+  const { updateEntry, removeEntry, language } = useCVStore();
   const {
     attributes,
     listeners,
@@ -171,13 +171,13 @@ function SortableEducationItem({
         </div>
         <div>
           <label className="block text-[11px] font-semibold text-[#111111] mb-1">
-            IPK / Nilai *
+            {language === "en" ? "GPA / Grade *" : "IPK / Nilai *"}
           </label>
           <input
             type="text"
             value={entry.gpa}
             onChange={(e) => handleFieldChange("gpa", e.target.value)}
-            placeholder="mis. 3.75"
+            placeholder={language === "en" ? "e.g. 3.75" : "mis. 3.75"}
             className="app-input text-xs"
           />
         </div>

@@ -23,3 +23,25 @@ export function cleanBullets(bullets?: string[] | null): string[] {
     .map((b) => cleanCVText(b))
     .filter((b) => b.length > 0);
 }
+
+/**
+ * Memformat teks IPK / GPA berdasarkan pilihan bahasa:
+ * - Jika bahasa "en", label adalah "GPA"
+ * - Jika bahasa "id", label adalah "IPK"
+ * - Menghapus prefix "IPK" atau "GPA" yang mungkin sudah diketikkan oleh user agar tidak duplikat
+ */
+export function formatGpa(
+  gpa?: string | null,
+  language: "id" | "en" = "id"
+): string {
+  if (!gpa) return "";
+  const cleaned = cleanCVText(gpa);
+  if (!cleaned) return "";
+
+  // Hapus prefix seperti "IPK", "GPA", "IPK:", "GPA :", dsb jika ada di teks input
+  const stripped = cleaned.replace(/^(ipk|gpa)\s*[:.-]?\s*/i, "").trim();
+  const label = language === "en" ? "GPA" : "IPK";
+
+  return stripped ? `${label} ${stripped}` : `${label} ${cleaned}`;
+}
+

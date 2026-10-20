@@ -29,7 +29,7 @@ import {
   LanguageEntry,
 } from "@/types/cv";
 import { SECTION_TITLES } from "@/lib/constants/defaultCV";
-import { cleanCVText, cleanBullets } from "@/lib/utils/formatText";
+import { cleanCVText, cleanBullets, formatGpa } from "@/lib/utils/formatText";
 
 // Fallback: convert raw image URL or Base64 string to Uint8Array
 async function getImageBytes(url: string): Promise<Uint8Array | null> {
@@ -470,7 +470,7 @@ export async function exportCVToDocx(
                   new TextRun({
                     text: `${edu.major || ""}${
                       edu.major && edu.gpa ? " - " : ""
-                    }${edu.gpa ? `IPK ${edu.gpa}` : ""}`,
+                    }${edu.gpa ? formatGpa(edu.gpa, language) : ""}`,
                     italics: true,
                     size: 19,
                   }),

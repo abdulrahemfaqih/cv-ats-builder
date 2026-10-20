@@ -16,7 +16,7 @@ import {
   LanguageEntry,
 } from "@/types/cv";
 import { SECTION_TITLES } from "@/lib/constants/defaultCV";
-import { cleanCVText, cleanBullets } from "@/lib/utils/formatText";
+import { cleanCVText, cleanBullets, formatGpa } from "@/lib/utils/formatText";
 
 interface CVPreviewProps {
   data: CVData;
@@ -179,7 +179,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
                     <div className="italic text-black mt-0.5">
                       {edu.major}
                       {edu.major && edu.gpa && " - "}
-                      {edu.gpa && `IPK ${edu.gpa}`}
+                      {edu.gpa && formatGpa(edu.gpa, language)}
                     </div>
                   )}
 
