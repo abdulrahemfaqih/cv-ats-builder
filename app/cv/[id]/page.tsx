@@ -26,24 +26,40 @@ export default function PublicCVPage() {
       setError(null);
       try {
         const supabase = createClient();
-        const { data, error: err } = await supabase
-          .from("cv_documents")
-          .select("*")
-          .eq("id", id)
-          .single();
+        const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
 
-        if (err || !data) {
+        let docData: CVDocument | null = null;
+
+        if (isUuid) {
+          const { data: byId } = await supabase
+            .from("cv_documents")
+            .select("*")
+            .eq("id", id)
+            .maybeSingle();
+          if (byId) docData = byId as CVDocument;
+        }
+
+        if (!docData) {
+          const { data: bySlug } = await supabase
+            .from("cv_documents")
+            .select("*")
+            .filter("data->settings->>publicSlug", "eq", id)
+            .maybeSingle();
+          if (bySlug) docData = bySlug as CVDocument;
+        }
+
+        if (!docData) {
           setError("Resume ini tidak ditemukan atau tautan belum dipublikasikan.");
           return;
         }
 
-        const isPublic = data.data?.settings?.isPublic;
+        const isPublic = docData.data?.settings?.isPublic;
         if (!isPublic) {
           setError("Resume ini bersifat privat dan hanya dapat dilihat oleh pemiliknya.");
           return;
         }
 
-        setDocument(data as CVDocument);
+        setDocument(docData);
       } catch (e) {
         console.error("Error fetching public CV:", e);
         setError("Terjadi kendala saat memuat resume.");
@@ -136,9 +152,6 @@ export default function PublicCVPage() {
             <div className="truncate">
               <span className="text-xs sm:text-sm font-semibold text-[#111111] truncate block">
                 {candidateName}
-              </span>
-              <span className="text-[10px] text-[#777770] hidden sm:block">
-                Web Resume & Portofolio ATS
               </span>
             </div>
           </div>
