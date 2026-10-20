@@ -192,13 +192,13 @@ export default function PublicCVPage() {
       </header>
 
       {/* Main Resume Canvas */}
-      <main className="flex-1 w-full py-6 sm:py-10 px-2 sm:px-6 flex justify-center items-start overflow-x-auto">
-        <div className="shadow-2xl rounded-sm overflow-hidden bg-white border border-[#DDD]">
-          <CVPreview
-            data={document.data}
-            language={document.language || "id"}
-          />
-        </div>
+      <main className="flex-1 w-full flex justify-center items-start overflow-x-auto">
+        <CVPreview
+          data={document.data}
+          language={document.language || "id"}
+          hidePageInfo={true}
+          className="bg-transparent"
+        />
       </main>
 
       {/* Footer Branding */}

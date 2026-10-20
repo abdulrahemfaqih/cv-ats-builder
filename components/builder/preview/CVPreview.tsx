@@ -22,6 +22,8 @@ import { ATS_FONTS, ATS_SPACINGS } from "@/lib/constants/atsFormatting";
 interface CVPreviewProps {
   data: CVData;
   language: "id" | "en";
+  hidePageInfo?: boolean;
+  className?: string;
 }
 
 interface CVBlock {
@@ -29,7 +31,12 @@ interface CVBlock {
   element: React.ReactNode;
 }
 
-export function CVPreview({ data, language }: CVPreviewProps) {
+export function CVPreview({
+  data,
+  language,
+  hidePageInfo = false,
+  className = "",
+}: CVPreviewProps) {
   const { header, overview, sections } = data;
   const titles = SECTION_TITLES[language] || SECTION_TITLES.id;
 
@@ -723,26 +730,28 @@ export function CVPreview({ data, language }: CVPreviewProps) {
   }, [data, settings.fontFamily, settings.spacing]);
 
   return (
-    <div className="w-full h-full overflow-auto bg-[#F7F7F6] relative">
+    <div className={`w-full h-full overflow-auto ${className || "bg-[#F7F7F6]"} relative`}>
       {/* Floating minimalist page count badge */}
-      <div className="sticky top-2 z-30 flex justify-center pointer-events-none mb-[-2rem]">
-        <div className="pointer-events-auto bg-white/95 backdrop-blur-md border border-[#E2E2DC] shadow-xs rounded-full px-3.5 py-1 text-[11px] font-semibold flex items-center gap-2 text-[#444440] select-none">
-          <span
-            className={`w-2 h-2 rounded-full ${
-              pages.length === 1 ? "bg-emerald-500" : "bg-amber-500"
-            }`}
-          />
-          <span>
-            {pages.length === 1
-              ? "Pas 1 Halaman A4"
-              : `${pages.length} Halaman (Kertas Terpisah)`}
-          </span>
-          <span className="text-[#D0D0C8]">•</span>
-          <span className="text-[10px] text-[#777770]">
-            {font.name} ({spacing.label.split(" ")[0]})
-          </span>
+      {!hidePageInfo && (
+        <div className="sticky top-2 z-30 flex justify-center pointer-events-none mb-[-2rem]">
+          <div className="pointer-events-auto bg-white/95 backdrop-blur-md border border-[#E2E2DC] shadow-xs rounded-full px-3.5 py-1 text-[11px] font-semibold flex items-center gap-2 text-[#444440] select-none">
+            <span
+              className={`w-2 h-2 rounded-full ${
+                pages.length === 1 ? "bg-emerald-500" : "bg-amber-500"
+              }`}
+            />
+            <span>
+              {pages.length === 1
+                ? "Pas 1 Halaman A4"
+                : `${pages.length} Halaman (Kertas Terpisah)`}
+            </span>
+            <span className="text-[#D0D0C8]">•</span>
+            <span className="text-[10px] text-[#777770]">
+              {font.name} ({spacing.label.split(" ")[0]})
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Canvas displaying genuine separate A4 paper sheets */}
       <div className="w-fit min-w-full min-h-full p-4 sm:p-8 flex flex-col items-center gap-8">
@@ -750,7 +759,7 @@ export function CVPreview({ data, language }: CVPreviewProps) {
           <div
             key={pageIndex}
             id={pageIndex === 0 ? "cv-print-area" : undefined}
-            className={`a4-page relative bg-white text-black w-[210mm] min-w-[210mm] min-h-[297mm] h-[297mm] shadow-xl border border-[#E3E3DE] px-[14.1mm] py-[12.7mm] text-left transition-all box-border shrink-0 overflow-hidden ${spacing.previewLineHeight}`}
+            className={`a4-page relative bg-white text-black w-[210mm] min-w-[210mm] min-h-[297mm] h-[297mm] shadow-xl px-[14.1mm] py-[12.7mm] text-left transition-all box-border shrink-0 overflow-hidden ${spacing.previewLineHeight}`}
             style={{
               fontFamily: font.fontFamily,
             }}
@@ -761,9 +770,11 @@ export function CVPreview({ data, language }: CVPreviewProps) {
             ))}
 
             {/* Page number watermark / label at bottom right */}
-            <div className="absolute bottom-2.5 right-4 text-[9px] text-[#A0A09A] select-none print:hidden font-mono">
-              Halaman {pageIndex + 1} dari {pages.length}
-            </div>
+            {!hidePageInfo && (
+              <div className="absolute bottom-2.5 right-4 text-[9px] text-[#A0A09A] select-none print:hidden font-mono">
+                Halaman {pageIndex + 1} dari {pages.length}
+              </div>
+            )}
           </div>
         ))}
       </div>
