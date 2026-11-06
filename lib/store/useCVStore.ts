@@ -26,6 +26,60 @@ import {
 
 const LOCAL_STORAGE_KEY = "cevio_guest_cv_draft";
 
+export const normalizeCVData = (data: CVData): CVData => {
+  if (!data || !Array.isArray(data.sections)) return data;
+
+  const trainingSection = data.sections.find((s) => s.type === "training");
+  if (!trainingSection) return data;
+
+  const certSection = data.sections.find((s) => s.type === "certification");
+
+  const convertedEntries: CertificationEntry[] = (
+    (trainingSection.entries as TrainingEntry[]) || []
+  ).map((t) => ({
+    id: t.id || `cert_migrated_${Math.random().toString(36).substring(2, 9)}`,
+    name: t.name || "",
+    issuer: t.organizer || "",
+    issueDate: t.date || "",
+    isLifetime: false,
+    expiryDate: "",
+    link: t.link || "",
+    linkPosition: t.linkPosition || "below",
+  }));
+
+  let newSections: CVSection[];
+
+  if (certSection) {
+    newSections = data.sections
+      .filter((s) => s.type !== "training")
+      .map((s) => {
+        if (s.type === "certification") {
+          return {
+            ...s,
+            entries: [...s.entries, ...convertedEntries],
+          };
+        }
+        return s;
+      });
+  } else {
+    newSections = data.sections.map((s) => {
+      if (s.type === "training") {
+        return {
+          ...s,
+          type: "certification" as SectionType,
+          entries: convertedEntries,
+        };
+      }
+      return s;
+    });
+  }
+
+  return {
+    ...data,
+    sections: newSections,
+  };
+};
+
 interface CVStoreState {
   documentId: string | null;
   title: string;
@@ -490,18 +544,19 @@ export const useCVStore = create<CVStoreState>((set, get) => ({
   },
 
   loadDocument: (doc) => {
+    const normalizedData = normalizeCVData(doc.data);
     set({
       documentId: doc.id,
       title: doc.title,
       language: doc.language,
-      data: doc.data,
+      data: normalizedData,
       isDirty: false,
       lastSavedAt: doc.updated_at,
     });
     saveDraftToStorage({
       title: doc.title,
       language: doc.language,
-      data: doc.data,
+      data: normalizedData,
     });
   },
 
@@ -532,10 +587,12 @@ export const useCVStore = create<CVStoreState>((set, get) => ({
             ? `CV ${parsed.data.header.name}`
             : "Untitled CV";
 
+        const normalizedData = normalizeCVData(parsed.data);
+
         set({
           title: resolvedTitle,
           language: parsed.language || "id",
-          data: parsed.data,
+          data: normalizedData,
           isDirty: false,
         });
         return true;
